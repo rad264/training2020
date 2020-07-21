@@ -1,8 +1,0 @@
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/ATM.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/dao/AccountDAO.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/AccountNotFoundException.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/AccountService.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/UserNotFoundException.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbcgroup/training/atm/InvalidAmountException.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbc/training/atm/dao/txtFileImpl/AccountDAOTxtFileImpl.java
-/Users/james/eclipse-workspace/atm-console_1.1/src/main/java/com/smbc/training/atm/dao/txtFileImpl/AccountAccessor.java
