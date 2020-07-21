@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import com.smbcgroup.training.atm.AccountService;
-import com.smbcgroup.training.atm.AccountNotFoundException;
-import com.smbcgroup.training.atm.InvalidAmountException;
-import com.smbcgroup.training.atm.dao.AccountDAO;
+import com.smbcgroup.training.atm.accountDAO.AccountDAO;
+import com.smbcgroup.training.atm.accountService.AccountService;
+import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
+import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 
 public class AccountServiceTest {
 

@@ -1,4 +1,4 @@
-package com.smbcgroup.training.atm;
+package com.smbcgroup.training.atm.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,11 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.EnumSet;
 
-import com.smbc.training.atm.dao.txtFileImpl.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.accountDAO.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.accountService.AccountService;
+import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
+import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
+import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
 public class ATM {
 
@@ -18,7 +22,6 @@ public class ATM {
 
 	private static enum Action {
 		login, changeAccount, checkBalance,
-		// TODO: add more actions
 		deposit, withdraw, transfer, openNew, summary, history, help, clearHistory;
 	}
 

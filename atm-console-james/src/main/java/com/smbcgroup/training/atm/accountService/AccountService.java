@@ -1,8 +1,11 @@
-package com.smbcgroup.training.atm;
+package com.smbcgroup.training.atm.accountService;
 
 import java.math.BigDecimal;
 
-import com.smbcgroup.training.atm.dao.AccountDAO;
+import com.smbcgroup.training.atm.accountDAO.AccountDAO;
+import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
+import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
+import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
 public class AccountService {
 
