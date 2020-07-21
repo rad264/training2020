@@ -1,0 +1,38 @@
+Checked 333222 balance
+Deposited $20.00 into Account 333222
+Checked 333222 balance
+Transferred $10.00 from 333222 into 454335
+Checked 333222 balance
+Withdrew $40.00 from Account 333222
+Checked 333222 balance
+Account summary retrieved
+Opened new account 598912
+Account summary retrieved
+Deposited $598912.00 into Account 598912
+Checked 598912 balance
+Checked 598912 balance
+Checked 598912 balance
+Deposited $12.00 into Account 598912
+Checked 598912 balance
+Checked 598912 balance
+Deposited $333222.00 into Account 333222
+Checked 333222 balance
+Deposited $333222.00 into Account 333222
+Checked 333222 balance
+Checked 333222 balance
+Deposited $454335.00 into Account 454335
+Checked 454335 balance
+Checked 454335 balance
+Deposited $333222.00 into Account 333222
+Checked 333222 balance
+Transferred $20.00 from 333222 into 454335
+Checked 333222 balance
+Checked 333222 balance
+Transferred $5.00 from 454335 into 333222
+Account summary retrieved
+Checked 598912 balance
+Deposited $100.00 into Account 598912
+Checked 598912 balance
+Transferred $20.00 from 598912 into 454335
+Account summary retrieved
+Checked 333222 balance

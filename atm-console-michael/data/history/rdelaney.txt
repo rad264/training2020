@@ -1,0 +1,2 @@
+Withdrew $20.00 from Account 123456
+Checked 123456 balance

@@ -1,0 +1,26 @@
+Checked 111111 balance
+Transferred $25.00 from 111111 into 222222
+Checked 111111 balance
+Checked 222222 balance
+Deposited $11.11 into Account 222222
+Checked 222222 balance
+Withdrew $20.00 from Account 222222
+Checked 222222 balance
+Account summary retrieved
+Deposited $600.00 into Account 222222
+Checked 222222 balance
+Withdrew $600.00 from Account 222222
+Checked 222222 balance
+Deposited $600.00 into Account 222222
+Checked 222222 balance
+Account summary retrieved
+Opened new account 654219
+Account summary retrieved
+Deposited $27.33 into Account 654219
+Checked 654219 balance
+Withdrew $600.00 from Account 222222
+Checked 222222 balance
+Checked 222222 balance
+Deposited $700.00 into Account 222222
+Checked 222222 balance
+Withdrew $700.00 from Account 222222
