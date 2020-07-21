@@ -14,11 +14,7 @@ import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
-public class ATM {
-
-	public static void main(String[] args) throws IOException {
-		new ATM(System.in, System.out).beginSession();
-	}
+public class ConsoleATM {
 
 	private static enum Action {
 		login, changeAccount, checkBalance,
@@ -32,26 +28,35 @@ public class ATM {
 	private Action selectedAction = Action.login;
 	private AccountService service;
 
-	private ATM(InputStream input, PrintStream output) {
+	public ConsoleATM(InputStream input, PrintStream output) {
 		this.inputReader = new BufferedReader(new InputStreamReader(input));
 		this.output = output;
 		this.service = new AccountService(new AccountDAOTxtFileImpl());
 	}
 
-	private void beginSession() throws IOException {
+	public void beginSession() throws IOException {
 		try {
-			output.println("Welcome!");
-			while (true)
-				triggerAction();
+			init();
 		} catch (SystemExit e) {
 
 		} catch (Exception e) {
 			output.println("An unexpected error occurred.");
 			e.printStackTrace();
 		} finally {
-			output.println("Goodbye!");
-			inputReader.close();
+			exit();
 		}
+	}
+
+	private void init() throws SystemExit, Exception {
+		output.println("Welcome!");
+		while (true)
+			triggerAction();
+	}
+	
+
+	private void exit() throws IOException {
+		output.println("Goodbye!");
+		inputReader.close();
 	}
 
 	private void triggerAction() throws SystemExit, Exception {
