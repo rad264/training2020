@@ -3,6 +3,7 @@ package com.smbcgroup.training.atm.accountService;
 import java.math.BigDecimal;
 
 import com.smbcgroup.training.atm.accountDAO.AccountDAO;
+import com.smbcgroup.training.atm.accountDAO.AccountDAOTxtFileImpl;
 import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
@@ -10,9 +11,43 @@ import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 public class AccountService {
 
 	private AccountDAO dao;
+	private String loggedInUser;
+	private String selectedAccount;
+	private String transferAccount = null;
+
+	public AccountService() {
+		this.dao = new AccountDAOTxtFileImpl();
+	}
 
 	public AccountService(AccountDAO dao) {
 		this.dao = dao;
+	}
+
+	public void login(String userId) throws UserNotFoundException {
+		try {
+			dao.getUserAccounts(userId);
+			loggedInUser = userId;
+		} catch (RuntimeException e) {
+			throw new UserNotFoundException();
+		}
+	}
+
+	public boolean changeAccount(String input) throws UserNotFoundException {
+		try {
+			for (String userAccount : dao.getUserAccounts(loggedInUser)) {
+				if (userAccount.equals(input)) {
+					selectedAccount = input;
+					return true;
+				}
+			}
+		} catch (RuntimeException e) {
+			throw new UserNotFoundException();
+		}
+		return false;
+	}
+
+	public String[] getUserAccounts() throws UserNotFoundException {
+		return getUserAccounts(loggedInUser);
 	}
 
 	public String[] getUserAccounts(String userId) throws UserNotFoundException {
@@ -23,6 +58,10 @@ public class AccountService {
 		}
 	}
 
+	public BigDecimal getAccountBalance() throws AccountNotFoundException {
+		return getAccountBalance(selectedAccount);
+	}
+
 	public BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException {
 		try {
 			return dao.getAccountBalance(accountNumber);
@@ -31,64 +70,88 @@ public class AccountService {
 		}
 	}
 
-	public String[] getUserTransactions(String userId) throws UserNotFoundException {
+	public String[] getUserTransactions() throws UserNotFoundException {
 		try {
-			return dao.getUserTransactions(userId);
+			return dao.getUserTransactions(loggedInUser);
 		} catch (RuntimeException e) {
 			throw new UserNotFoundException();
 		}
 	}
 
-	public void deposit(String userId, String accountNumber, BigDecimal amount)
+	public void deposit(BigDecimal amount)
 			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
-		BigDecimal currentBalance = getAccountBalance(accountNumber);
+		deposit(selectedAccount, amount);
+	}
+
+	public void deposit(String accountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+		BigDecimal currentBalance = getAccountBalance();
 		if (amount.compareTo(BigDecimal.ZERO) <= 0)
 			throw new InvalidAmountException();
 		dao.updateAccountBalance(accountNumber, currentBalance.add(amount));
 		try {
-			dao.updateUserTransactions(userId, accountNumber, amount, "Deposit", "+");
+			dao.updateUserTransactions(loggedInUser, accountNumber, amount, "Deposit", "+");
 		} catch (RuntimeException e) {
 			throw new UserNotFoundException();
 		}
 	}
 
-	public void withdraw(String userId, String accountNumber, BigDecimal amount)
+	public void withdraw(BigDecimal amount)
 			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
-		BigDecimal currentBalance = getAccountBalance(accountNumber);
+		withdraw(selectedAccount, amount);
+	}
+
+	public void withdraw(String accountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+		BigDecimal currentBalance = getAccountBalance();
 		if (amount.compareTo(BigDecimal.ZERO) <= 0)
 			throw new InvalidAmountException();
 		if (currentBalance.subtract(amount).compareTo(BigDecimal.TEN) <= 0)
 			throw new InvalidAmountException();
 		dao.updateAccountBalance(accountNumber, currentBalance.subtract(amount));
 		try {
-			dao.updateUserTransactions(userId, accountNumber, amount, "Withdraw", "-");
+			dao.updateUserTransactions(loggedInUser, accountNumber, amount, "Withdraw", "-");
 		} catch (RuntimeException e) {
 			throw new UserNotFoundException();
 		}
 	}
 
-	public void transfer(String userId, String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
+	public void transfer(BigDecimal amount)
 			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
-		withdraw(userId, sourceAccountNumber, amount);
-		deposit(userId, destinationAccountNumber, amount);
+		transfer(selectedAccount, transferAccount, amount);
 	}
 
-	public void clearUserTransactions(String userId) throws UserNotFoundException {
+	public void transfer(String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+		withdraw(sourceAccountNumber, amount);
+		deposit(destinationAccountNumber, amount);
+	}
+
+	public boolean checkAlreadyLoggedIn(String accountNumber) {
+		return accountNumber.equals(selectedAccount);
+	}
+
+	public boolean setTransferAccount(String accountNumber) throws UserNotFoundException {
+		transferAccount = null;
 		try {
-			dao.clearUserTransactions(userId);
+			for (String userAccount : dao.getUserAccounts(loggedInUser)) {
+				if (userAccount.equals(accountNumber)) {
+					transferAccount = accountNumber;
+				}
+			}
+		} catch (RuntimeException e) {
+			throw new UserNotFoundException();
+		}
+		return transferAccount != null;
+	}
+
+	public void clearUserTransactions() throws UserNotFoundException {
+		try {
+			dao.clearUserTransactions(loggedInUser);
 		} catch (RuntimeException e) {
 			throw new UserNotFoundException();
 		}
 	}
-
-//	public void updateUserTransactions(String userId, String accountNumber, BigDecimal amount, String type, String sign)
-//			throws UserNotFoundException {
-//		try {
-//			dao.updateUserTransactions(userId, accountNumber, amount, type, sign);
-//		} catch (RuntimeException e) {
-//			throw new UserNotFoundException();
-//		}
-//	}
 
 	public BigDecimal toBigDecimal(String string) throws InvalidAmountException {
 		try {
@@ -97,4 +160,5 @@ public class AccountService {
 			throw new InvalidAmountException();
 		}
 	}
+
 }

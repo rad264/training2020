@@ -31,52 +31,38 @@ public class AccountServiceTest {
 	@Test(expected = InvalidAmountException.class)
 	public void test_deposit_Fail() throws Exception {
 		mockDAO.stub_getAccountBalance(BigDecimal.valueOf(100));
-		service.deposit("jwong", "123456", BigDecimal.valueOf(-1));
+		service.deposit("123456", BigDecimal.valueOf(-1));
 	}
 
 	@Test
 	public void test_deposit_Success() throws Exception {
 		mockDAO.stub_getAccountBalance(BigDecimal.valueOf(100));
-		service.deposit("jwong", "123456", BigDecimal.valueOf(50));
+		service.deposit("123456", BigDecimal.valueOf(50));
 		Object[] captureArgs = mockDAO.spy_updateAccountBalance();
 		assertEquals("123456", captureArgs[0]);
 		assertEquals(BigDecimal.valueOf(150), captureArgs[1]);
-		Object[] transactionArgs = mockDAO.spy_updateUserTransactions();
-		assertEquals("jwong", transactionArgs[0]);
-		assertEquals("123456", transactionArgs[1]);
-		assertEquals(BigDecimal.valueOf(50), transactionArgs[2]);
-		assertEquals("Deposit", transactionArgs[3]);
-		assertEquals("+", transactionArgs[4]);
 	}
 
 	@Test(expected = InvalidAmountException.class)
 	public void test_withdraw_checkPositive() throws Exception {
 		mockDAO.stub_getAccountBalance(BigDecimal.valueOf(100));
-		service.withdraw("jwong", "123456", BigDecimal.valueOf(-1));
+		service.withdraw("123456", BigDecimal.valueOf(-1));
 	}
-	
+
 	@Test(expected = InvalidAmountException.class)
 	public void test_withdraw_lessThanTen() throws Exception {
 		mockDAO.stub_getAccountBalance(BigDecimal.valueOf(100));
-		service.withdraw("jwong", "123456", BigDecimal.valueOf(100));
+		service.withdraw("123456", BigDecimal.valueOf(100));
 	}
-	
+
 	@Test
 	public void test_withdraw_Success() throws Exception {
 		mockDAO.stub_getAccountBalance(BigDecimal.valueOf(100));
-		service.withdraw("jwong", "123456", BigDecimal.valueOf(50));
+		service.withdraw("123456", BigDecimal.valueOf(50));
 		Object[] captureArgs = mockDAO.spy_updateAccountBalance();
 		assertEquals("123456", captureArgs[0]);
 		assertEquals(BigDecimal.valueOf(50), captureArgs[1]);
-		Object[] transactionArgs = mockDAO.spy_updateUserTransactions();
-		assertEquals("jwong", transactionArgs[0]);
-		assertEquals("123456", transactionArgs[1]);
-		assertEquals(BigDecimal.valueOf(50), transactionArgs[2]);
-		assertEquals("Withdraw", transactionArgs[3]);
-		assertEquals("-", transactionArgs[4]);
 	}
-	
-
 
 	private static class MockAccountDAO implements AccountDAO {
 
@@ -139,18 +125,6 @@ public class AccountServiceTest {
 			return updateAccountBalance_capture;
 		}
 
-		private Object[] updateUserTransactions_capture;
-
-		@Override
-		public void updateUserTransactions(String userId, String accountNumber, BigDecimal amount, String type,
-				String sign) {
-			updateUserTransactions_capture = new Object[] { userId, accountNumber, amount, type, sign };
-		}
-
-		public Object[] spy_updateUserTransactions() {
-			return updateUserTransactions_capture;
-		}
-
 		private String clearUserTransactions_capture;
 
 		@Override
@@ -171,6 +145,13 @@ public class AccountServiceTest {
 
 		public Object[] spy_createAccount() {
 			return createAccount_capture;
+		}
+
+		@Override
+		public void updateUserTransactions(String userId, String accountNumber, BigDecimal amount, String type,
+				String sign) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

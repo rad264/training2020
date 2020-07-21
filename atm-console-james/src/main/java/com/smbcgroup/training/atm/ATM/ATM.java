@@ -7,7 +7,7 @@ import com.smbcgroup.training.atm.console.ConsoleATM;
 public class ATM {
 	
 	public static void main(String[] args) throws IOException {
-		new ConsoleATM(System.in, System.out).beginSession();
+		new ConsoleATM().beginSession();
 	}
 	
 }
