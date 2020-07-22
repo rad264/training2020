@@ -101,7 +101,7 @@ public class ATM {
 		switch (selectedAction) {
 		case login:
 			try {
-				loggedInUserAccounts = service.getUserAccounts(input);
+				loggedInUserAccounts = service.getUser(input).getAccounts();
 				loggedInUser = input;
 				return Action.changeAccount;
 			} catch (UserNotFoundException e) {
@@ -119,7 +119,7 @@ public class ATM {
 			throw new ATMException("Account number not found.");
 		case checkBalance:
 			try {
-				output.println("Balance: $" + service.getBalance(selectedAccount));
+				output.println("Balance: $" + service.getAccount(selectedAccount).getBalance());
 			} catch (AccountNotFoundException e) {
 				throw new RuntimeException(e);
 			}

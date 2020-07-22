@@ -1,13 +1,14 @@
 package com.smbcgroup.training.atm.dao;
 
-import java.math.BigDecimal;
+import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.User;
 
 public interface AccountDAO {
 
-	String[] getUserAccounts(String userId) throws UserNotFoundException;
+	User getUser(String userId) throws UserNotFoundException;
 
-	BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException;
+	Account getAccount(String accountNumber) throws AccountNotFoundException;
 
-	void updateAccountBalance(String accountNumber, BigDecimal balance);
+	void updateAccount(Account account);
 
 }

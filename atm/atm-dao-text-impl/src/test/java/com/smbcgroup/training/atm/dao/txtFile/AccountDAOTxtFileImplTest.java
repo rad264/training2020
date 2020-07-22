@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.dao.AccountDAO;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
@@ -46,36 +47,42 @@ public class AccountDAOTxtFileImplTest {
 	}
 
 	@Test(expected = UserNotFoundException.class)
-	public void testGetUserAccounts_UserFileDoesntExist() throws Exception {
-		accountDAO.getUserAccounts("schan");
+	public void testGetUser_UserFileDoesntExist() throws Exception {
+		accountDAO.getUser("schan");
 	}
 
 	@Test
-	public void testGetUserAccounts_Success() throws Exception {
-		String[] accounts = accountDAO.getUserAccounts("rdelaney");
+	public void testGetUser_Success() throws Exception {
+		String[] accounts = accountDAO.getUser("rdelaney").getAccounts();
 		assertArrayEquals(new String[] { "123456" }, accounts);
 	}
 
 	@Test(expected = AccountNotFoundException.class)
-	public void testGetAccountBalance_AccountFileDoesntExist() throws Exception {
-		accountDAO.getAccountBalance("123457");
+	public void testGetAccount_AccountFileDoesntExist() throws Exception {
+		accountDAO.getAccount("123457");
 	}
 
 	@Test
-	public void testGetAccountBalance_Success() throws Exception {
-		BigDecimal balance = accountDAO.getAccountBalance("123456");
+	public void testGetAccount_Success() throws Exception {
+		BigDecimal balance = accountDAO.getAccount("123456").getBalance();
 		assertEquals(new BigDecimal("100.00"), balance);
 	}
 
 	@Test
-	public void testUpdateAccountBalance_AccountFileDoesntExist() throws Exception {
-		accountDAO.updateAccountBalance("123457", new BigDecimal("200.00"));
+	public void testUpdateAccount_AccountFileDoesntExist() throws Exception {
+		Account account = new Account();
+		account.setAccountNumber("123457");
+		account.setBalance(new BigDecimal("200.00"));
+		accountDAO.updateAccount(account);
 		assertEquals("200.00", Files.readString(Path.of(TEST_DATA_LOCATION + "accounts/123457.txt")));
 	}
 
 	@Test
-	public void testUpdateAccountBalance_Success() throws Exception {
-		accountDAO.updateAccountBalance("123456", new BigDecimal("1000.00"));
+	public void testUpdateAccount_Success() throws Exception {
+		Account account = new Account();
+		account.setAccountNumber("123456");
+		account.setBalance(new BigDecimal("1000.00"));
+		accountDAO.updateAccount(account);
 		assertEquals("1000.00", Files.readString(Path.of(TEST_DATA_LOCATION + "accounts/123456.txt")));
 	}
 

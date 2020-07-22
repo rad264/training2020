@@ -15,26 +15,28 @@ public class ATMService {
 		this.dao = dao;
 	}
 
-	public String[] getUserAccounts(String userId) throws UserNotFoundException {
-		return dao.getUserAccounts(userId);
+	public User getUser(String userId) throws UserNotFoundException {
+		return dao.getUser(userId);
 	}
 
-	public BigDecimal getBalance(String accountNumber) throws AccountNotFoundException {
-		return dao.getAccountBalance(accountNumber);
+	public Account getAccount(String accountNumber) throws AccountNotFoundException {
+		return dao.getAccount(accountNumber);
 	}
 
 	public void deposit(String accountNumber, BigDecimal amount) throws AccountNotFoundException, ATMServiceException {
-		BigDecimal currentBalance = getBalance(accountNumber);
+		Account account = getAccount(accountNumber);
 		validateIsPositiveAmount(amount);
-		dao.updateAccountBalance(accountNumber, currentBalance.add(amount));
+		account.setBalance(account.getBalance().add(amount));
+		dao.updateAccount(account);
 	}
 
 	public void withdraw(String accountNumber, BigDecimal amount) throws AccountNotFoundException, ATMServiceException {
-		BigDecimal currentBalance = getBalance(accountNumber);
+		Account account = getAccount(accountNumber);
 		validateIsPositiveAmount(amount);
-		if (!wouldLeaveAtLeastMinimumBalance(currentBalance, amount))
+		account.setBalance(account.getBalance().subtract(amount));
+		if (!isAboveMinimumBalance(account.getBalance()))
 			throw new ATMServiceException(Type.INSUFFICIENT_FUNDS);
-		dao.updateAccountBalance(accountNumber, currentBalance.subtract(amount));
+		dao.updateAccount(account);
 	}
 
 	private void validateIsPositiveAmount(BigDecimal amount) throws ATMServiceException {
@@ -42,8 +44,8 @@ public class ATMService {
 			throw new ATMServiceException(Type.NON_POSITIVE_AMOUNT);
 	}
 
-	private boolean wouldLeaveAtLeastMinimumBalance(BigDecimal balance, BigDecimal withdrawalAmount) {
-		return balance.subtract(withdrawalAmount).compareTo(BigDecimal.TEN) >= 0;
+	private boolean isAboveMinimumBalance(BigDecimal balance) {
+		return balance.compareTo(BigDecimal.TEN) >= 0;
 	}
 
 }
