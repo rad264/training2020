@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Wed Jul 22 13:33:03 EDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0173-7795-f6cc-0000062cfd70 
-on database directory /Users/ashton/eclipse/training2020/derby-project/target/testdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2c13da15 
-Loaded from file:/Users/ashton/.m2/repository/org/apache/derby/derby/10.10.2.0/derby-10.10.2.0.jar
+Wed Jul 22 16:02:21 EDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0173-781e-a3a0-0000074ae540 
+on database directory /Users/james/git/training2020/derby-project/target/testdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
+Loaded from file:/Users/james/.m2/repository/org/apache/derby/derby/10.10.2.0/derby-10.10.2.0.jar
 java.vendor=Oracle Corporation
-java.runtime.version=11.0.5+10-LTS
-user.dir=/Users/ashton/eclipse/training2020/derby-project
+java.runtime.version=14.0.2+12-46
+user.dir=/Users/james/git/training2020/derby-project
 os.name=Mac OS X
 os.arch=x86_64
 os.version=10.15.5

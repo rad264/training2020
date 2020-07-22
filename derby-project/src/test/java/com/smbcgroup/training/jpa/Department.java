@@ -30,9 +30,10 @@ public class Department {
 		
 	}
 	
-	public Department(Integer id, String name) {
+	public Department(Integer id, String name, String managerName) {
 		this.id = id;
 		this.name = name;
+		this.managerName = managerName;
 	}
 
 	public Integer getId() {
