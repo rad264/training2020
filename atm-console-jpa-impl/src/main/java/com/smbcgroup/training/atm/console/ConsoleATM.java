@@ -8,8 +8,8 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.EnumSet;
 
-import com.smbcgroup.training.atm.accountDAO.AccountDAOTxtFileImpl;
-import com.smbcgroup.training.atm.accountService.AccountService;
+import com.smbcgroup.training.atm.core.AccountService;
+import com.smbcgroup.training.atm.daoTextImpl.AccountDAOTxtFileImpl;
 import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;

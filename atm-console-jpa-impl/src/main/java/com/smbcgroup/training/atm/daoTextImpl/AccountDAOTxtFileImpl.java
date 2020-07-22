@@ -1,4 +1,4 @@
-package com.smbcgroup.training.atm.accountDAO;
+package com.smbcgroup.training.atm.daoTextImpl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+
+import com.smbcgroup.training.atm.core.dao.AccountDAO;
 
 public class AccountDAOTxtFileImpl implements AccountDAO {
 

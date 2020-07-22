@@ -1,4 +1,4 @@
-package com.smbcgroup.training.atm.accountDAO;
+package com.smbcgroup.training.atm.core.dao;
 
 import java.math.BigDecimal;
 
