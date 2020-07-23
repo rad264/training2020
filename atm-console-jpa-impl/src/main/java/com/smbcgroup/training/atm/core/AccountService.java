@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 
 import com.smbcgroup.training.atm.core.dao.AccountDAO;
 import com.smbcgroup.training.atm.daoTextImpl.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.exceptions.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
+import com.smbcgroup.training.atm.exceptions.FailToCreateAccountException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
@@ -32,11 +34,35 @@ public class AccountService {
 		}
 	}
 
-	public boolean changeAccount(String input) throws UserNotFoundException {
+	public boolean changeAccount(String accountNumber) throws AccountNotFoundException, UserNotFoundException {
+		try {
+			if (accountAlreadyExists(accountNumber)) {
+				selectedAccount = accountNumber;
+				return true;
+			}
+		} catch (RuntimeException e) {
+			throw new AccountNotFoundException();
+		} catch (UserNotFoundException e) {
+			throw new UserNotFoundException();
+		}
+		return false;
+	}
+
+	public void createAccount(String accountNumber) throws FailToCreateAccountException, AccountAlreadyExistsException {
+
+		try {
+			if (accountAlreadyExists(accountNumber))
+				throw new AccountAlreadyExistsException();
+			dao.createAccount(loggedInUser, accountNumber);
+		} catch (RuntimeException | UserNotFoundException e) {
+			throw new FailToCreateAccountException();
+		}
+	}
+
+	private Boolean accountAlreadyExists(String accountNumber) throws UserNotFoundException {
 		try {
 			for (String userAccount : dao.getUserAccounts(loggedInUser)) {
-				if (userAccount.equals(input)) {
-					selectedAccount = input;
+				if (userAccount.equals(accountNumber)) {
 					return true;
 				}
 			}
