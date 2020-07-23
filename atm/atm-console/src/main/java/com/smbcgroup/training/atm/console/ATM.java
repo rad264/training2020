@@ -12,12 +12,12 @@ import com.smbcgroup.training.atm.ATMServiceException;
 import com.smbcgroup.training.atm.ATMServiceException.Type;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
-import com.smbcgroup.training.atm.dao.txtFile.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.dao.jpa.AccountJPAImpl;
 
 public class ATM {
 
 	public static void main(String[] args) throws IOException {
-		new ATM(new ATMService(new AccountDAOTxtFileImpl()), System.in, System.out).beginSession();
+		new ATM(new ATMService(new AccountJPAImpl()), System.in, System.out).beginSession();
 	}
 
 	private static enum Action {
