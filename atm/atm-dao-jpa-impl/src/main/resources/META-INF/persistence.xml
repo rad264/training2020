@@ -6,6 +6,7 @@
 
 	<persistence-unit name="derby-entities"
 		transaction-type="RESOURCE_LOCAL">
+		<class>com.smbcgroup.training.atm.dao.jpa.UserEntity</class>
 		<class>com.smbcgroup.training.atm.dao.jpa.AccountEntity</class>
 		<properties>
 			<property name="openjpa.jdbc.SynchronizeMappings"

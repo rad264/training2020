@@ -10,7 +10,9 @@ public class InitDB {
 		EntityManager em = new AccountJPAImpl().emf.createEntityManager();
 		em.getTransaction().begin();
 
-		em.persist(new AccountEntity("123456", new BigDecimal("100")));
+		UserEntity rdelaney = new UserEntity("rdelaney");
+		em.persist(rdelaney);
+		em.merge(new AccountEntity("123456", new BigDecimal("100"), rdelaney));
 
 		em.getTransaction().commit();
 		em.close();
