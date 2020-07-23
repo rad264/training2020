@@ -3,8 +3,6 @@ package com.smbcgroup.training.jpa;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;

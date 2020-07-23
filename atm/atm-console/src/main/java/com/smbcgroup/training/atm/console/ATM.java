@@ -6,67 +6,84 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.EnumSet;
 
 import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.ATMServiceException;
 import com.smbcgroup.training.atm.ATMServiceException.Type;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
-import com.smbcgroup.training.atm.dao.txtFile.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.dao.jpa.AccountJPAImpl;
+//import com.smbcgroup.training.atm.dao.txtFile.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
+import com.smbcgroup.training.atm.dao.FailToCreateAccountException;
+import com.smbcgroup.training.atm.dao.InvalidAmountException;
 
 public class ATM {
 
 	public static void main(String[] args) throws IOException {
-		new ATM(new ATMService(new AccountDAOTxtFileImpl()), System.in, System.out).beginSession();
+		new ATM().beginSession();
 	}
 
 	private static enum Action {
-		login, changeAccount, checkBalance, deposit, withdraw;
-		// TODO: add more actions
+		login, changeAccount, checkBalance, deposit, withdraw, transfer, transferFollow, openAccount, summary, history,
+		help, clearHistory;
 	}
 
-	private ATMService service;
 	private BufferedReader inputReader;
 	private PrintStream output;
-	private String loggedInUser;
-	private String[] loggedInUserAccounts;
-	private String selectedAccount;
 	private Action selectedAction = Action.login;
+	private Action prevAction;
+	private ATMService service = new ATMService(new AccountJPAImpl());
+//	private ATMService service = new ATMService(new AccountDAOTxtFileImpl());
 
-	private ATM(ATMService service, InputStream input, PrintStream output) {
-		this.service = service;
+	public ATM() {
+		this.inputReader = new BufferedReader(new InputStreamReader(System.in));
+		this.output = System.out;
+	}
+
+	public ATM(InputStream input, PrintStream output) {
 		this.inputReader = new BufferedReader(new InputStreamReader(input));
 		this.output = output;
 	}
 
-	private void beginSession() throws IOException {
+	public void beginSession() throws IOException {
 		try {
-			output.println("Welcome!");
-			while (true)
-				triggerAction();
+			init();
 		} catch (SystemExit e) {
 
 		} catch (Exception e) {
 			output.println("An unexpected error occurred.");
 			e.printStackTrace();
 		} finally {
-			output.println("Goodbye!");
-			inputReader.close();
+			exit();
 		}
 	}
 
-	private void triggerAction() throws IOException, SystemExit {
+	private void init() throws SystemExit, Exception {
+		output.println("Welcome!");
+		while (true)
+			triggerAction();
+	}
+
+	private void exit() throws IOException {
+		output.println("Goodbye!");
+		inputReader.close();
+	}
+
+	private void triggerAction() throws SystemExit, Exception {
 		try {
 			String input = null;
 			if (promptUserInput())
 				input = inputReader.readLine();
+			prevAction = selectedAction;
 			selectedAction = performActionAndGetNextAction(input);
 		} catch (ATMException e) {
 			output.println(e.getMessage());
 		}
 	}
 
-	private boolean promptUserInput() {
+	private boolean promptUserInput() throws Exception {
 		if (selectedAction == null) {
 			output.println("What would you like to do?");
 			return true;
@@ -76,13 +93,45 @@ public class ATM {
 			output.println("Enter user ID:");
 			return true;
 		case changeAccount:
-			output.println("Enter account number: (" + String.join(", ", loggedInUserAccounts) + ")");
+			output.println("Enter account number: (" + String.join(", ", service.getAccountNumbers()) + ")");
 			return true;
 		case deposit:
-		case withdraw:
-			output.println("Enter amount:");
+			output.println("Enter deposit amount $:");
 			return true;
-		// TODO: prompts for other actions(?)
+		case withdraw:
+			output.println("Enter withdraw amount $:");
+			return true;
+		case transfer:
+			output.println(
+					"Enter account number to transfer to: (" + String.join(", ", service.getAccountNumbers()) + ")");
+			return true;
+		case transferFollow:
+			if (prevAction != Action.transfer) {
+				selectedAction = null;
+				throw new ATMException("Invalid command.");
+			}
+			output.println("Enter transfer amount $:");
+			return true;
+		case openAccount:
+			output.println("Enter new account number:");
+			return true;
+		case summary:
+			output.println("Summary:");
+			for (String userAccount : service.getAccountNumbers())
+				output.println("Balance for account " + userAccount + ": $" + service.getAccountBalance(userAccount));
+			return false;
+		case help:
+			EnumSet.allOf(Action.class).forEach(action -> output.println(action));
+			return false;
+//		case history:
+//			output.println("History:");
+//			for (String transaction : service.getUserTransactions())
+//				output.println(transaction);
+//			return false;
+//		case clearHistory:
+//			service.clearUserTransactions();
+//			output.println("History Cleared!");
+//			return false;
 		default:
 			return false;
 		}
@@ -101,58 +150,105 @@ public class ATM {
 		switch (selectedAction) {
 		case login:
 			try {
-				loggedInUserAccounts = service.getUser(input).getAccounts();
-				loggedInUser = input;
+				service.login(input);
 				return Action.changeAccount;
-			} catch (UserNotFoundException e) {
+			} catch (Exception e) {
 				throw new ATMException("Invalid user ID.");
 			}
+
 		case changeAccount:
+			if ("openAccount".equals(input))
+				return Action.openAccount;
 			if (!input.matches("^\\d{6}$"))
 				throw new ATMException("Invalid account number.");
-			for (String userAccount : loggedInUserAccounts) {
-				if (userAccount.equals(input)) {
-					selectedAccount = input;
+			try {
+				if (service.changeAccount(input))
 					return null;
-				}
+			} catch (UserNotFoundException e) {
+				throw new ATMException("User not found.");
+			} catch (AccountNotFoundException e) {
+				throw new ATMException("Account not found.");
 			}
-			throw new ATMException("Account number not found.");
+			throw new ATMException("Account not found.");
+
+		case openAccount:
+			if (!input.matches("^\\d{6}$"))
+				throw new ATMException("Invalid account number.");
+			try {
+				service.createAccount(input);
+			} catch (FailToCreateAccountException e) {
+				throw new ATMException("Failed to create account.");
+			} catch (AccountAlreadyExistsException e) {
+				throw new ATMException("Account already exists.");
+			}
+			break;
+
 		case checkBalance:
 			try {
-				output.println("Balance: $" + service.getAccount(selectedAccount).getBalance());
+				output.println("Balance: $" + service.getAccountBalance());
 			} catch (AccountNotFoundException e) {
-				throw new RuntimeException(e);
+				throw new ATMException("Account number not found.");
 			}
 			break;
+
 		case deposit:
 			try {
-				service.deposit(selectedAccount, convertToBigDecimal(input));
-			} catch (ATMServiceException e) {
-				throw new ATMException(e);
+				BigDecimal depositAmount = service.toBigDecimal(input);
+				service.deposit(depositAmount);
+				output.println("Balance: $" + service.getAccountBalance());
+			} catch (InvalidAmountException e) {
+				throw new ATMException("Invalid amount.");
 			} catch (AccountNotFoundException e) {
-				throw new RuntimeException(e);
+				throw new ATMException("Account not found.");
+			} catch (UserNotFoundException e) {
+				throw new ATMException("User not found.");
 			}
 			break;
+
 		case withdraw:
 			try {
-				service.withdraw(selectedAccount, convertToBigDecimal(input));
-			} catch (ATMServiceException e) {
-				throw new ATMException(e);
+				BigDecimal withdrawAmount = service.toBigDecimal(input);
+				service.withdraw(withdrawAmount);
+				output.println("Balance: $" + service.getAccountBalance());
+			} catch (InvalidAmountException e) {
+				throw new ATMException("Invalid amount.");
 			} catch (AccountNotFoundException e) {
-				throw new RuntimeException(e);
+				throw new ATMException("Account number not found.");
+			} catch (UserNotFoundException e) {
+				throw new ATMException("User not found.");
 			}
 			break;
-		// TODO: handle other actions
+
+		case transfer:
+			if (!input.matches("^\\d{6}$"))
+				throw new ATMException("Invalid account number.");
+			if (service.checkAlreadyLoggedIn(input))
+				throw new ATMException("Same account number.");
+			try {
+				if (!service.setTransferAccount(input))
+					throw new ATMException("Account number not found.");
+			} catch (UserNotFoundException e) {
+				throw new ATMException("User not found.");
+			}
+			return Action.transferFollow;
+
+		case transferFollow:
+			try {
+				BigDecimal transferAmount = service.toBigDecimal(input);
+				service.transfer(transferAmount);
+			} catch (InvalidAmountException e) {
+				throw new ATMException("Invalid amount.");
+			} catch (AccountNotFoundException e) {
+				throw new ATMException("Account number not found.");
+			} catch (UserNotFoundException e) {
+				throw new ATMException("User not found.");
+			}
+			break;
+
+		default:
+			break;
 		}
 		return null;
-	}
-
-	private BigDecimal convertToBigDecimal(String input) throws ATMException {
-		try {
-			return new BigDecimal(input);
-		} catch (NumberFormatException e) {
-			throw new ATMException("Invalid amount.");
-		}
 	}
 
 	private static class SystemExit extends Throwable {

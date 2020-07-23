@@ -1,8 +1,12 @@
 package com.smbcgroup.training.atm.dao.jpa;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
@@ -16,8 +20,15 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public User getUser(String userId) throws UserNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		try {
+			UserEntity entity = em.find(UserEntity.class, userId);
+			if (entity == null)
+				throw new UserNotFoundException();
+			return entity.convertToUser();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
@@ -25,6 +36,8 @@ public class AccountJPAImpl implements AccountDAO {
 		EntityManager em = emf.createEntityManager();
 		try {
 			AccountEntity entity = em.find(AccountEntity.class, accountNumber);
+			if (entity == null)
+				throw new AccountNotFoundException();
 			return entity.convertToAccount();
 		} finally {
 			em.close();
@@ -33,8 +46,53 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public void updateAccount(Account account) {
-		// TODO Auto-generated method stub
-		
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			AccountEntity entity = new AccountEntity();
+			entity.setAccountNumber(account.getAccountNumber());
+			entity.setBalance(account.getBalance());
+			em.merge(entity);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public Account[] getAccounts(String userId) throws UserNotFoundException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			TypedQuery<AccountEntity> query = em
+					.createQuery("SELECT a FROM AccountEntity a WHERE a.user.userId = :userId", AccountEntity.class);
+			query.setParameter("userId", userId);
+			List<AccountEntity> accountEntities = query.getResultList();
+			if (accountEntities == null)
+				throw new UserNotFoundException();
+			Account[] accounts = new Account[accountEntities.size()];
+			for (int i = 0; i < accountEntities.size(); i++)
+				accounts[i] = accountEntities.get(i).convertToAccount();
+			return accounts;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public void createAccount(String userId, String accountNumber) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			AccountEntity entity = new AccountEntity();
+			entity.setAccountNumber(accountNumber);
+			entity.setBalance(new BigDecimal("0.0"));
+			UserEntity userEntity = em.find(UserEntity.class, userId);
+			entity.setUser(userEntity);
+			em.merge(entity);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
 	}
 
 }

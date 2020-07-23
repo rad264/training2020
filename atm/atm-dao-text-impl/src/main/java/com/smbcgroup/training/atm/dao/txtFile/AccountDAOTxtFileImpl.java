@@ -2,8 +2,10 @@ package com.smbcgroup.training.atm.dao.txtFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
@@ -54,8 +56,28 @@ public class AccountDAOTxtFileImpl implements AccountDAO {
 		return Files.readString(Path.of(fileName + ".txt"));
 	}
 
-	private static void writeStringToFile(String fileName, String newContents) throws IOException {
-		Files.writeString(Path.of(fileName + ".txt"), newContents);
+	private static void writeStringToFile(String fileName, String content) throws IOException {
+		Files.writeString(Path.of(fileName + ".txt"), content);
+	}
+
+	private static void appendStringToFile(String fileName, String content) throws IOException {
+		Files.writeString(Path.of(fileName + ".txt"), content, StandardOpenOption.APPEND);
+	}
+
+	private static String bigDecToString(BigDecimal d) {
+		return d.setScale(2, RoundingMode.CEILING).toString();
+	}
+
+	@Override
+	public Account[] getAccounts(String userId) throws UserNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createAccount(String userId, String accountNumber) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

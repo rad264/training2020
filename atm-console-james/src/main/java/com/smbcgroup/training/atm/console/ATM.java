@@ -16,7 +16,12 @@ import com.smbcgroup.training.atm.exceptions.FailToCreateAccountException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
-public class ConsoleATM {
+public class ATM {
+	
+	
+	public static void main(String[] args) throws IOException {
+		new ATM().beginSession();
+	}
 
 	private static enum Action {
 		login, changeAccount, checkBalance, deposit, withdraw, transfer, transferFollow, openAccount, summary, history,
@@ -29,12 +34,12 @@ public class ConsoleATM {
 	private Action prevAction;
 	private AccountService service = new AccountService();
 
-	public ConsoleATM() {
+	public ATM() {
 		this.inputReader = new BufferedReader(new InputStreamReader(System.in));
 		this.output = System.out;
 	}
 
-	public ConsoleATM(InputStream input, PrintStream output) {
+	public ATM(InputStream input, PrintStream output) {
 		this.inputReader = new BufferedReader(new InputStreamReader(input));
 		this.output = output;
 	}

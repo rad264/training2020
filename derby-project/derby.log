@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Jul 22 16:02:21 EDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0173-781e-a3a0-0000074ae540 
+Thu Jul 23 16:01:37 EDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0173-7d44-53c0-000007b9b790 
 on database directory /Users/james/git/training2020/derby-project/target/testdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
 Loaded from file:/Users/james/.m2/repository/org/apache/derby/derby/10.10.2.0/derby-10.10.2.0.jar
 java.vendor=Oracle Corporation

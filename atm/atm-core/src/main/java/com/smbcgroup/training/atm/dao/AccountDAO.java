@@ -9,6 +9,22 @@ public interface AccountDAO {
 
 	Account getAccount(String accountNumber) throws AccountNotFoundException;
 
+	Account[] getAccounts(String userId) throws UserNotFoundException;
+
 	void updateAccount(Account account);
+
+//	String[] getUserAccounts(String userId);
+//
+//	BigDecimal getAccountBalance(String accountNumber);
+//	
+//	String[] getUserTransactions(String userId);
+//
+//	void updateAccountBalance(String accountNumber, BigDecimal balance);
+//
+//	void updateUserTransactions(String userId, String accountNumber, BigDecimal amount, String type, String sign);
+//
+//	void clearUserTransactions(String userId);
+//
+	void createAccount(String userId, String accountNumber);
 
 }
