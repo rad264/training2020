@@ -6,18 +6,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.smbcgroup.training.atm.ATMService;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.wink.client.ClientConfig;
+import org.apache.wink.client.ClientWebException;
+import org.apache.wink.client.RestClient;
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.smbcgroup.training.atm.ATMServiceException;
 import com.smbcgroup.training.atm.ATMServiceException.Type;
-import com.smbcgroup.training.atm.dao.AccountNotFoundException;
-import com.smbcgroup.training.atm.dao.UserNotFoundException;
-import com.smbcgroup.training.atm.dao.txtFile.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.User;
 
 public class ATM {
 
 	public static void main(String[] args) throws IOException {
-		new ATM(new ATMService(new AccountDAOTxtFileImpl()), System.in, System.out).beginSession();
+		new ATM(System.in, System.out).beginSession();
 	}
 
 	private static enum Action {
@@ -25,7 +33,9 @@ public class ATM {
 		// TODO: add more actions
 	}
 
-	private ATMService service;
+	private static final String API_ROOT_URL = "http://localhost:8080/atm-api/";
+
+	private RestClient restClient;
 	private BufferedReader inputReader;
 	private PrintStream output;
 	private String loggedInUser;
@@ -33,8 +43,16 @@ public class ATM {
 	private String selectedAccount;
 	private Action selectedAction = Action.login;
 
-	private ATM(ATMService service, InputStream input, PrintStream output) {
-		this.service = service;
+	private ATM(InputStream input, PrintStream output) {
+		Application restClientApp = new Application() {
+			@Override
+			public Set<Object> getSingletons() {
+				HashSet<Object> set = new HashSet<Object>();
+				set.add(new JacksonJsonProvider());
+				return set;
+			}
+		};
+		this.restClient = new RestClient(new ClientConfig().applications(restClientApp));
 		this.inputReader = new BufferedReader(new InputStreamReader(input));
 		this.output = output;
 	}
@@ -101,10 +119,12 @@ public class ATM {
 		switch (selectedAction) {
 		case login:
 			try {
-				loggedInUserAccounts = service.getUser(input).getAccounts();
+				User user = restClient.resource(API_ROOT_URL + "users/" + input).accept(MediaType.APPLICATION_JSON_TYPE)
+						.get(User.class);
+				loggedInUserAccounts = user.getAccounts();
 				loggedInUser = input;
 				return Action.changeAccount;
-			} catch (UserNotFoundException e) {
+			} catch (ClientWebException e) {
 				throw new ATMException("Invalid user ID.");
 			}
 		case changeAccount:
@@ -119,28 +139,30 @@ public class ATM {
 			throw new ATMException("Account number not found.");
 		case checkBalance:
 			try {
-				output.println("Balance: $" + service.getAccount(selectedAccount).getBalance());
-			} catch (AccountNotFoundException e) {
+				Account account = restClient.resource(API_ROOT_URL + "accounts/" + selectedAccount)
+						.accept(MediaType.APPLICATION_JSON_TYPE).get(Account.class);
+				output.println("Balance: $" + account.getBalance());
+			} catch (ClientWebException e) {
 				throw new RuntimeException(e);
 			}
 			break;
 		case deposit:
-			try {
-				service.deposit(selectedAccount, convertToBigDecimal(input));
-			} catch (ATMServiceException e) {
-				throw new ATMException(e);
-			} catch (AccountNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+//			try {
+//				service.deposit(selectedAccount, convertToBigDecimal(input));
+//			} catch (ATMServiceException e) {
+//				throw new ATMException(e);
+//			} catch (AccountNotFoundException e) {
+//				throw new RuntimeException(e);
+//			}
 			break;
 		case withdraw:
-			try {
-				service.withdraw(selectedAccount, convertToBigDecimal(input));
-			} catch (ATMServiceException e) {
-				throw new ATMException(e);
-			} catch (AccountNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+//			try {
+//				service.withdraw(selectedAccount, convertToBigDecimal(input));
+//			} catch (ATMServiceException e) {
+//				throw new ATMException(e);
+//			} catch (AccountNotFoundException e) {
+//				throw new RuntimeException(e);
+//			}
 			break;
 		// TODO: handle other actions
 		}
