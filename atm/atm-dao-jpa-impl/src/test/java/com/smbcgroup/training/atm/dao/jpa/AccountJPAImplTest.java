@@ -13,7 +13,7 @@ import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 
 public class AccountJPAImplTest {
-	
+
 	private AccountJPAImpl dao = new AccountJPAImpl();
 
 	@Before
@@ -25,6 +25,11 @@ public class AccountJPAImplTest {
 
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	@Test(expected = AccountNotFoundException.class)
+	public void testGetAccount_AccountDoesntExist() throws AccountNotFoundException {
+		dao.getAccount("123457");
 	}
 
 	@Test

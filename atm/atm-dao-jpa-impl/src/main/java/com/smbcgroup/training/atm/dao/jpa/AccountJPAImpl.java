@@ -25,6 +25,8 @@ public class AccountJPAImpl implements AccountDAO {
 		EntityManager em = emf.createEntityManager();
 		try {
 			AccountEntity entity = em.find(AccountEntity.class, accountNumber);
+			if (entity == null)
+				throw new AccountNotFoundException();
 			return entity.convertToAccount();
 		} finally {
 			em.close();
