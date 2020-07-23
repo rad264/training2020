@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import com.smbcgroup.training.atm.accountDAO.AccountDAO;
-import com.smbcgroup.training.atm.accountService.AccountService;
+import com.smbcgroup.training.atm.core.AccountService;
+import com.smbcgroup.training.atm.core.dao.AccountDAO;
 import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 

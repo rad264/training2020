@@ -8,24 +8,23 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.EnumSet;
 
-import com.smbcgroup.training.atm.accountDAO.AccountDAOTxtFileImpl;
-import com.smbcgroup.training.atm.accountService.AccountService;
+import com.smbcgroup.training.atm.core.AccountService;
+import com.smbcgroup.training.atm.daoTextImpl.AccountDAOTxtFileImpl;
+import com.smbcgroup.training.atm.exceptions.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.exceptions.AccountNotFoundException;
+import com.smbcgroup.training.atm.exceptions.FailToCreateAccountException;
 import com.smbcgroup.training.atm.exceptions.InvalidAmountException;
 import com.smbcgroup.training.atm.exceptions.UserNotFoundException;
 
 public class ConsoleATM {
 
 	private static enum Action {
-		login, changeAccount, checkBalance, deposit, withdraw, transfer, transferFollow, openNew, summary, history,
+		login, changeAccount, checkBalance, deposit, withdraw, transfer, transferFollow, openAccount, summary, history,
 		help, clearHistory;
 	}
 
 	private BufferedReader inputReader;
 	private PrintStream output;
-//	private String loggedInUser;
-//	private String selectedAccount;
-//	private String transferAccount = null;
 	private Action selectedAction = Action.login;
 	private Action prevAction;
 	private AccountService service = new AccountService();
@@ -105,7 +104,7 @@ public class ConsoleATM {
 			}
 			output.println("Enter transfer amount $:");
 			return true;
-		case openNew:
+		case openAccount:
 			output.println("Enter new account number:");
 			return true;
 		case summary:
@@ -118,12 +117,10 @@ public class ConsoleATM {
 			return false;
 		case history:
 			output.println("History:");
-//			service.getHistory();
 			for (String transaction : service.getUserTransactions())
 				output.println(transaction);
 			return false;
 		case clearHistory:
-//			service.clearHistory();
 			service.clearUserTransactions();
 			output.println("History Cleared!");
 			return false;
@@ -146,16 +143,14 @@ public class ConsoleATM {
 		case login:
 			try {
 				service.login(input);
-//				service.getUserAccounts(input);
-//				loggedInUser = input;
 				return Action.changeAccount;
 			} catch (Exception e) {
 				throw new ATMException("Invalid user ID.");
 			}
 
 		case changeAccount:
-			if ("openNew".equals(input))
-				return Action.openNew;
+			if ("openAccount".equals(input))
+				return Action.openAccount;
 			if (!input.matches("^\\d{6}$"))
 				throw new ATMException("Invalid account number.");
 			try {
@@ -163,8 +158,22 @@ public class ConsoleATM {
 					return null;
 			} catch (UserNotFoundException e) {
 				throw new ATMException("User not found.");
+			} catch (AccountNotFoundException e) {
+				throw new ATMException("Account not found.");
 			}
-			throw new ATMException("Account number not found.");
+			throw new ATMException("Account not found.");
+
+		case openAccount:
+			if (!input.matches("^\\d{6}$"))
+				throw new ATMException("Invalid account number.");
+			try {
+				service.createAccount(input);
+			} catch (FailToCreateAccountException e) {
+				throw new ATMException("Failed to create account.");
+			} catch (AccountAlreadyExistsException e) {
+				throw new ATMException("Account already exists.");
+			}
+			break;
 
 		case checkBalance:
 			try {
@@ -227,6 +236,7 @@ public class ConsoleATM {
 				throw new ATMException("User not found.");
 			}
 			break;
+
 		default:
 			break;
 		}
