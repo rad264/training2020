@@ -23,7 +23,6 @@ import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
 
 public class ATM {
-
 	public static void main(String[] args) throws IOException {
 		new ATM(System.in, System.out).beginSession();
 	}

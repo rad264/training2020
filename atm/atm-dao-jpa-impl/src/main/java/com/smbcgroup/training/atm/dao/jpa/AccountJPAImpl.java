@@ -16,8 +16,15 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public User getUser(String userId) throws UserNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		try {
+			UserEntity entity = em.find(UserEntity.class, userId);
+			if (entity == null)
+				throw new UserNotFoundException();
+			return entity.convertToUser();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
@@ -35,8 +42,17 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public void updateAccount(Account account) {
-		// TODO Auto-generated method stub
-		
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			AccountEntity entity = new AccountEntity();
+			entity.setAccountNumber(account.getAccountNumber());
+			entity.setBalance(account.getBalance());
+			em.merge(entity);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
 	}
 
 }
