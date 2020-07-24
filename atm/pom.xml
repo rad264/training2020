@@ -13,6 +13,7 @@
 	</properties>
 
 	<modules>
+		<module>atm-api</module>
 		<module>atm-core</module>
 		<module>atm-dao-text-impl</module>
 		<module>atm-console</module>

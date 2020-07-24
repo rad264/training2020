@@ -3,6 +3,8 @@
 	<name>atm-api</name>
 	<comment></comment>
 	<projects>
+		<project>atm-dao-jpa-impl</project>
+		<project>atm-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
