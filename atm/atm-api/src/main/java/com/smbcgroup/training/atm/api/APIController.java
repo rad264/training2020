@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.UserNotFoundException;
 import com.smbcgroup.training.atm.dao.jpa.AccountJPAImpl;
 
 import io.swagger.annotations.Api;
@@ -21,6 +23,16 @@ import io.swagger.annotations.ApiOperation;
 public class APIController {
 
 	private static ATMService service = new ATMService(new AccountJPAImpl());
+
+	@ApiOperation("Get user")
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
+		try {
+			return new ResponseEntity<User>(service.getUser(userId), HttpStatus.OK);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	@ApiOperation("Get account")
 	@RequestMapping(value = "/accounts/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
