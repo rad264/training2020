@@ -162,21 +162,20 @@ public class ATM {
 			if (!input.matches("^\\d{6}$"))
 				throw new ATMException("Invalid account number.");
 			try {
-				if (service.changeAccount(input))
-					return null;
+				service.changeAccount(input);
 			} catch (UserNotFoundException e) {
 				throw new ATMException("User not found.");
 			} catch (AccountNotFoundException e) {
 				throw new ATMException("Account not found.");
 			}
-			throw new ATMException("Account not found.");
+			return null;
 
 		case openAccount:
 			if (!input.matches("^\\d{6}$"))
 				throw new ATMException("Invalid account number.");
 			try {
 				service.createAccount(input);
-			} catch (FailToCreateAccountException e) {
+			} catch (UserNotFoundException e) {
 				throw new ATMException("Failed to create account.");
 			} catch (AccountAlreadyExistsException e) {
 				throw new ATMException("Account already exists.");
@@ -213,7 +212,7 @@ public class ATM {
 			} catch (InvalidAmountException e) {
 				throw new ATMException("Invalid amount.");
 			} catch (AccountNotFoundException e) {
-				throw new ATMException("Account number not found.");
+				throw new ATMException("Account not found.");
 			} catch (UserNotFoundException e) {
 				throw new ATMException("User not found.");
 			}
@@ -222,11 +221,11 @@ public class ATM {
 		case transfer:
 			if (!input.matches("^\\d{6}$"))
 				throw new ATMException("Invalid account number.");
-			if (service.checkAlreadyLoggedIn(input))
+			if (service.checkSameAccount(input))
 				throw new ATMException("Same account number.");
 			try {
 				if (!service.setTransferAccount(input))
-					throw new ATMException("Account number not found.");
+					throw new ATMException("Account not found.");
 			} catch (UserNotFoundException e) {
 				throw new ATMException("User not found.");
 			}
@@ -239,7 +238,7 @@ public class ATM {
 			} catch (InvalidAmountException e) {
 				throw new ATMException("Invalid amount.");
 			} catch (AccountNotFoundException e) {
-				throw new ATMException("Account number not found.");
+				throw new ATMException("Account not found.");
 			} catch (UserNotFoundException e) {
 				throw new ATMException("User not found.");
 			}

@@ -50,44 +50,26 @@ public class ATMService {
 	}
 
 	public void login(String userId) throws UserNotFoundException {
-			getUser(userId);
-			loggedInUser = userId;
+		getUser(userId);
+		loggedInUser = userId;
 	}
 
-	public boolean changeAccount(String accountNumber) throws AccountNotFoundException, UserNotFoundException {
-		try {
-			if (accountAlreadyExists(accountNumber)) {
-				selectedAccount = accountNumber;
-				return true;
-			}
-		} catch (RuntimeException e) {
+	public void changeAccount(String accountNumber) throws UserNotFoundException, AccountNotFoundException {
+		if (!accountAlreadyExists(accountNumber))
 			throw new AccountNotFoundException();
-		} catch (UserNotFoundException e) {
-			throw new UserNotFoundException();
-		}
-		return false;
+		selectedAccount = accountNumber;
 	}
 
-	public void createAccount(String accountNumber) throws FailToCreateAccountException, AccountAlreadyExistsException {
-
-		try {
-			if (accountAlreadyExists(accountNumber))
-				throw new AccountAlreadyExistsException();
-			dao.createAccount(loggedInUser, accountNumber);
-		} catch (RuntimeException | UserNotFoundException e) {
-			throw new FailToCreateAccountException();
-		}
+	public void createAccount(String accountNumber) throws AccountAlreadyExistsException, UserNotFoundException {
+		if (accountAlreadyExists(accountNumber))
+			throw new AccountAlreadyExistsException();
+		dao.createAccount(loggedInUser, accountNumber);
 	}
 
 	private Boolean accountAlreadyExists(String accountNumber) throws UserNotFoundException {
-		try {
-			for (String userAccount : getAccountNumbers(loggedInUser)) {
-				if (userAccount.equals(accountNumber)) {
-					return true;
-				}
-			}
-		} catch (RuntimeException e) {
-			throw new UserNotFoundException();
+		for (String userAccount : getAccountNumbers(loggedInUser)) {
+			if (userAccount.equals(accountNumber))
+				return true;
 		}
 		return false;
 	}
@@ -97,12 +79,7 @@ public class ATMService {
 	}
 
 	public BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException {
-		try {
-//			return dao.getAccountBalance(accountNumber);
-			return getAccount(accountNumber).getBalance();
-		} catch (RuntimeException e) {
-			throw new AccountNotFoundException();
-		}
+		return getAccount(accountNumber).getBalance();
 	}
 //
 //	public String[] getUserTransactions() throws UserNotFoundException {
@@ -171,20 +148,15 @@ public class ATMService {
 		deposit(destinationAccountNumber, amount);
 	}
 
-	public boolean checkAlreadyLoggedIn(String accountNumber) {
+	public boolean checkSameAccount(String accountNumber) {
 		return accountNumber.equals(selectedAccount);
 	}
 
 	public boolean setTransferAccount(String accountNumber) throws UserNotFoundException {
 		transferAccount = null;
-		try {
-			for (String userAccount : getAccountNumbers(loggedInUser)) {
-				if (userAccount.equals(accountNumber)) {
-					transferAccount = accountNumber;
-				}
-			}
-		} catch (RuntimeException e) {
-			throw new UserNotFoundException();
+		for (String userAccount : getAccountNumbers(loggedInUser)) {
+			if (userAccount.equals(accountNumber))
+				transferAccount = accountNumber;
 		}
 		return transferAccount != null;
 	}

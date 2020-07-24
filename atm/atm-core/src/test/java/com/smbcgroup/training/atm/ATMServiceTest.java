@@ -193,16 +193,33 @@ public class ATMServiceTest {
 			return updateAccount_capture;
 		}
 
+		private Account[] getAccounts_value;
+		private UserNotFoundException getAccounts_exception;
+
 		@Override
 		public Account[] getAccounts(String userId) throws UserNotFoundException {
-			// TODO Auto-generated method stub
-			return null;
+			if (getAccounts_exception != null)
+				throw getAccounts_exception;
+			return getAccounts_value;
 		}
+
+		public void stub_getAccounts(Account[] accounts) {
+			getAccounts_value = accounts;
+		}
+
+		public void stub_getAccounts(UserNotFoundException exception) {
+			getAccounts_exception = exception;
+		}
+
+		private Object[] createAccount_capture;
 
 		@Override
 		public void createAccount(String userId, String accountNumber) {
-			// TODO Auto-generated method stub
-			
+			createAccount_capture = new Object[] { userId, accountNumber };
+		}
+
+		public Object[] spy_createAccount() {
+			return createAccount_capture;
 		}
 
 	}
