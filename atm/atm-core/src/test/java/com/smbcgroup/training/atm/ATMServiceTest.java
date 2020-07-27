@@ -49,6 +49,29 @@ public class ATMServiceTest {
 	}
 
 	@Test
+	public void testGetAccounts_Success() throws Exception {
+		Account[] accounts = { new Account(), new Account() };
+		accounts[0].setAccountNumber("123456");
+		accounts[0].setBalance(new BigDecimal("100.00"));
+		accounts[1].setAccountNumber("121212");
+		accounts[1].setBalance(new BigDecimal("200.00"));
+		mockDAO.stub_getAccounts(accounts);
+		assertArrayEquals(accounts, service.getAccounts("jwong"));
+	}
+	
+	@Test
+	public void testGetAccountNumbers_Success() throws Exception {
+		Account[] accounts = { new Account(), new Account() };
+		accounts[0].setAccountNumber("123456");
+		accounts[0].setBalance(new BigDecimal("100.00"));
+		accounts[1].setAccountNumber("121212");
+		accounts[1].setBalance(new BigDecimal("200.00"));
+		mockDAO.stub_getAccounts(accounts);
+		String[] expectedOutput = { "123456", "121212" }; 
+		assertArrayEquals(expectedOutput, service.getAccountNumbers("jwong"));
+	}
+	
+	@Test
 	public void testDeposit_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
 		try {
