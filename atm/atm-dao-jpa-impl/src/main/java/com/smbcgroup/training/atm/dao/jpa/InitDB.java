@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 public class InitDB {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException {
 		EntityManager em = new AccountJPAImpl().emf.createEntityManager();
 		em.getTransaction().begin();
 

@@ -1,5 +1,7 @@
 package com.smbcgroup.training.atm.api;
 
+import java.util.Random;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,4 +46,33 @@ public class APIController {
 		}
 	}
 
+	@ApiOperation("Hello world")
+	@RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Greeting> helloWorld() {
+		try {
+			return new ResponseEntity<Greeting>(new Greeting(new Random().nextLong(), "Hello world"), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Greeting>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	
+	private class Greeting {
+
+		private final long id;
+		private final String content;
+
+		public Greeting(long id, String content) {
+			this.id = id;
+			this.content = content;
+		}
+
+		public long getId() {
+			return id;
+		}
+
+		public String getContent() {
+			return content;
+		}
+	}
 }

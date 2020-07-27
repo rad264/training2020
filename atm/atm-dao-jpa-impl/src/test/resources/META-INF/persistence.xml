@@ -12,7 +12,7 @@
 			<property name="openjpa.jdbc.SynchronizeMappings"
 				value="buildSchema(SchemaAction='drop,add,deleteTableContents',IgnoreErrors=true)" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:derby:target/testdb;create=true" />
+				value="jdbc:derby:C:\Users\Dev\Documents\atm-api\training2020\atm\atm-api\db;create=true" />
 			<property name="javax.persistence.jdbc.driver"
 				value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="openjpa.RuntimeUnenhancedClasses"

@@ -12,7 +12,16 @@ import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class AccountJPAImpl implements AccountDAO {
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("derby-entities");
+	EntityManagerFactory emf;
+
+	public AccountJPAImpl() {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		emf = Persistence.createEntityManagerFactory("derby-entities");
+	}
 
 	@Override
 	public User getUser(String userId) throws UserNotFoundException {
