@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "ATM API")
 public class APIController {
 
-	private static ATMService service = new ATMService(new AccountJPAImpl());
+	static ATMService service = new ATMService(new AccountJPAImpl());
 
 	@ApiOperation("Get user")
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
