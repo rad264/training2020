@@ -69,7 +69,7 @@ public class ATMService {
 		return sb.toString();
 	}
 
-	public String history(String accountNumber) {
+	public String history(String accountNumber) throws AccountNotFoundException {
 		return dao.getAccountHistory(accountNumber);
 	}
 	
