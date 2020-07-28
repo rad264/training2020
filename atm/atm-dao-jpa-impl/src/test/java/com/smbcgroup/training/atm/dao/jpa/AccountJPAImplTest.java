@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
+import com.smbcgroup.training.atm.dao.jpa.HistoryEntity;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
