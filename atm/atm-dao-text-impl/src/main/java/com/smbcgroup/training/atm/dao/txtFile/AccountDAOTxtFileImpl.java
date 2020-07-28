@@ -58,4 +58,40 @@ public class AccountDAOTxtFileImpl implements AccountDAO {
 		Files.writeString(Path.of(fileName + ".txt"), newContents);
 	}
 
+	@Override
+	public String[] getUserAccounts(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BigDecimal getAccountBalance(String accountNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateAccountBalance(String accountNumber, BigDecimal balance) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String createAccount(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAccountHistory(String accountNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void appendAudit(String accountNumber, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
