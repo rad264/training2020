@@ -10,7 +10,7 @@ $.ajax = function (config) {
         },
         "/atm-api/accounts/{accountNumber}": {
             "GET": function (params) {
-                var balance = accountBalances[params.accountNumber];
+                const balance = accountBalances[params.accountNumber];
                 if (balance)
                     success({ "balance": balance });
                 else
@@ -21,17 +21,17 @@ $.ajax = function (config) {
             }
         }
     }
-    for (var resourcePath in resources) {
-        var urlPattern = "^" + resourcePath.replace(/{.*}/, "[^/]*") + "$";
+    for (let resourcePath in resources) {
+        const urlPattern = "^" + resourcePath.replace(/{.*}/, "[^/]*") + "$";
         if (new RegExp(urlPattern).exec(config.url)) {
-            var operations = resources[resourcePath];
+            const operations = resources[resourcePath];
             if (operations[config.type]) {
-                var params = {};
-                var staticUrlParts = resourcePath.split("/");
-                var urlParts = config.url.split("/");
-                for (var i in staticUrlParts) {
+                const params = {};
+                const staticUrlParts = resourcePath.split("/");
+                const urlParts = config.url.split("/");
+                for (let i in staticUrlParts) {
                     if (staticUrlParts[i].match(/^\{[^\/]*\}$/)) {
-                        var paramName = staticUrlParts[i].substring(1, staticUrlParts[i].length - 1);
+                        const paramName = staticUrlParts[i].substring(1, staticUrlParts[i].length - 1);
                         params[paramName] = urlParts[i];
                     }
                 }

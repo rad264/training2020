@@ -1,3 +1,5 @@
-function TextFieldData(value) {
-    this.value = value || "";
+class TextFieldData {
+    constructor(value) {
+        this.value = value || "";
+    }
 }

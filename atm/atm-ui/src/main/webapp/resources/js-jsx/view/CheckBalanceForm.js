@@ -1,21 +1,20 @@
-function CheckBalanceForm() {
-    this.accountNumber = document.getElementById("accountNumber");
-    this.submitButton = document.getElementById("checkBalance");
-    this.balance = document.getElementById("balance");
-}
-
-CheckBalanceForm.prototype = {
-    getAccountNumber: function() {
+class CheckBalanceForm {
+    constructor() {
+        this.accountNumber = document.getElementById("accountNumber");
+        this.submitButton = document.getElementById("checkBalance");
+        this.balance = document.getElementById("balance");
+    }
+    getAccountNumber() {
         return this.accountNumber.value;
-    },
-    setAccountNumber: function(value) {
+    }
+    setAccountNumber(value) {
         this.accountNumber.value = value;
-    },
-    displayBalance: function(balance) {
+    }
+    displayBalance(balance) {
         this.balance.innerHTML = balance;
         this.balance.style = "color: green";
-    },
-    displayError: function(error) {
+    }
+    displayError(error) {
         this.balance.innerHTML = error;
         this.balance.style = "color: red";
     }
