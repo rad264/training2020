@@ -3,6 +3,7 @@ package com.smbcgroup.training.atm.dao.jpa;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
@@ -26,7 +28,10 @@ public class AccountJPAImplTest {
 		UserEntity jwong = new UserEntity("jwong");
 		em.persist(jwong);
 
-		em.persist(new AccountEntity("123456", new BigDecimal("100"), jwong));
+		AccountEntity ac1 = new AccountEntity("123456", new BigDecimal("100"), jwong);
+		em.persist(ac1);
+
+		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), ac1));
 
 		em.getTransaction().commit();
 		em.close();
@@ -90,7 +95,7 @@ public class AccountJPAImplTest {
 		assertEquals(new BigDecimal("100.0"), accounts[0].getBalance());
 	}
 
-	@Test
+	@Test(expected = UserNotFoundException.class)
 	public void testGetAccounts_UserNotFound() throws UserNotFoundException {
 		dao.getAccounts("invalidUser");
 	}
@@ -106,6 +111,17 @@ public class AccountJPAImplTest {
 		assertEquals(new BigDecimal("0.0"), createdAccount.getBalance());
 		assertEquals("jwong", createdAccount.getUser().getUserId());
 		em.close();
+	}
+
+	@Test
+	public void testGetTransactions_Success() throws AccountNotFoundException {
+		Transaction[] transactions = dao.getAccountTransactions("123456");
+		assertEquals(1, transactions.length);
+	}
+	
+	@Test(expected = AccountNotFoundException.class)
+	public void testGetTransactions_AccountNotFound() throws AccountNotFoundException {
+		dao.getAccountTransactions("111222");
 	}
 
 }

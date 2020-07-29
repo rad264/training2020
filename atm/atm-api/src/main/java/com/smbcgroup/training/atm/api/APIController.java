@@ -1,22 +1,30 @@
 package com.smbcgroup.training.atm.api;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Transfer;
 import com.smbcgroup.training.atm.User;
+import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.InvalidAmountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 import com.smbcgroup.training.atm.dao.jpa.AccountJPAImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @Api(tags = "ATM API")
@@ -43,5 +51,74 @@ public class APIController {
 			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@ApiOperation("Deposit")
+	@RequestMapping(value = "accounts/{accountNumber}/deposit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal amount) {
+		try {
+			service.deposit(accountNumber, amount);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch(AccountNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch(InvalidAmountException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@ApiOperation("Withdraw")
+	@RequestMapping(value = "accounts/{accountNumber}/withdraw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal amount) {
+		try {
+			service.withdraw(accountNumber, amount);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch(AccountNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch(InvalidAmountException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@ApiOperation("Create account")
+	@RequestMapping(value = "accounts/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> createAccount(@RequestBody String accountNumber) {
+		try {
+			service.createAccount(accountNumber);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch(UserNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch (AccountAlreadyExistsException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@ApiOperation("Transfer")
+	@RequestMapping(value = "accounts/{accountNumber}/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> accountTransfer(@PathVariable("accountNumber") String accountNumber, @RequestBody Transfer transfer) {
+		try {
+			service.transfer(transfer);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch(AccountNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch(InvalidAmountException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@ApiOperation("Get accounts")
+	@RequestMapping(value = "/users/{userId}/accounts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Account[]> getAccounts(@PathVariable("userId") String userId) {
+		try {
+			return new ResponseEntity<Account[]>(service.getAccounts(userId), HttpStatus.OK);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<Account[]>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 
 }

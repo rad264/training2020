@@ -1,6 +1,7 @@
 package com.smbcgroup.training.atm.dao;
 
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.User;
 
 public interface AccountDAO {
@@ -12,6 +13,8 @@ public interface AccountDAO {
 	Account[] getAccounts(String userId) throws UserNotFoundException;
 
 	void updateAccount(Account account);
+
+	Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException;
 
 //	String[] getUserAccounts(String userId);
 //

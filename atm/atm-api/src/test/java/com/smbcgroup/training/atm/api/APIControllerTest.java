@@ -17,6 +17,7 @@ import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.InvalidAmountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class APIControllerTest {
@@ -47,14 +48,14 @@ public class APIControllerTest {
 			@Override
 			public User getUser(String userId) throws UserNotFoundException {
 				User user = new User();
-				user.setUserId("rdelaney");
+				user.setUserId("jwong");
 				user.setAccounts(new String[] { "123456" });
 				return user;
 			}
 		};
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/rdelaney")).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/jwong")).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
-		assertEquals("{\"userId\":\"rdelaney\",\"accounts\":[\"123456\"]}", result.getResponse().getContentAsString());
+		assertEquals("{\"userId\":\"jwong\",\"accounts\":[\"123456\"]}", result.getResponse().getContentAsString());
 	}
 
 	@Test
@@ -83,6 +84,23 @@ public class APIControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(100.0)));
+	}
+
+	@Test
+	public void postDeposit_Success() throws Exception {
+		APIController.service = new ATMService(null) {
+			@Override
+			public void deposit(BigDecimal amount)
+					throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+				Account account = new Account();
+				account.setAccountNumber("123456");
+				account.setBalance(new BigDecimal("100.00"));
+				account.setBalance((new BigDecimal("50.00")).add(account.getBalance()));
+			}
+		};
+		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(150.0)));
 	}
 
 }

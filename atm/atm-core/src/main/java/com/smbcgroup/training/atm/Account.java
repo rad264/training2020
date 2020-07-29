@@ -6,6 +6,7 @@ public class Account {
 
 	private String accountNumber;
 	private BigDecimal balance;
+	private String[] transactions;
 
 	public String getAccountNumber() {
 		return accountNumber;
@@ -21,6 +22,14 @@ public class Account {
 
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
+	}
+
+	public String[] getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(String[] transactions) {
+		this.transactions = transactions;
 	}
 
 }

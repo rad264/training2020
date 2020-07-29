@@ -81,12 +81,20 @@ public class ATMService {
 	public BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException {
 		return getAccount(accountNumber).getBalance();
 	}
-//
-//	public String[] getUserTransactions() throws UserNotFoundException {
+
+	public Transaction[] getAccountTransactions() throws AccountNotFoundException {
+		return getAccountTransactions(selectedAccount);
+	}
+
+	public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+		return dao.getAccountTransactions(accountNumber);
+	}
+
+//	public String[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
 //		try {
-//			return dao.getUserTransactions(loggedInUser);
+//			return dao.getAccountTransactions(accountNumber);
 //		} catch (RuntimeException e) {
-//			throw new UserNotFoundException();
+//			throw new AccountNotFoundException();
 //		}
 //	}
 
@@ -135,6 +143,11 @@ public class ATMService {
 	private void checkPositive(BigDecimal amount) throws InvalidAmountException {
 		if (amount.compareTo(BigDecimal.ZERO) <= 0)
 			throw new InvalidAmountException();
+	}
+
+	public void transfer(Transfer transfer)
+			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+		transfer(transfer.getFromAccountNumber(), transfer.getToAccountNumber(), transfer.getTransferAmount());
 	}
 
 	public void transfer(BigDecimal amount)

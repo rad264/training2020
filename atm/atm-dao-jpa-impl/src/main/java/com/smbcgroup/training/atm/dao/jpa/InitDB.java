@@ -1,6 +1,7 @@
 package com.smbcgroup.training.atm.dao.jpa;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 
@@ -13,7 +14,10 @@ public class InitDB {
 		UserEntity jwong = new UserEntity("jwong");
 		em.persist(jwong);
 		
-		em.persist(new AccountEntity("123456", new BigDecimal("100"), jwong));
+		AccountEntity ac1 = new AccountEntity("123456", new BigDecimal("100"), jwong);
+		em.persist(ac1);
+		
+		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), ac1));
 
 		em.getTransaction().commit();
 		em.close();

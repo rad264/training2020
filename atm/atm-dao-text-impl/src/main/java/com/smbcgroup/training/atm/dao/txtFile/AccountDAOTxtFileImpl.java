@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountDAO;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
@@ -78,6 +79,12 @@ public class AccountDAOTxtFileImpl implements AccountDAO {
 	public void createAccount(String userId, String accountNumber) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

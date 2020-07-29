@@ -245,6 +245,12 @@ public class ATMServiceTest {
 			return createAccount_capture;
 		}
 
+		@Override
+		public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	}
 
 }
