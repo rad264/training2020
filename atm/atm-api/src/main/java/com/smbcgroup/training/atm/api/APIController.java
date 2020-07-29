@@ -109,7 +109,7 @@ public class APIController {
 	}
 	
 	@ApiOperation("Transfer")
-	@RequestMapping(value = "/transfer/from/{accountToTransferFrom}/to/{accountToTransferTo}/amount/{amount}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/transfer/from/{accountToTransferFrom}/to/{accountToTransferTo}/amount/{amount}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Account> transfer(@PathVariable("accountToTransferFrom") String accountToTransferFrom, @PathVariable("accountToTransferTo") String accountToTransferTo, @PathVariable("amount") String amount) {
 		try {
 			service.transfer(accountToTransferFrom, accountToTransferTo, new BigDecimal(amount));

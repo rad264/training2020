@@ -25,6 +25,8 @@ public class APIControllerTest {
 	private APIController apiController = new APIController();
 	private MockMvc mockMvc;
 
+	//TODO: Transfer test
+	
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.standaloneSetup(apiController).build();
@@ -84,9 +86,6 @@ public class APIControllerTest {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456")).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
 		assertEquals("{\"accountNumber\":\"123456\",\"balance\":100.00}", result.getResponse().getContentAsString());
-//		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))
-//				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
-//				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(100.0)));
 	}
 
 	@Test

@@ -1,2 +1,3 @@
 *.dat
-
+*.lck
+atm/atm-api/db

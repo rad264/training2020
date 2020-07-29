@@ -28,7 +28,7 @@ public class ATM {
 	}
 
 	private static enum Action {
-		login, changeAccount, checkBalance, deposit, withdraw;
+		login, changeAccount, checkBalance, deposit, withdraw, transfer, createAccount, summary, history;
 		// TODO: add more actions
 	}
 
@@ -96,10 +96,14 @@ public class ATM {
 			output.println("Enter account number: (" + String.join(", ", loggedInUserAccounts) + ")");
 			return true;
 		case deposit:
+			output.println("Enter amount:");
+			return true;
 		case withdraw:
 			output.println("Enter amount:");
 			return true;
-		// TODO: prompts for other actions(?)
+
+		case transfer:
+			output.println("Transfer to which account: ");
 		default:
 			return false;
 		}
@@ -146,24 +150,38 @@ public class ATM {
 			}
 			break;
 		case deposit:
-//			try {
-//				service.deposit(selectedAccount, convertToBigDecimal(input));
-//			} catch (ATMServiceException e) {
-//				throw new ATMException(e);
-//			} catch (AccountNotFoundException e) {
-//				throw new RuntimeException(e);
-//			}
+			try {
+				Account account = restClient.resource(API_ROOT_URL + "accounts/" + selectedAccount + "/deposit/" + input  + "/").accept(MediaType.APPLICATION_JSON_TYPE).get(Account.class);
+				output.println("Deposit complete. New balance: $" + account.getBalance());
+			} catch (ClientWebException e) {
+				throw new ATMException("Can not complete deposit");
+			}
 			break;
 		case withdraw:
-//			try {
-//				service.withdraw(selectedAccount, convertToBigDecimal(input));
-//			} catch (ATMServiceException e) {
-//				throw new ATMException(e);
-//			} catch (AccountNotFoundException e) {
-//				throw new RuntimeException(e);
-//			}
+			try {
+				Account account = restClient.resource(API_ROOT_URL + "accounts/" + selectedAccount + "/withdraw/" + input  + "/").accept(MediaType.APPLICATION_JSON_TYPE).get(Account.class);
+				output.println("Withdraw complete. New balance: $" + account.getBalance());
+			} catch (ClientWebException e) {
+				throw new ATMException("Can not complete withdrawal");
+			}
 			break;
-		// TODO: handle other actions
+		case transfer:
+			try {
+				output.println("Amount to transfer:");
+				String toTransfer = inputReader.readLine();
+				
+				Account account = restClient.resource(API_ROOT_URL + "transfer/" + selectedAccount + "/to/" + input  + "/amount/" + toTransfer + "/").accept(MediaType.APPLICATION_JSON_TYPE).get(Account.class);
+				output.println("Transfer complete. New balance: $" + account.getBalance());
+			} catch (Exception e) {
+				throw new ATMException("Can not complete transfer");
+			}
+		case createAccount:
+			try {
+				restClient.resource(API_ROOT_URL + "users/create-account/" + selectedAccount).accept(MediaType.APPLICATION_JSON_TYPE);
+				output.println("New account created");
+			} catch (ClientWebException e) {
+				throw new ATMException("Can not complete withdrawal");
+			}
 		}
 		return null;
 	}
