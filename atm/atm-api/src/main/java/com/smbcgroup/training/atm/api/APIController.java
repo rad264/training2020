@@ -139,7 +139,7 @@ public class APIController {
 		}
 	}
 	
-	private class Message {
+	class Message {
 		private final String content;
 		
 		public Message(String content) {

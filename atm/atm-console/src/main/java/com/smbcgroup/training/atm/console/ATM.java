@@ -175,13 +175,29 @@ public class ATM {
 			} catch (Exception e) {
 				throw new ATMException("Can not complete transfer");
 			}
+			break;
 		case createAccount:
 			try {
 				restClient.resource(API_ROOT_URL + "users/create-account/" + selectedAccount).accept(MediaType.APPLICATION_JSON_TYPE);
 				output.println("New account created");
 			} catch (ClientWebException e) {
-				throw new ATMException("Can not complete withdrawal");
+				throw new ATMException("Can not create account");
 			}
+			break;
+		case summary:
+			try {
+				output.println(restClient.resource(API_ROOT_URL + "summary/"  + loggedInUser).accept(MediaType.APPLICATION_JSON_TYPE));
+			} catch (ClientWebException e) {
+				throw new ATMException("Can not get user summary");
+			}
+			break;
+		case history:
+			try {
+				output.println(restClient.resource(API_ROOT_URL + "history/"  + selectedAccount).accept(MediaType.APPLICATION_JSON_TYPE));
+			} catch (ClientWebException e) {
+				throw new ATMException("Can not get account history");
+			}
+			break;
 		}
 		return null;
 	}
