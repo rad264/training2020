@@ -177,7 +177,7 @@ public class APIControllerTest {
 		
 		};
 	
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456/deposit/100.12/")).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/accounts/123456/deposit/100.12/")).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
 		
 	}
@@ -199,7 +199,7 @@ public class APIControllerTest {
 			}
 		
 		};
-		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123457/deposit/100.12/"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/accounts/123457/deposit/100.12/"))
 			.andExpect(MockMvcResultMatchers.status().is(404));
 	}
 	
@@ -222,7 +222,7 @@ public class APIControllerTest {
 		
 		};
 	
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456/withdraw/100.12/")).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/accounts/123456/withdraw/100.12/")).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
 	}
 	
@@ -243,7 +243,7 @@ public class APIControllerTest {
 			}
 		
 		};
-		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123457/withdraw/100.12/"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/accounts/123457/withdraw/100.12/"))
 			.andExpect(MockMvcResultMatchers.status().is(404));
 	}
 }

@@ -49,42 +49,33 @@ public class APIController {
 	}
 	
 	@ApiOperation("Deposit to account")
-	@RequestMapping(value = "/accounts/{accountNumber}/deposit/{depositAmount}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> depositToAccount(@PathVariable("accountNumber") String accountNumber, @PathVariable("depositAmount") String depositAmount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/deposit/{depositAmount}/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> depositToAccount(@PathVariable("accountNumber") String accountNumber, @PathVariable("depositAmount") String depositAmount) {
 
 		try {
 			service.deposit(accountNumber, new BigDecimal(depositAmount));
 		} catch(ATMServiceException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
-		
-		try {
-			return new ResponseEntity<Account>(service.getAccount(accountNumber), HttpStatus.OK);
-		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
-		}
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	
 	@ApiOperation("Withdraw from account")
-	@RequestMapping(value = "/accounts/{accountNumber}/withdraw/{withdrawAmount}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> withdrawFromAccount(@PathVariable("accountNumber") String accountNumber, @PathVariable("withdrawAmount") String withdrawAmount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/withdraw/{withdrawAmount}/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> withdrawFromAccount(@PathVariable("accountNumber") String accountNumber, @PathVariable("withdrawAmount") String withdrawAmount) {
 
 		try {
 			service.withdraw(accountNumber, new BigDecimal(withdrawAmount));
 		} catch(ATMServiceException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		
-		try {
-			return new ResponseEntity<Account>(service.getAccount(accountNumber), HttpStatus.OK);
-		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
-		}
+		return new ResponseEntity<Void>( HttpStatus.OK);
 	}
 
 	@ApiOperation("Hello world")
