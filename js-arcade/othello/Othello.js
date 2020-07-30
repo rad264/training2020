@@ -77,7 +77,6 @@ function Othello() {
                 buttons.push({ button: gameBoard.getButton(i, y), x: i, y: y })
 
             }
-            console.log("loop")
             if (this.squares[i][y] === current_color) {
                 this.flipButtons(buttons)
                 buttons = []
@@ -85,44 +84,136 @@ function Othello() {
             }
         }
 
-        // // check left
-        // for (i = x - 1; i >= 0; i--) {
-        //     if (this.squares[i][y] === undefined) {
-        //         buttons = []
-        //         break
-        //     }
-        //     if (this.squares[i][y] !== current_color) {
-        //         buttons.push(gameBoard.getButton(i, y))
-        //     }
-        //     if (this.squares[i][y] === current_color) {
-        //         this.flipButtons(buttons)
-        //         buttons = []
-        //         break
-        //     }
-        // }
+        buttons = []
+        // check up
+        for (i = y - 1; i >= 0; i--) {
+            if (this.squares[x][i] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x][i] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x, i), x: x, y: i })
+
+            }
+            if (this.squares[x][i] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+        }
+
+        buttons = []
+        // check down
+        for (i = y + 1; i < height; i++) {
+            if (this.squares[x][i] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x][i] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x, i), x: x, y: i })
+
+            }
+            if (this.squares[x][i] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+        }
+
+
+        buttons = []
+        // check diagonal - down-right
+        x_iterator = x + 1
+        y_iterator = y + 1
+        while(x_iterator < width && y_iterator < height){
+            if (this.squares[x_iterator][y_iterator] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x_iterator][y_iterator] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x_iterator, y_iterator), x: x_iterator, y: y_iterator })
+
+            }
+            if (this.squares[x_iterator][y_iterator] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+            x_iterator++
+            y_iterator++
+        }
+
+        buttons = []
+        // check diagonal - down-left
+        x_iterator = x - 1
+        y_iterator = y + 1
+        while(x_iterator >= 0 && y_iterator < height){
+            if (this.squares[x_iterator][y_iterator] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x_iterator][y_iterator] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x_iterator, y_iterator), x: x_iterator, y: y_iterator })
+
+            }
+            if (this.squares[x_iterator][y_iterator] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+            x_iterator--
+            y_iterator++
+        }
+
+        buttons = []
+        // check diagonal - up-right
+        x_iterator = x + 1
+        y_iterator = y - 1
+        while(x_iterator < width && y_iterator >= 0){
+            if (this.squares[x_iterator][y_iterator] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x_iterator][y_iterator] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x_iterator, y_iterator), x: x_iterator, y: y_iterator })
+
+            }
+            if (this.squares[x_iterator][y_iterator] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+            x_iterator++
+            y_iterator--
+        }
+
+        buttons = []
+        // check diagonal - up-left
+        x_iterator = x - 1
+        y_iterator = y - 1
+        while(x_iterator >= 0 && y_iterator >= 0){
+            if (this.squares[x_iterator][y_iterator] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[x_iterator][y_iterator] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(x_iterator, y_iterator), x: x_iterator, y: y_iterator })
+
+            }
+            if (this.squares[x_iterator][y_iterator] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+            x_iterator--
+            y_iterator--
+        }
+
+        
+
+        
     }
 
-    // // check down
-    // for (i = y + 1; i < height; i++) {
-    //     if (this.squares[x][i] === undefined || this.squares[i][y] === current_color) {
-    //         break
-    //     }
-    //     if (this.squares[x][i] !== current_color) {
-    //         this.squares[i][y] = current_color
-    //         buttons.push(gameBoard.getButton(i, y))
-    //     }
-    // }
-
-    // // check up
-    // for (i = y - 1; i >= 0; i++) {
-    //     if (this.squares[x][i] === undefined || this.squares[i][y] === current_color) {
-    //         break
-    //     }
-    //     if (this.squares[x][i] !== current_color) {
-    //         this.squares[i][y] = current_color
-    //         buttons.push(gameBoard.getButton(i, y))
-    //     }
-    // }
 
 
 
