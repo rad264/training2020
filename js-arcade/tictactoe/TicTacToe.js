@@ -18,7 +18,6 @@ function TicTacToe() {
                 alert((this.xIsNext ? "X" : "O") + " wins!");
             }
             this.xIsNext = !this.xIsNext;
-            console.log(this.squares)
         }
     };
     this.isGameOver = function (x, y) {
