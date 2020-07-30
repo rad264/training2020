@@ -128,14 +128,5 @@ describe("TicTacToe", function () {
 
             expect(game.isGameOver(2,0)).toBe(true)
         })
-        it("ends game with a row of o's ", function () {
-            this.xIsNext = false
-
-            game.squares[0][0] = false
-            game.squares[0][1] = false
-            game.squares[0][2] = false
-
-            expect(game.isGameOver(0,0)).toBe(true)
-        })
     });
 });
