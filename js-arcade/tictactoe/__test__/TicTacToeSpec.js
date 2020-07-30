@@ -1,4 +1,7 @@
 describe("TicTacToe", function () {
+    const gameArea = document.createElement("div");
+    gameArea.id = "gameArea";
+    document.body.appendChild(gameArea);
     let gameBoard;
     let game;
     beforeEach(function () {
@@ -8,6 +11,28 @@ describe("TicTacToe", function () {
         GameBoard = jasmine.createSpy().and.returnValue(gameBoard);
         alert = jasmine.createSpy();
         game = new TicTacToe();
+    });
+    describe("constructor", function() {
+        it("creates 3x3 GameBoard in div#gameArea", function () {
+            expect(GameBoard).toHaveBeenCalledWith(gameArea, 3, 3, jasmine.any(Function));
+        });
+        it("starts on X's turn", function () {
+            expect(game.xIsNext).toBe(true);
+        });
+        it("starts with gameOver=false", function () {
+            expect(game.gameOver).toBe(false);
+        });
+        it("starts with empty model", function () {
+            expect(game.squares[0][0]).toBe(undefined);
+            expect(game.squares[0][1]).toBe(undefined);
+            expect(game.squares[0][2]).toBe(undefined);
+            expect(game.squares[1][0]).toBe(undefined);
+            expect(game.squares[1][1]).toBe(undefined);
+            expect(game.squares[1][2]).toBe(undefined);
+            expect(game.squares[2][0]).toBe(undefined);
+            expect(game.squares[2][1]).toBe(undefined);
+            expect(game.squares[2][2]).toBe(undefined);
+        });
     });
     describe("click", function() {
         it("changes to other player's turn when empty square clicked", function () {
