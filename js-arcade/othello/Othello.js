@@ -56,9 +56,28 @@ function Othello() {
                 break
             }
             if (this.squares[i][y] !== current_color) {
-                buttons.push({button: gameBoard.getButton(i, y), x: i, y: y})
+                buttons.push({ button: gameBoard.getButton(i, y), x: i, y: y })
 
             }
+            if (this.squares[i][y] === current_color) {
+                this.flipButtons(buttons)
+                buttons = []
+                break
+            }
+        }
+
+        buttons = []
+        // check left
+        for (i = x - 1; i >= 0; i--) {
+            if (this.squares[i][y] === undefined) {
+                buttons = {}
+                break
+            }
+            if (this.squares[i][y] !== current_color) {
+                buttons.push({ button: gameBoard.getButton(i, y), x: i, y: y })
+
+            }
+            console.log("loop")
             if (this.squares[i][y] === current_color) {
                 this.flipButtons(buttons)
                 buttons = []
@@ -107,16 +126,16 @@ function Othello() {
 
 
 
-this.flipButtons = function (buttons) {
-    if (buttons.length === 0) {
-        return
+    this.flipButtons = function (buttons) {
+        if (buttons.length === 0) {
+            return
+        }
+        buttons.forEach(this.flip.bind(this))
     }
-    buttons.forEach(this.flip.bind(this))
-}
 
-this.flip = function (button){
-    button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
-    this.squares[button.x][button.y] = this.blackIsNext ? black_marker : white_marker
-}
+    this.flip = function (button) {
+        button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
+        this.squares[button.x][button.y] = this.blackIsNext ? black_marker : white_marker
+    }
 
 }
