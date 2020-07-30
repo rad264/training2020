@@ -21,12 +21,10 @@ function TicTacToe() {
         }
     };
     this.isGameOver = function (x, y) {
-        let current_player = this.xIsNext ? "X" : "O";
-        console.log(current_player)
-
+        let current_player = this.xIsNext ? true : false;
         //Check row
         for (i = 0; i < width; i++) {
-            if (!(gameBoard.getButton(i, y).innerHTML === current_player)) {
+            if (!(this.squares[i][y] === current_player)) {
                 break
             }
             if (i === (width - 1)) {
@@ -36,7 +34,7 @@ function TicTacToe() {
 
         //Check column
         for (i = 0; i < height; i++) {
-            if (!(gameBoard.getButton(x, i).innerHTML === current_player)) {
+            if (!(this.squares[x][i] === current_player)) {
                 break
             }
             if (i === (height - 1)) {
@@ -47,7 +45,7 @@ function TicTacToe() {
         //check diagonal
         if (x === y) {
             for (i = 0; i < width; i++) {
-                if (!(gameBoard.getButton(i, i).innerHTML === current_player)) {
+                if (!(this.squares[i][i] === current_player)) {
                     break
                 }
             }
@@ -60,15 +58,17 @@ function TicTacToe() {
         if ((x+y) === ((width - 1))) {
 
             for (i = 0; i < width; i++) {
-                if (!(gameBoard.getButton(i, ((width -1 ) -i)).innerHTML === current_player)) {
+                
+                if (!(this.squares[i][((width - 1) - i)] === current_player)) {
                     break
                 }
             }
-            console.log(i)
             if (i === (width)) {
                 return true
             }
         }
+
+        return false
 
     };
 

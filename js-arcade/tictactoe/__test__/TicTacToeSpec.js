@@ -97,5 +97,15 @@ describe("TicTacToe", function () {
         });
     });
     describe("isGameOver", function() {
+        it("does not end game with no tic tac toe", function () {
+            expect(game.isGameOver()).toBe(false)
+        })
+        it("ends game with a row of x's ", function () {
+            gameBoard.getButton(0,0).innerHTML = "X"
+            gameBoard.getButton(1,1).innerHTML = "X"
+            gameBoard.getButton(0,2).innerHTML = "X"
+
+            expect(game.isGameOver()).toBe(true)
+        })
     });
 });
