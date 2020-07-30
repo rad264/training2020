@@ -27,7 +27,7 @@ function TicTacToe() {
             this.turns++;
             this.xIsNext = !this.xIsNext;
         }
-        if (!this.gameOver && this.turns == this.L * this.L)
+        if (this.isTie())
             alert("Tie.");
     };
     this.isGameOver = function(x, y) {
@@ -37,6 +37,10 @@ function TicTacToe() {
             this.checkUpDiag(x, y) ||
             this.checkDownDiag(x, y)
         )
+    };
+
+    this.isTie = function() {
+        return !this.gameOver && this.turns == this.L * this.L;
     };
 
     this.checkRow = function(x, y) {
@@ -74,5 +78,4 @@ function TicTacToe() {
         console.log("down diag found.")
         return true;
     };
-
 }

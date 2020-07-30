@@ -71,5 +71,69 @@ describe("TicTacToe", function() {
             expect(gameBoard.getButton).not.toHaveBeenCalled();
         });
     });
-    describe("isGameOver", function() {});
+    describe("isGameOver", function() {
+        it("gaveOver if top row is filled with X's", function() {
+            game.squares[0][0] = true;
+            game.squares[1][0] = true;
+            game.click(2, 0);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if middle row is filled with X's", function() {
+            game.squares[0][1] = true;
+            game.squares[1][1] = true;
+            game.click(2, 1);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if bottom row is filled with X's", function() {
+            game.squares[0][2] = true;
+            game.squares[1][2] = true;
+            game.click(2, 2);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if left column is filled with X's", function() {
+            game.squares[0][0] = true;
+            game.squares[0][1] = true;
+            game.click(0, 2);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if middle column is filled with X's", function() {
+            game.squares[1][0] = true;
+            game.squares[1][1] = true;
+            game.click(1, 2);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if left column is filled with X's", function() {
+            game.squares[2][0] = true;
+            game.squares[2][1] = true;
+            game.click(2, 2);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if diagonal (top-left to bottom-right) is filled with X's", function() {
+            game.squares[0][0] = true;
+            game.squares[1][1] = true;
+            game.click(2, 2);
+            expect(game.gameOver).toBe(true);
+        });
+        it("gaveOver if diagonal (bottom-left to top-right) is filled with X's", function() {
+            game.squares[0][2] = true;
+            game.squares[1][1] = true;
+            game.click(2, 0);
+            expect(game.gameOver).toBe(true);
+        });
+    });
+    describe("isTie", function() {
+        it("isTie if all squares are filled but no winner is found.", function() {
+            // game.squares[0][1] = false;
+            // game.squares[0][2] = true;
+            // game.squares[1][0] = false;
+            // game.squares[1][1] = true;
+            // game.squares[1][2] = true;
+            // game.squares[2][0] = false;
+            // game.squares[2][1] = true;
+            // game.squares[2][2] = false;
+            game.turns = 8;
+            game.click(0, 0);
+            expect(game.isTie()).toBe(true);
+        });
+    });
 });
