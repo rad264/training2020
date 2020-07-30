@@ -3,7 +3,7 @@ function TicTacToe() {
     this.squares = [[], [], []];
     this.xIsNext = true;
     this.gameOver = false;
-    var gameBoard = new GameBoard(document.getElementById("gameArea"), 3, 3, function (x, y) { thisObj.click(x, y) });
+    var gameBoard = new GameBoard(document.getElementById("gameArea"), 3, 3, function(x, y) {thisObj.click(x, y)});
     this.click = function(x, y) {
         if (!this.gameOver && this.squares[x][y] === undefined) {
             var button = gameBoard.getButton(x, y);
@@ -17,6 +17,6 @@ function TicTacToe() {
         }
     };
     this.isGameOver = function(x, y) {
-        
+
     };
 }
