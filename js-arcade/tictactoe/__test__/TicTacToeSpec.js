@@ -98,14 +98,44 @@ describe("TicTacToe", function () {
     });
     describe("isGameOver", function() {
         it("does not end game with no tic tac toe", function () {
-            expect(game.isGameOver()).toBe(false)
+            expect(game.isGameOver(0,0)).toBe(false)
         })
         it("ends game with a row of x's ", function () {
-            gameBoard.getButton(0,0).innerHTML = "X"
-            gameBoard.getButton(1,1).innerHTML = "X"
-            gameBoard.getButton(0,2).innerHTML = "X"
+            game.squares[0][0] = true
+            game.squares[0][1] = true
+            game.squares[0][2] = true
 
-            expect(game.isGameOver()).toBe(true)
+            expect(game.isGameOver(0,3)).toBe(true)
+        })
+        it("ends game with a column of x's ", function () {
+            game.squares[0][0] = true
+            game.squares[1][0] = true
+            game.squares[2][0] = true
+
+            expect(game.isGameOver(0,0)).toBe(true)
+        })
+        it("ends game with a diagonal of x's ", function () {
+            game.squares[0][0] = true
+            game.squares[1][1] = true
+            game.squares[2][2] = true
+
+            expect(game.isGameOver(0,0)).toBe(true)
+        })
+        it("ends game with a cross-diagonal of x's ", function () {
+            game.squares[0][2] = true
+            game.squares[1][1] = true
+            game.squares[2][0] = true
+
+            expect(game.isGameOver(2,0)).toBe(true)
+        })
+        it("ends game with a row of o's ", function () {
+            this.xIsNext = false
+
+            game.squares[0][0] = false
+            game.squares[0][1] = false
+            game.squares[0][2] = false
+
+            expect(game.isGameOver(0,0)).toBe(true)
         })
     });
 });
