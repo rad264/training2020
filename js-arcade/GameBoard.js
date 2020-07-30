@@ -11,9 +11,7 @@ function GameBoard(containerNode, width, height, handleClick) {
             cell.className = "board_cell";
             var button = document.createElement("button");
             button.onclick = (function(x, y) {
-                return function() {
-                    handleClick(x, y)
-                };
+                return function() { handleClick(x, y) };
             })(x, y);
             buttons[x][y] = button;
             cell.appendChild(button);
