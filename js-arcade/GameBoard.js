@@ -1,4 +1,4 @@
-function GameBoard(containerNode, width, height, handleClick) {
+function GameBoard(containerNode, width, height, handleClick, handleRightClick) {
     var buttons = [];
     for (var i = 0; i < width; i++)
         buttons.push([]);
@@ -12,9 +12,17 @@ function GameBoard(containerNode, width, height, handleClick) {
             var button = document.createElement("button");
             button.onclick = (function(x, y) {
                 return function() {
-                    handleClick(x, y)
+                    handleClick(x, y);
                 };
             })(x, y);
+            if (handleRightClick !== undefined) {
+                button.oncontextmenu = (function(x, y) {
+                    return function() {
+                        handleRightClick(x, y);
+                        return false;
+                    };
+                })(x, y);
+            }
             buttons[x][y] = button;
             cell.appendChild(button);
             row.appendChild(cell);
