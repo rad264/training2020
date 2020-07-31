@@ -15,14 +15,10 @@ function Othello() {
 
     this.initialize = function () {
         this.squares[3][3] = black_marker
-        gameBoard.getButton(3, 3).innerHTML = black_marker
         this.squares[4][4] = black_marker
-        gameBoard.getButton(4, 4).innerHTML = black_marker
 
         this.squares[3][4] = white_marker
-        gameBoard.getButton(3, 4).innerHTML = white_marker
         this.squares[4][3] = white_marker
-        gameBoard.getButton(4, 3).innerHTML = white_marker
 
 
     }
@@ -234,11 +230,12 @@ function Othello() {
     }
     this.initialize()
     this.presentValidMoves()
+    this.update_button_colors()
 
     this.click = function (x, y) {
         if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x, y).innerHTML === "*") {
             var button = gameBoard.getButton(x, y);
-            button.innerHTML = this.blackIsNext ? black_marker : white_marker;
+            // button.innerHTML = this.blackIsNext ? black_marker : white_marker;
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
 
             this.checkForFlips(x, y)
@@ -440,7 +437,7 @@ function Othello() {
     }
 
     this.flip = function (button) {
-        button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
+        // button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
 
         this.squares[button.x][button.y] = this.blackIsNext ? black_marker : white_marker
     }
