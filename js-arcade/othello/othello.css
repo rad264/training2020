@@ -1,0 +1,10 @@
+.viable-move{
+    background-color: lightgray;
+}
+.black-tile{
+    background-color: black;
+}
+
+.white-tile{
+    background-color: white;
+}

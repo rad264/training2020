@@ -4,6 +4,9 @@ function Othello() {
     const black_marker = "B"
     const white_marker = "W"
 
+    const black_tile_style = "black-tile"
+    const white_tile_style = "white-tile"
+
     var thisObj = this;
     this.squares = [[], [], [], [], [], [], [], []];
     this.blackIsNext = true;
@@ -23,14 +26,18 @@ function Othello() {
 
 
     }
-    this.presentValidMoves = function() {
-        for(m = 0; m < width; m++){
-            for(n = 0; n < height; n++){
-                if(this.isAValidMove(m,n) === true){
-                    gameBoard.getButton(m,n).innerHTML = "*"
-                }else{
-                    if( gameBoard.getButton(m,n).innerHTML === "*"){
-                        gameBoard.getButton(m,n).innerHTML = ""
+    this.presentValidMoves = function () {
+        for (m = 0; m < width; m++) {
+            for (n = 0; n < height; n++) {
+                if (this.isAValidMove(m, n) === true) {
+                    gameBoard.getButton(m, n).innerHTML = "*"
+                    gameBoard.getButton(m, n).classList.add("viable-move")
+                } else {
+                    gameBoard.getButton(m, n).classList.remove("viable-move")
+                    if (gameBoard.getButton(m, n).innerHTML === "*") {
+                        gameBoard.getButton(m, n).innerHTML = ""
+                        console.log("removing class")
+
                     }
                 }
             }
@@ -39,11 +46,24 @@ function Othello() {
         return false;
     }
 
+    this.update_button_colors = function(){
+        for (m = 0; m < width; m++) {
+            for (n = 0; n < height; n++) {
+                if(this.squares[m][n] !== undefined){
+                    gameBoard.getButton(m,n).classList.add(this.squares[m][n] === black_marker ? black_tile_style : white_tile_style)
+                    gameBoard.getButton(m,n).classList.remove(this.squares[m][n] === black_marker ? white_tile_style :  black_tile_style )
+
+                }
+            }
+        }
+
+    }
+
     this.isAValidMove = function (x, y) {
 
 
 
-        if(this.squares[x][y] !== undefined){
+        if (this.squares[x][y] !== undefined) {
             return false
         }
 
@@ -59,7 +79,7 @@ function Othello() {
 
             }
             if (this.squares[i][y] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -77,7 +97,7 @@ function Othello() {
 
             }
             if (this.squares[i][y] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -95,7 +115,7 @@ function Othello() {
 
             }
             if (this.squares[x][i] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -113,7 +133,7 @@ function Othello() {
 
             }
             if (this.squares[x][i] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -125,7 +145,7 @@ function Othello() {
         // check diagonal - down-right
         x_iterator = x + 1
         y_iterator = y + 1
-        while(x_iterator < width && y_iterator < height){
+        while (x_iterator < width && y_iterator < height) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 break
             }
@@ -134,7 +154,7 @@ function Othello() {
 
             }
             if (this.squares[x_iterator][y_iterator] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -147,7 +167,7 @@ function Othello() {
         // check diagonal - down-left
         x_iterator = x - 1
         y_iterator = y + 1
-        while(x_iterator >= 0 && y_iterator < height){
+        while (x_iterator >= 0 && y_iterator < height) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 break
             }
@@ -156,7 +176,7 @@ function Othello() {
 
             }
             if (this.squares[x_iterator][y_iterator] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -169,7 +189,7 @@ function Othello() {
         // check diagonal - up-right
         x_iterator = x + 1
         y_iterator = y - 1
-        while(x_iterator < width && y_iterator >= 0){
+        while (x_iterator < width && y_iterator >= 0) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 break
             }
@@ -178,7 +198,7 @@ function Othello() {
 
             }
             if (this.squares[x_iterator][y_iterator] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -191,7 +211,7 @@ function Othello() {
         // check diagonal - up-left
         x_iterator = x - 1
         y_iterator = y - 1
-        while(x_iterator >= 0 && y_iterator >= 0){
+        while (x_iterator >= 0 && y_iterator >= 0) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 break
             }
@@ -200,7 +220,7 @@ function Othello() {
 
             }
             if (this.squares[x_iterator][y_iterator] === current_color) {
-                if(buttons.length > 0){
+                if (buttons.length > 0) {
                     return true
                 }
                 break
@@ -210,13 +230,13 @@ function Othello() {
         }
 
         return false
-        
+
     }
     this.initialize()
     this.presentValidMoves()
 
     this.click = function (x, y) {
-        if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x,y).innerHTML === "*") {
+        if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x, y).innerHTML === "*") {
             var button = gameBoard.getButton(x, y);
             button.innerHTML = this.blackIsNext ? black_marker : white_marker;
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
@@ -229,6 +249,7 @@ function Othello() {
             }
             this.blackIsNext = !this.blackIsNext;
             this.presentValidMoves()
+            this.update_button_colors()
 
         }
     };
@@ -319,7 +340,7 @@ function Othello() {
         // check diagonal - down-right
         x_iterator = x + 1
         y_iterator = y + 1
-        while(x_iterator < width && y_iterator < height){
+        while (x_iterator < width && y_iterator < height) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 buttons = {}
                 break
@@ -341,7 +362,7 @@ function Othello() {
         // check diagonal - down-left
         x_iterator = x - 1
         y_iterator = y + 1
-        while(x_iterator >= 0 && y_iterator < height){
+        while (x_iterator >= 0 && y_iterator < height) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 buttons = {}
                 break
@@ -363,7 +384,7 @@ function Othello() {
         // check diagonal - up-right
         x_iterator = x + 1
         y_iterator = y - 1
-        while(x_iterator < width && y_iterator >= 0){
+        while (x_iterator < width && y_iterator >= 0) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 buttons = {}
                 break
@@ -385,7 +406,7 @@ function Othello() {
         // check diagonal - up-left
         x_iterator = x - 1
         y_iterator = y - 1
-        while(x_iterator >= 0 && y_iterator >= 0){
+        while (x_iterator >= 0 && y_iterator >= 0) {
             if (this.squares[x_iterator][y_iterator] === undefined) {
                 buttons = {}
                 break
@@ -403,9 +424,9 @@ function Othello() {
             y_iterator--
         }
 
-        
 
-        
+
+
     }
 
 
@@ -420,6 +441,7 @@ function Othello() {
 
     this.flip = function (button) {
         button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
+
         this.squares[button.x][button.y] = this.blackIsNext ? black_marker : white_marker
     }
 
