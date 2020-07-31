@@ -7,6 +7,9 @@ function Othello() {
     const black_tile_style = "black-tile"
     const white_tile_style = "white-tile"
 
+    this.black_score = 0
+    this.white_score = 0
+
     var thisObj = this;
     this.squares = [[], [], [], [], [], [], [], []];
     this.blackIsNext = true;
@@ -21,25 +24,30 @@ function Othello() {
         this.squares[4][3] = white_marker
 
 
+        this.presentValidMoves()
+        this.update_button_colors()
+        this.calculate_score()
+
     }
     this.presentValidMoves = function () {
+        aValidMoveExists = false
         for (m = 0; m < width; m++) {
             for (n = 0; n < height; n++) {
                 if (this.isAValidMove(m, n) === true) {
+                    aValidMoveExists = true
                     gameBoard.getButton(m, n).innerHTML = "*"
                     gameBoard.getButton(m, n).classList.add("viable-move")
                 } else {
                     gameBoard.getButton(m, n).classList.remove("viable-move")
                     if (gameBoard.getButton(m, n).innerHTML === "*") {
                         gameBoard.getButton(m, n).innerHTML = ""
-                        console.log("removing class")
 
                     }
                 }
             }
         }
 
-        return false;
+        return aValidMoveExists;
     }
 
     this.update_button_colors = function(){
@@ -228,9 +236,24 @@ function Othello() {
         return false
 
     }
+
+    this.calculate_score = function() {
+        this.black_score = 0
+        this.white_score = 0
+        
+        for (m = 0; m < width; m++) {
+            for (n = 0; n < height; n++) {
+                if(this.squares[m][n] === black_marker){
+                    this.black_score++
+                } else if(this.squares[m][n] === white_marker){
+                    this.white_score++
+                }
+            }
+        }
+    }
+
     this.initialize()
-    this.presentValidMoves()
-    this.update_button_colors()
+
 
     this.click = function (x, y) {
         if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x, y).innerHTML === "*") {
@@ -239,21 +262,30 @@ function Othello() {
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
 
             this.checkForFlips(x, y)
+            this.blackIsNext = !this.blackIsNext;
 
             if (this.isGameOver(x, y)) {
                 this.gameOver = true;
                 alert((this.blackIsNext ? "Black" : "White") + " wins!");
             }
-            this.blackIsNext = !this.blackIsNext;
+            
             this.presentValidMoves()
             this.update_button_colors()
+            this.calculate_score()
+
 
         }
     };
 
 
     this.isGameOver = function (x, y) {
-
+        if(this.presentValidMoves() === false){
+            this.blackIsNext = !this.blackIsNext;
+            if(this.presentValidMoves === false){
+                return true
+            }
+        }
+        return false
     }
 
 
