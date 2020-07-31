@@ -1,6 +1,7 @@
 function Othello() {
     let width = 8
     let height = 8
+    
     const black_marker = "B"
     const white_marker = "W"
 
@@ -278,7 +279,7 @@ function Othello() {
 
 
     this.click = function (x, y) {
-        if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x, y).innerHTML === "*") {
+        if (!this.gameOver && (this.squares[x][y] === undefined) && this.isAValidMove(x,y)) {
             var button = gameBoard.getButton(x, y);
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
 
