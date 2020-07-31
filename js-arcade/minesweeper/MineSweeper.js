@@ -17,6 +17,7 @@ function MineSweeper(difficulty) {
             this.N = 8;
             this.numOfMines = 10;
     }
+
     this.flags = this.numOfMines;
     document.getElementById("flags").innerHTML = this.flags;
     this.board = Array(this.M).fill().map(() => Array(this.N).fill());
@@ -49,9 +50,9 @@ function MineSweeper(difficulty) {
     }
 
     this.click = function(x, y) {
-
         if (this.firstClick) {
             this.generateMines(x, y);
+            // this.updateFlags();
             this.firstClick = false;
         }
         var buttonHTML = gameBoard.getButton(x, y).innerHTML;
