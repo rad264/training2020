@@ -8,3 +8,6 @@
 .white-tile{
     background-color: #F8F8F8;
 }
+.active-player{
+    text-decoration: underline;
+}

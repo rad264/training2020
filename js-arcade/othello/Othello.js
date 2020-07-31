@@ -9,6 +9,7 @@ function Othello() {
 
     this.black_score = 0
     this.white_score = 0
+    this.winner = ""
 
     var thisObj = this;
     this.squares = [[], [], [], [], [], [], [], []];
@@ -23,11 +24,7 @@ function Othello() {
         this.squares[3][4] = white_marker
         this.squares[4][3] = white_marker
 
-
-        this.presentValidMoves()
-        this.update_button_colors()
-        this.calculate_score()
-
+        this.update_game()
     }
     this.presentValidMoves = function () {
         aValidMoveExists = false
@@ -252,13 +249,37 @@ function Othello() {
         }
     }
 
+    this.display_score = function () {
+        document.getElementById("black-score").innerHTML = "Black: " + this.black_score
+        document.getElementById("white-score").innerHTML = "White: " + this.white_score
+
+    }
+
+    this.set_active_player = function(){
+        if(this.blackIsNext){
+            document.getElementById("black-score").classList.add("active-player")
+            document.getElementById("white-score").classList.remove("active-player")
+
+        } else if(!(this.blackIsNext)){
+            document.getElementById("black-score").classList.remove("active-player")
+            document.getElementById("white-score").classList.add("active-player")
+        }
+    }
+
+    this.update_game = function() {
+        this.presentValidMoves()
+        this.update_button_colors()
+        this.calculate_score()
+        this.display_score()
+        this.set_active_player()
+    }
+
     this.initialize()
 
 
     this.click = function (x, y) {
         if (!this.gameOver && (this.squares[x][y] === undefined) && gameBoard.getButton(x, y).innerHTML === "*") {
             var button = gameBoard.getButton(x, y);
-            // button.innerHTML = this.blackIsNext ? black_marker : white_marker;
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
 
             this.checkForFlips(x, y)
@@ -266,13 +287,11 @@ function Othello() {
 
             if (this.isGameOver(x, y)) {
                 this.gameOver = true;
-                alert((this.blackIsNext ? "Black" : "White") + " wins!");
+                this.winner = (this.black_score > this.white_score) ? "Black" : "White"
+                alert(this.winner + " wins!");
             }
             
-            this.presentValidMoves()
-            this.update_button_colors()
-            this.calculate_score()
-
+            this.update_game()
 
         }
     };
@@ -281,7 +300,7 @@ function Othello() {
     this.isGameOver = function (x, y) {
         if(this.presentValidMoves() === false){
             this.blackIsNext = !this.blackIsNext;
-            if(this.presentValidMoves === false){
+            if(this.presentValidMoves() === false){
                 return true
             }
         }
@@ -469,8 +488,6 @@ function Othello() {
     }
 
     this.flip = function (button) {
-        // button.button.innerHTML = this.blackIsNext ? black_marker : white_marker
-
         this.squares[button.x][button.y] = this.blackIsNext ? black_marker : white_marker
     }
 
