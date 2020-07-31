@@ -287,8 +287,10 @@ function Othello() {
             this.blackIsNext = !this.blackIsNext;
 
             if (this.isGameOver(x, y)) {
+                this.calculate_score();
                 this.gameOver = true;
                 this.winner = (this.black_score > this.white_score) ? "Black" : "White"
+                if(this.black_score === this.white_score){ this.winner = "Nobody "}
                 alert(this.winner + " wins!");
             }
             
