@@ -1,7 +1,7 @@
 function Othello() {
     let width = 8
     let height = 8
-    
+
     const black_marker = "B"
     const white_marker = "W"
 
@@ -48,12 +48,12 @@ function Othello() {
         return aValidMoveExists;
     }
 
-    this.update_button_colors = function(){
+    this.update_button_colors = function () {
         for (m = 0; m < width; m++) {
             for (n = 0; n < height; n++) {
-                if(this.squares[m][n] !== undefined){
-                    gameBoard.getButton(m,n).classList.add(this.squares[m][n] === black_marker ? black_tile_style : white_tile_style)
-                    gameBoard.getButton(m,n).classList.remove(this.squares[m][n] === black_marker ? white_tile_style :  black_tile_style )
+                if (this.squares[m][n] !== undefined) {
+                    gameBoard.getButton(m, n).classList.add(this.squares[m][n] === black_marker ? black_tile_style : white_tile_style)
+                    gameBoard.getButton(m, n).classList.remove(this.squares[m][n] === black_marker ? white_tile_style : black_tile_style)
 
                 }
             }
@@ -235,15 +235,15 @@ function Othello() {
 
     }
 
-    this.calculate_score = function() {
+    this.calculate_score = function () {
         this.black_score = 0
         this.white_score = 0
-        
+
         for (m = 0; m < width; m++) {
             for (n = 0; n < height; n++) {
-                if(this.squares[m][n] === black_marker){
+                if (this.squares[m][n] === black_marker) {
                     this.black_score++
-                } else if(this.squares[m][n] === white_marker){
+                } else if (this.squares[m][n] === white_marker) {
                     this.white_score++
                 }
             }
@@ -257,18 +257,18 @@ function Othello() {
 
     }
 
-    this.set_active_player = function(){
-        if(this.blackIsNext){
+    this.set_active_player = function () {
+        if (this.blackIsNext) {
             document.getElementById("black-score").classList.add("active-player")
             document.getElementById("white-score").classList.remove("active-player")
 
-        } else if(!(this.blackIsNext)){
+        } else if (!(this.blackIsNext)) {
             document.getElementById("black-score").classList.remove("active-player")
             document.getElementById("white-score").classList.add("active-player")
         }
     }
 
-    this.update_game = function() {
+    this.update_game = function () {
         this.presentValidMoves()
         this.update_button_colors()
         this.calculate_score()
@@ -280,7 +280,7 @@ function Othello() {
 
 
     this.click = function (x, y) {
-        if (!this.gameOver && (this.squares[x][y] === undefined) && this.isAValidMove(x,y)) {
+        if (!this.gameOver && (this.squares[x][y] === undefined) && this.isAValidMove(x, y)) {
             var button = gameBoard.getButton(x, y);
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
 
@@ -291,27 +291,24 @@ function Othello() {
                 this.calculate_score();
                 this.gameOver = true;
                 this.winner = (this.black_score > this.white_score) ? "Black" : "White"
-                if(this.black_score === this.white_score){ this.winner = "Nobody "}
+                if (this.black_score === this.white_score) { this.winner = "Nobody " }
                 alert(this.winner + " wins!");
             }
-            
+
             this.update_game()
 
         }
     };
 
-
     this.isGameOver = function () {
-        if(this.presentValidMoves() === false){
+        if (this.presentValidMoves() === false) {
             this.blackIsNext = !this.blackIsNext;
-            if(this.presentValidMoves() === false){
+            if (this.presentValidMoves() === false) {
                 return true
             }
         }
         return false
     }
-
-
 
     this.checkForFlips = function (x, y) {
         let current_color = this.blackIsNext ? black_marker : white_marker;
@@ -480,8 +477,6 @@ function Othello() {
 
 
     }
-
-
 
 
     this.flipButtons = function (buttons) {
