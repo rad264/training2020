@@ -87,8 +87,6 @@ function MineSweeper(difficulty) {
 
     this.updateBoard = function(x, y) {
 
-        console.log('fat');
-
         if (this.board[x][y] == 'M') {
             this.gameOver = true;
             return;
