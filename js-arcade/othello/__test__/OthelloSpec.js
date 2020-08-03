@@ -106,6 +106,13 @@ describe("Othello", function() {
 
     });
 
+    describe("isGameOver", function() {
+        it("starts the game without isGameOver", function (){
+            expect(game.isGameOver()).toBe(false);
+        });
+        
+    });
+
 
 
 })

@@ -252,6 +252,7 @@ function Othello() {
 
     this.display_score = function () {
         document.getElementById("black-score").innerHTML = "Black: " + this.black_score
+        document.getElementById("score-separator").innerHTML = "|"
         document.getElementById("white-score").innerHTML = "White: " + this.white_score
 
     }
@@ -286,7 +287,7 @@ function Othello() {
             this.checkForFlips(x, y)
             this.blackIsNext = !this.blackIsNext;
 
-            if (this.isGameOver(x, y)) {
+            if (this.isGameOver()) {
                 this.calculate_score();
                 this.gameOver = true;
                 this.winner = (this.black_score > this.white_score) ? "Black" : "White"
@@ -300,7 +301,7 @@ function Othello() {
     };
 
 
-    this.isGameOver = function (x, y) {
+    this.isGameOver = function () {
         if(this.presentValidMoves() === false){
             this.blackIsNext = !this.blackIsNext;
             if(this.presentValidMoves() === false){
