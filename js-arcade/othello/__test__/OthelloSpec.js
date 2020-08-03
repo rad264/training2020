@@ -9,6 +9,9 @@ describe("Othello", function() {
     const whiteScore = document.createElement("div");
     whiteScore.id = "white-score"
 
+    const scoreSeparator = document.createElement("div");
+    scoreSeparator.id = "score-separator"
+
     const black_marker = "B"
     const white_marker = "W"
 
@@ -16,6 +19,7 @@ describe("Othello", function() {
     const height = 8
 
     document.body.appendChild(blackScore)
+    document.body.appendChild(scoreSeparator)
     document.body.appendChild(whiteScore)
 
     let gameBoard;
@@ -68,7 +72,7 @@ describe("Othello", function() {
             game.click(0,0);
             expect(game.squares[0][0]).toBe(undefined);
         });
-        it("does not place a token if an taken space is clicked", function() {
+        it("does not place a token if a taken space is clicked", function() {
             game.click(3,3);
             expect(game.squares[3][3]).toBe(black_marker);
         });
@@ -91,16 +95,19 @@ describe("Othello", function() {
             game.click(3,2);
             expect(game.squares[3][2]).toBe(white_marker)
         });
-        it("alerts win for Black if game over on Black's turn", function () {
+        it("alerts win for Black if game over on black higher score", function () {
             game.isGameOver = jasmine.createSpy().and.returnValue(true);
             game.blackIsNext = true;
             game.click(3, 5);
+            expect(game.black_score).toBeGreaterThan(game.white_score)
+
             expect(alert).toHaveBeenCalledWith("Black wins!");
         });
-        it("alerts win for White if game over on White's turn", function () {
+        it("alerts win for White if game over on white higher score", function () {
             game.isGameOver = jasmine.createSpy().and.returnValue(true);
             game.blackIsNext = false;
             game.click(3, 2);
+            expect(game.white_score).toBeGreaterThan(game.black_score)
             expect(alert).toHaveBeenCalledWith("White wins!");
         });
 
@@ -110,7 +117,20 @@ describe("Othello", function() {
         it("starts the game without isGameOver", function (){
             expect(game.isGameOver()).toBe(false);
         });
-        
+
+    });
+
+    describe("flip", function() {
+        it("flips squares to black", function() {
+            game.click(3,5);
+            expect(game.squares[3][4]).toBe(black_marker)
+        });
+        it("flips squares to white", function() {
+            game.blackIsNext = false;
+            game.click(3,2);
+            expect(game.squares[3][3]).toBe(white_marker)
+        });
+
     });
 
 
