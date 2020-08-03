@@ -57,6 +57,7 @@ function MineSweeper(difficulty) {
         }
         var buttonHTML = gameBoard.getButton(x, y).innerHTML;
         if (!this.gameOver && buttonHTML == '') {
+        // if (!this.gameOver) {
             this.updateBoard(x, y);
             if (this.gameOver) {
                 this.revealMines();
@@ -85,6 +86,8 @@ function MineSweeper(difficulty) {
     }
 
     this.updateBoard = function(x, y) {
+
+        console.log('fat');
 
         if (this.board[x][y] == 'M') {
             this.gameOver = true;
@@ -120,7 +123,7 @@ function MineSweeper(difficulty) {
             this.board[x][y] = adj;
             this.updateSquare(x, y, adj.toString());
         } else {
-            this.board[x][y] = 'B';
+            this.board[x][y] = '-';
             this.updateSquare(x, y, '-');
             for (d of this.directions) {
                 dx = d[0], dy = d[1];

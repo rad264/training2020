@@ -1,6 +1,8 @@
 describe("TicTacToe", function() {
-    const gameArea = document.createElement("div");
+
+    var gameArea = document.createElement('div');
     gameArea.id = "gameArea";
+    // document.getElementById = jasmine.createSpy("HTML Element").and.returnValue(gameArea);
     document.body.appendChild(gameArea);
     let gameBoard;
     let game;
