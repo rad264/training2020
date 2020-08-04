@@ -1,28 +1,33 @@
 function MineSweeper(difficulty) {
+
     var thisObj = this;
 
     switch (difficulty) {
         case 1:
-            this.M = 16;
-            this.N = 16;
-            this.numOfMines = 40;
-            break;
+        this.M = 16;
+        this.N = 16;
+        this.numOfMines = 40;
+        break;
         case 2:
-            this.M = 30;
-            this.N = 16;
-            this.numOfMines = 99;
-            break;
+        this.M = 30;
+        this.N = 16;
+        this.numOfMines = 99;
+        break;
         default:
-            this.M = 8;
-            this.N = 8;
-            this.numOfMines = 10;
+        this.M = 8;
+        this.N = 8;
+        this.numOfMines = 10;
     }
 
     this.flags = this.numOfMines;
     document.getElementById("flags").innerHTML = this.flags;
     this.board = Array(this.M).fill().map(() => Array(this.N).fill());
+    this.mines = Array(this.M).fill().map(() => Array(this.N).fill());
     this.gameOver = false;
     this.firstClick = true;
+
+    resetTimer();
+    startTimer();
 
     var gameBoard = new GameBoard(
         document.getElementById("gameArea"),
@@ -39,10 +44,10 @@ function MineSweeper(difficulty) {
         if (!this.gameOver) {
             var buttonHTML = gameBoard.getButton(x, y).innerHTML;
             if (buttonHTML == '' && this.flags > 0) {
-                this.updateSquare(x, y, 'F');
+                updateSquare(x, y, 'F');
                 this.flags--;
             } else if (buttonHTML == 'F') {
-                this.updateSquare(x, y, '');
+                updateSquare(x, y, '');
                 this.flags++;
             }
             this.updateFlags();
@@ -52,44 +57,25 @@ function MineSweeper(difficulty) {
     this.click = function(x, y) {
         if (this.firstClick) {
             this.generateMines(x, y);
-            // this.updateFlags();
             this.firstClick = false;
         }
-        var buttonHTML = gameBoard.getButton(x, y).innerHTML;
-        if (!this.gameOver && buttonHTML == '') {
-        // if (!this.gameOver) {
-            this.updateBoard(x, y);
-            if (this.gameOver) {
+        if (!this.gameOver && this.board[x][y] === undefined) {
+            if (this.isGameOver(x, y)) {
                 this.revealMines();
-                this.updateSquare(x, y, "X");
+                updateSquare(x, y, "X");
                 alert("Game Over");
             }
         }
     };
 
-    this.startTimer = function() {
-        this.timer = setInterval(
-            function() {
-                document.getElementById("time").innerHTML = this.time++;
-            }, 1000
-        );
-    };
-
-    function resetTimer() {
-        clearInterval(this.timer);
-        this.time = 0;
-        document.getElementById("time").innerHTML = '0';
-    }
-
     this.updateFlags = function() {
         document.getElementById("flags").innerHTML = this.flags;
     }
 
-    this.updateBoard = function(x, y) {
-
-        if (this.board[x][y] == 'M') {
+    this.isGameOver = function(x, y) {
+        if (this.mines[x][y] == 'M') {
             this.gameOver = true;
-            return;
+            return true;
         }
         this.directions = [
             [0, 1],
@@ -102,7 +88,8 @@ function MineSweeper(difficulty) {
             [-1, -1]
         ];
         this.recur(x, y);
-    };
+        return false;
+    }
 
     this.recur = function(x, y) {
 
@@ -113,16 +100,16 @@ function MineSweeper(difficulty) {
         for (d of this.directions) {
             dx = d[0], dy = d[1];
             nx = x + dx, ny = y + dy;
-            if (0 <= nx && nx < this.M && 0 <= ny && ny < this.N && this.board[nx][ny] == 'M') {
+            if (0 <= nx && nx < this.M && 0 <= ny && ny < this.N && this.mines[nx][ny] == 'M') {
                 adj++;
             }
         }
         if (adj > 0) {
             this.board[x][y] = adj;
-            this.updateSquare(x, y, adj.toString());
+            updateSquare(x, y, adj.toString());
         } else {
-            this.board[x][y] = '-';
-            this.updateSquare(x, y, '-');
+            this.board[x][y] = 0;
+            updateSquare(x, y, '-');
             for (d of this.directions) {
                 dx = d[0], dy = d[1];
                 nx = x + dx, ny = y + dy;
@@ -133,7 +120,8 @@ function MineSweeper(difficulty) {
         }
     };
 
-    this.updateSquare = function(x, y, icon) {
+
+    function updateSquare(x, y, icon) {
         var button = gameBoard.getButton(x, y);
         button.innerHTML = icon;
     };
@@ -141,28 +129,28 @@ function MineSweeper(difficulty) {
     this.generateMines = function(x, y) {
         this.minePositions = this.generateMinePositions(x, y);
         for (p of this.minePositions) {
-            this.board[p[0]][p[1]] = 'M';
-            // this.updateSquare(p[0], p[1], 'M');
+            this.mines[p[0]][p[1]] = 'M';
+            // updateSquare(p[0], p[1], 'M');
         }
     };
 
     this.revealMines = function() {
         for (p of this.minePositions) {
-            this.updateSquare(p[0], p[1], 'M');
+            updateSquare(p[0], p[1], 'M');
         }
     }
 
     this.generateMinePositions = function(x, y) {
         var positions = [],
-            xpositions = [x],
-            ypositions = [y];
+        xpositions = [x],
+        ypositions = [y];
         for (i = 0; i < this.numOfMines; i++) {
-            x = this.getRandom(this.M);
-            y = this.getRandom(this.N);
+            x = getRandom(this.M);
+            y = getRandom(this.N);
             var xloc = xpositions.indexOf(x);
             if (xloc > -1) {
                 while (y == ypositions[xloc]) {
-                    y = this.getRandom(this.N);
+                    y = getRandom(this.N);
                 }
             }
             xpositions.push(x);
@@ -170,10 +158,24 @@ function MineSweeper(difficulty) {
             positions.push([x, y]);
         }
         return positions;
+
+        function getRandom(limit) {
+            return Math.floor(Math.random() * limit);
+        }
     };
 
-    this.getRandom = function(limit) {
-        return Math.floor(Math.random() * limit);
+    function startTimer() {
+        this.time = 0;
+        this.timer = setInterval(
+            function() {
+                document.getElementById("time").innerHTML = this.time++;
+            }, 1000
+        );
     };
 
+    function resetTimer() {
+        clearInterval(this.timer);
+        this.time = 0;
+        document.getElementById("time").innerHTML = '0';
+    };
 }

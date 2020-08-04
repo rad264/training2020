@@ -20,7 +20,6 @@ describe("MineSweeper", function() {
         alert = jasmine.createSpy();
         game = new MineSweeper();
         spyOn(game, 'generateMines');
-        spyOn(game, 'updateBoard');
     });
 
     describe("constructor", function() {
@@ -50,7 +49,6 @@ describe("MineSweeper", function() {
         it("first click calls generateMines", function() {
             game.click(0, 0);
             expect(game.generateMines).toHaveBeenCalledWith(0, 0);
-            // expect(game.updateBoard).toHaveBeenCalledWith(0, 0);
         });
         it("first click is to be a mine", function() {
             const buttonAt00 = {};
@@ -64,27 +62,59 @@ describe("MineSweeper", function() {
             expect(game.firstClick).toBe(false);
         });
         it("does not count as turn when square already filled", function() {
-            game.board[0][0] = '-';
+            game.board[0][0] = 0;
             game.click(0, 0);
-            expect(game.board[0][0]).toBe('-');
+            expect(game.board[0][0]).toBe(0);
         });
+    });
+
+    describe("isGameOver", function() {
         it("gameOver when mine is clicked", function() {
             const buttonAt00 = {};
             gameBoard.getButton.and.returnValue(buttonAt00);
             buttonAt00.innerHTML = '';
             game.firstClick = false;
-            game.board[0][0] = 'M';
+            game.minePositions = [
+                [0, 0]
+            ];
+            game.mines[0][0] = 'M';
             game.click(0, 0);
-            // expect(game.gameOver).toBe(true);
-            // expect(alert).toHaveBeenCalledWith("Game Over");
+            expect(game.gameOver).toBe(true);
+            expect(buttonAt00.innerHTML).toBe("X");
+            expect(alert).toHaveBeenCalledWith("Game Over");
         });
-        it("board to get correct adjacent number", function() {
-            // game.firstClick = false;
-            // game.board[0][1] = 'M';
-            // game.board[1][0] = 'M';
-            // game.board[1][1] = 'M';
-            // game.click(0, 0);
-            // expect(game.updateBoard).toHaveBeenCalledWith(0, 0);
+        it("board to get correct adjacent number and update button", function() {
+            const buttonAt00 = {};
+            gameBoard.getButton.and.returnValue(buttonAt00);
+            buttonAt00.innerHTML = '';
+            game.firstClick = false;
+            game.mines[0][1] = 'M';
+            game.mines[1][0] = 'M';
+            game.click(0, 0);
+            expect(game.gameOver).toBe(false);
+            expect(game.board[0][0]).toBe(2);
+            expect(buttonAt00.innerHTML).toBe("2");
+        });
+        it("board to recursively updates correctly", function() {
+            game.firstClick = false;
+            game.mines[0][3] = 'M';
+            game.mines[1][3] = 'M';
+            game.mines[2][3] = 'M';
+            game.mines[3][0] = 'M';
+            game.mines[3][1] = 'M';
+            game.mines[3][2] = 'M';
+            game.mines[3][3] = 'M';
+            game.click(0, 0);
+            expect(game.gameOver).toBe(false);
+            expect(game.board[0][0]).toBe(0);
+            expect(game.board[1][0]).toBe(0);
+            expect(game.board[0][1]).toBe(0);
+            expect(game.board[1][1]).toBe(0);
+            expect(game.board[0][2]).toBe(2);
+            expect(game.board[1][2]).toBe(3);
+            expect(game.board[2][0]).toBe(2);
+            expect(game.board[2][1]).toBe(3);
+            expect(game.board[2][2]).toBe(5);
         });
     });
 
