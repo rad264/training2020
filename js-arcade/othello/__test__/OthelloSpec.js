@@ -113,10 +113,44 @@ describe("Othello", function() {
 
     });
 
+    describe("calculateScore", function() {
+        it("calculates inital score", function(){
+            expect(game.black_score).toBe(2)
+            expect(game.white_score).toBe(2)
+        });
+        it("adjusts score after click", function(){
+            game.click(3,5)
+            expect(game.black_score).toBe(4)
+            expect(game.white_score).toBe(1)
+        });
+    });
+
     describe("isGameOver", function() {
         it("starts the game without isGameOver", function (){
             expect(game.isGameOver()).toBe(false);
         });
+
+        it("does not end the game when players can still make moves after clicking", function (){
+            game.click(3,5)
+            expect(game.isGameOver()).toBe(false);
+        });
+
+        it("ends the game when there are no possible moves for either player", function () {
+            // This set of moves results in Black player winning in 9 total moves
+            game.click(4,2);
+            game.click(5,4);
+            game.click(4,5);
+            game.click(3,2);
+            game.click(2,3);
+            game.click(5,2);
+            game.click(4,1);
+            game.click(5,3);
+            game.click(6,3);
+            expect(alert).toHaveBeenCalledWith("Black wins!");
+            expect(game.isGameOver()).toBe(true);
+
+
+        })
 
     });
 
@@ -130,7 +164,44 @@ describe("Othello", function() {
             game.click(3,2);
             expect(game.squares[3][3]).toBe(white_marker)
         });
-
+        it("flips squares to the left", function() {
+            game.click(3,5);
+            expect(game.squares[3][4]).toBe(black_marker)
+        });
+        it("flips squares to the right", function() {
+            game.click(4,2);
+            expect(game.squares[4][3]).toBe(black_marker)
+        });
+        it("flips squares upward", function() {
+            game.click(5,3);
+            expect(game.squares[4][3]).toBe(black_marker)
+        });
+        it("flips squares downward", function() {
+            game.click(4,2);
+            expect(game.squares[4][3]).toBe(black_marker)
+        });
+        it("flips squares down-left", function() {
+            game.click(3,5);
+            game.click(2,5);
+            expect(game.squares[3][4]).toBe(white_marker)
+        });
+        it("flips squares up-right", function() {
+            game.click(5,3);
+            game.click(5,2);
+            expect(game.squares[4][3]).toBe(white_marker)
+        });
+        it("flips squares down-right", function() {
+            game.click(2,4);
+            game.click(2,3);
+            game.click(2,2);
+            expect(game.squares[3][3]).toBe(black_marker)
+        });
+        it("flips squares up-right", function() {
+            game.click(5,3);
+            game.click(5,4);
+            game.click(5,5);
+            expect(game.squares[4][4]).toBe(black_marker)
+        });
     });
 
 
