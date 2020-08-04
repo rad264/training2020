@@ -116,4 +116,25 @@ public class AccountJPAImpl implements AccountDAO {
 		}
 	}
 
+	@Override
+	public void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			TransactionEntity entity = new TransactionEntity();
+			entity.setDate(transaction.getDate());
+			entity.setType(transaction.getType());
+			entity.setAmount(transaction.getAmount());
+			AccountEntity accountEntity = em.find(AccountEntity.class, accountNumber);
+			if (accountEntity == null)
+				throw new AccountNotFoundException();
+			entity.setAccount(accountEntity);
+			em.merge(entity);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		
+	}
+	
 }

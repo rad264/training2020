@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -118,10 +120,28 @@ public class AccountJPAImplTest {
 		Transaction[] transactions = dao.getAccountTransactions("123456");
 		assertEquals(1, transactions.length);
 	}
-	
+
 	@Test(expected = AccountNotFoundException.class)
 	public void testGetTransactions_AccountNotFound() throws AccountNotFoundException {
 		dao.getAccountTransactions("111222");
+	}
+
+	@Test
+	public void testUpdateAccountTransactions_Success() throws AccountNotFoundException {
+		Transaction newTrans = new Transaction();
+		newTrans.setDate(new Date());
+		newTrans.setType("Deposit");
+		newTrans.setAmount(new BigDecimal("50"));
+		dao.updateAccountTransactions("123456", newTrans);
+
+		EntityManager em = dao.emf.createEntityManager();
+		TypedQuery<TransactionEntity> query = em.createQuery(
+				"SELECT t FROM TransactionEntity t WHERE t.account.accountNumber = :accountNumber",
+				TransactionEntity.class);
+		query.setParameter("accountNumber", "123456");
+		List<TransactionEntity> transactionEntities = query.getResultList();
+		assertEquals(2, transactionEntities.size());
+		em.close();
 	}
 
 }

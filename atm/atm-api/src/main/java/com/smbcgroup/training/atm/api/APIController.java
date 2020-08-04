@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.Transfer;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
@@ -51,65 +52,68 @@ public class APIController {
 			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@ApiOperation("Deposit")
-	@RequestMapping(value = "accounts/{accountNumber}/deposit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal amount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/deposit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber,
+			@RequestBody BigDecimal amount) {
 		try {
 			service.deposit(accountNumber, amount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch(AccountNotFoundException e) {
+		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch(InvalidAmountException e) {
+		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@ApiOperation("Withdraw")
-	@RequestMapping(value = "accounts/{accountNumber}/withdraw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal amount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/withdraw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber,
+			@RequestBody BigDecimal amount) {
 		try {
 			service.withdraw(accountNumber, amount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch(AccountNotFoundException e) {
+		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch(InvalidAmountException e) {
+		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@ApiOperation("Create account")
-	@RequestMapping(value = "accounts/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createAccount(@RequestBody String accountNumber) {
 		try {
 			service.createAccount(accountNumber);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (AccountAlreadyExistsException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@ApiOperation("Transfer")
-	@RequestMapping(value = "accounts/{accountNumber}/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> accountTransfer(@PathVariable("accountNumber") String accountNumber, @RequestBody Transfer transfer) {
+	@RequestMapping(value = "/accounts/{accountNumber}/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> accountTransfer(@PathVariable("accountNumber") String accountNumber,
+			@RequestBody Transfer transfer) {
 		try {
 			service.transfer(transfer);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch(AccountNotFoundException e) {
+		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch(InvalidAmountException e) {
+		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@ApiOperation("Get accounts")
 	@RequestMapping(value = "/users/{userId}/accounts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Account[]> getAccounts(@PathVariable("userId") String userId) {
@@ -119,6 +123,15 @@ public class APIController {
 			return new ResponseEntity<Account[]>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
+	@ApiOperation("Get account transactions")
+	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Transaction[]> getAccountTransactions(@PathVariable("accountNumber") String accountNumber) {
+		try {
+			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(accountNumber), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Transaction[]>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 }

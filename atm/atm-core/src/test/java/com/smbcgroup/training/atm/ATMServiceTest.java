@@ -6,6 +6,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -161,6 +162,18 @@ public class ATMServiceTest {
 		assertEquals("123456", capturedAccount.getAccountNumber());
 		assertEquals(new BigDecimal("10.00"), capturedAccount.getBalance());
 	}
+	
+	@Test
+	public void testGetAccountTransactions_Success() throws Exception {
+		Transaction transaction = new Transaction();
+		transaction.setDate(new Date());
+		transaction.setType("Deposit");
+		transaction.setAmount(new BigDecimal("50.0"));
+		Transaction[] transactions = { transaction };
+		mockDAO.stub_getAccountTransactions(transactions);
+		assertArrayEquals(transactions, service.getAccountTransactions("123456"));
+	}
+	
 
 	private void assertAccountBalanceNotUpdated() {
 		Account capturedAccount = mockDAO.spy_updateAccount();
@@ -244,11 +257,35 @@ public class ATMServiceTest {
 		public Object[] spy_createAccount() {
 			return createAccount_capture;
 		}
+		
+		private Transaction[] getTransactions_value;
+		private AccountNotFoundException getTransactions_exception;
 
 		@Override
 		public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
-			// TODO Auto-generated method stub
-			return null;
+			if (getTransactions_exception != null)
+				throw getTransactions_exception;
+			return getTransactions_value;
+		}
+		
+		public void stub_getAccountTransactions(Transaction[] transactions) {
+			getTransactions_value = transactions;
+		}
+		
+		public void stub_getAccountTransactions(AccountNotFoundException exception) {
+			getTransactions_exception = exception;
+		}
+		
+		private Object[] updateAccountTransactions_capture;
+		private AccountNotFoundException updateAccountTransactions_exception;
+
+		@Override
+		public void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException {
+			updateAccountTransactions_capture = new Object[] { accountNumber, transaction };
+		}
+		
+		public Object[] spy_updateAccountTransactions() {
+			return createAccount_capture;
 		}
 
 	}
