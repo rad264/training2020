@@ -53,6 +53,10 @@ public class TransactionEntity {
 		transaction.setAmount(amount);
 		return transaction;
 	}
+	
+	public Integer getTid() {
+		return tid;
+	}
 
 	public Date getDate() {
 		return date;
