@@ -2,11 +2,11 @@
     background-color: lightgray;
 }
 .black-tile{
-    background-color: #282828;
+    background-color: #343a40;
 }
 
 .white-tile{
-    background-color: #F8F8F8;
+    background-color: #f8f9fa;
 }
 .active-player{
     text-decoration: underline;
