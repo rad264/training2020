@@ -62,9 +62,6 @@ function Othello() {
     }
 
     this.isAValidMove = function (x, y) {
-
-
-
         if (this.squares[x][y] !== undefined) {
             return false
         }
@@ -280,6 +277,7 @@ function Othello() {
 
 
     this.click = function (x, y) {
+        console.log(x + ", "+ y)
         if (!this.gameOver && (this.squares[x][y] === undefined) && this.isAValidMove(x, y)) {
             var button = gameBoard.getButton(x, y);
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
