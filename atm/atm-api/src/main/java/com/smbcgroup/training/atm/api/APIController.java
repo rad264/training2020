@@ -100,13 +100,13 @@ public class APIController {
 	}
 	
 	@ApiOperation("Transfer")
-	@RequestMapping(value = "/transfer/from/{accountToTransferFrom}/to/{accountToTransferTo}/amount/{amount}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> transfer(@PathVariable("accountToTransferFrom") String accountToTransferFrom, @PathVariable("accountToTransferTo") String accountToTransferTo, @PathVariable("amount") String amount) {
+	@RequestMapping(value = "/transfer/from/{accountToTransferFrom}/to/{accountToTransferTo}/amount/{amount}/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> transfer(@PathVariable("accountToTransferFrom") String accountToTransferFrom, @PathVariable("accountToTransferTo") String accountToTransferTo, @PathVariable("amount") String amount) {
 		try {
 			service.transfer(accountToTransferFrom, accountToTransferTo, new BigDecimal(amount));
-			return new ResponseEntity<Account>( service.getAccount(accountToTransferFrom) ,HttpStatus.OK);
-		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Void>( HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
