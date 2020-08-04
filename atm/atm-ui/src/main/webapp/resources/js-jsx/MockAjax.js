@@ -1,5 +1,6 @@
 var accountBalances = {
-    "123456": 100.00
+    "123456": 100.00,
+    "654321": 200.17,
 };
 $.ajax = function (config) {
     var resources = {
