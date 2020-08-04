@@ -277,7 +277,7 @@ function Othello() {
 
 
     this.click = function (x, y) {
-        console.log(x + ", "+ y)
+        console.log(x + ", " + y)
         if (!this.gameOver && (this.squares[x][y] === undefined) && this.isAValidMove(x, y)) {
             var button = gameBoard.getButton(x, y);
             this.squares[x][y] = this.blackIsNext ? black_marker : white_marker;
@@ -289,7 +289,7 @@ function Othello() {
                 this.calculate_score();
                 this.gameOver = true;
                 this.winner = (this.black_score > this.white_score) ? "Black" : "White"
-                if (this.black_score === this.white_score) { this.winner = "Nobody " }
+                if (this.black_score === this.white_score) { this.winner = "Nobody" }
                 alert(this.winner + " wins!");
             }
 
