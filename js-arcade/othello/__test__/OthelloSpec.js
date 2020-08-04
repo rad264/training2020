@@ -95,22 +95,22 @@ describe("Othello", function() {
             game.click(3,2);
             expect(game.squares[3][2]).toBe(white_marker)
         });
-        it("alerts win for Black if game over on black higher score", function () {
-            game.isGameOver = jasmine.createSpy().and.returnValue(true);
+        it("does not place a marker when game is over", function() {
+            game.gameOver = jasmine.createSpy().and.returnValue(true);
+            game.click(3,5);
+            expect(game.squares[3][5]).toBe(undefined);
+        });
+        it("does not place a marker when space is invalid", function() {
+            game.isAValidMove = jasmine.createSpy().and.returnValue(false);
+            game.click(3,5);
+            expect(game.squares[3][5]).toBe(undefined);
+        });
+        it("does not overwrite a taken space", function() {
             game.blackIsNext = true;
-            game.click(3, 5);
-            expect(game.black_score).toBeGreaterThan(game.white_score)
-
-            expect(alert).toHaveBeenCalledWith("Black wins!");
+            game.click(4,3);
+            expect(game.squares[4][3]).toBe(white_marker);
+            expect(game.blackIsNext).toBe(true);
         });
-        it("alerts win for White if game over on white higher score", function () {
-            game.isGameOver = jasmine.createSpy().and.returnValue(true);
-            game.blackIsNext = false;
-            game.click(3, 2);
-            expect(game.white_score).toBeGreaterThan(game.black_score)
-            expect(alert).toHaveBeenCalledWith("White wins!");
-        });
-
     });
 
     describe("calculateScore", function() {
@@ -148,9 +148,37 @@ describe("Othello", function() {
             game.click(6,3);
             expect(alert).toHaveBeenCalledWith("Black wins!");
             expect(game.isGameOver()).toBe(true);
+        });
+
+        it("alerts win for Black if game over on black higher score", function () {
+            game.isGameOver = jasmine.createSpy().and.returnValue(true);
+            game.blackIsNext = true;
+            game.click(3, 5);
+            expect(game.black_score).toBeGreaterThan(game.white_score)
+
+            expect(alert).toHaveBeenCalledWith("Black wins!");
+        });
+
+        it("alerts win for White if game over on white higher score", function () {
+            game.isGameOver = jasmine.createSpy().and.returnValue(true);
+            game.blackIsNext = false;
+            game.click(3, 2);
+            expect(game.white_score).toBeGreaterThan(game.black_score)
+            expect(alert).toHaveBeenCalledWith("White wins!");
+        });
+
+        it("alerts win for nobody if game over on tie", function(){
+            game.isGameOver = jasmine.createSpy().and.returnValue(true);
+            game.calculate_score = jasmine.createSpy().and.returnValue(true);
+
+            game.black_score = 2;
+            game.white_score = 2;
+
+            game.click(3, 5);
+            expect(alert).toHaveBeenCalledWith("Nobody wins!");
 
 
-        })
+        });
 
     });
 
