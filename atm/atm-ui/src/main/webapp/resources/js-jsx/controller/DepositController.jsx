@@ -1,49 +1,51 @@
 class DepositController extends React.Component {
     constructor(props) {
         console.log("here")
-
         super(props);
         this.state = new DepositModel();
-        // this.onChange = this.onChange.bind(this);
-        // this.deposit = this.deposit.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.deposit = this.deposit.bind(this);
+        console.log(this.state)
     }
 
-    // onChange(event) {
-    //     this.setState(new DepositModel(event.target.value));
-    // }
+    onChange(event) {
+        console.log(event.target.name)
+        if(event.target.name === "accountNumber"){
+            this.setState(new DepositModel(event.target.value,this.state.depositAmount));
+        }
+        if(event.target.name === "depositAmount"){
+            this.setState(new DepositModel(this.state.accountNumber,event.target.value));
+        }
 
-    // deposit() {
-    //     const accountNumber = this.state.accountNumber;
-    //     const depositAmount = this.state.depositAmount;
+        console.log(this.state)
+    }
 
-    //     let handleResponse = (status) => this.setState({ responseStatus: status })
-    //     handleResponse = handleResponse.bind(this);
+    deposit() {
+        const accountNumber = this.state.accountNumber;
+        const depositAmount = this.state.depositAmount;
 
-    //     $.ajax({
-    //         url: "/atm-api/accounts/" + accountNumber + "/deposit/" + depositAmount + "/",
-    //         type: "POST",
-    //         success: function (response) {
-    //             handleResponse(200, response);
-    //         },
-    //         error: function (xhr, status, error) {
-    //             handleResponse(xhr.status);
-    //         }
-    //     });
-    // }
+        let handleResponse = (status) => this.setState({ responseStatus: status })
+        handleResponse = handleResponse.bind(this);
+
+        $.ajax({
+            url: "/atm-api/accounts/" + accountNumber + "/deposit/" + depositAmount + "/",
+            type: "POST",
+            success: function (response) {
+                handleResponse(200, response);
+            },
+            error: function (xhr, status, error) {
+                handleResponse(xhr.status);
+            }
+        });
+    }
 
     render() {
         return (
-            <div id="deposit-form"></div>
-        )
+            <div class="deposit-form">
+                <DepositForm accountNumber={this.state.accountNumber} depositAmount={this.state.depositAmount} onChange={this.onChange} onClick={this.deposit} />
+            </div>
+        );
     }
-    // render() {
-    //     return (
-    //         <div>
-    //             <DepositController accountNumber={this.state.accountNumber} depositAmount={this.state.accountNumber} onChange={this.onChange} onClick={this.deposit}></DepositController>
-    //             <Balance statusCode={this.state.responseStatus}></Balance>
-    //         </div>
-    //     );
-    // }
 
 }
 
