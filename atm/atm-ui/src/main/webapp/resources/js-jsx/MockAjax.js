@@ -2,11 +2,23 @@ var accountBalances = {
     "123456": 100.00,
     "654321": 200.17,
 };
+
+var users = {
+    "l": {
+        "userId": "l",
+        "accounts": ["123456", "654321"],
+    }
+}
+
 $.ajax = function (config) {
     var resources = {
         "/atm-api/users/{userId}": {
             "GET": function (params) {
-            	error(500);
+                var user = users[params.userId];
+                if (user)
+                    success({ "user": user });
+                else
+                    error(404);
             }
         },
         "/atm-api/accounts/{accountNumber}": {
@@ -17,10 +29,21 @@ $.ajax = function (config) {
                 else
                     error(404);
             },
-            "PUT": function(params) {
-            	error(500);
+            "PUT": function (params) {
+                error(500);
             }
-        }
+        },
+        "/atm-api/accounts/123456/deposit/{depositAmount}/": {
+            "POST": function (params) {
+                var accountNumber = "123456";
+                accountBalances[accountNumber] += parseFloat(params.depositAmount);
+                var balance = accountBalances[accountNumber]
+                if (balance)
+                    success({ "balance": balance });
+                else
+                    error(404);
+            }
+        },
     }
     for (var resourcePath in resources) {
         var urlPattern = "^" + resourcePath.replace(/{.*}/, "[^/]*") + "$";

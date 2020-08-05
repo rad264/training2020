@@ -4,22 +4,29 @@
 <head>
 	<meta charset="utf-8">
 	<title>ATM</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
 	<link rel="stylesheet" href="resources/css/stylesheet.css">
-	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	
 	<script type="text/javascript" src="resources/js-jsx/MockAjax.js"></script>
-	<script type="text/javascript" src="resources/js-jsx/model/TextFieldData.js"></script>
-	<script type="text/javascript" src="resources/js-jsx/view/CheckBalanceForm.js"></script>
-	<script type="text/javascript" src="resources/js-jsx/controller/CheckBalanceController.js"></script>
+    <script type="text/javascript" src="resources/js-jsx/lib/babel.min.js"></script>
+    <script type="text/javascript" src="resources/js-jsx/lib/react.min.js"></script>
+	<script type="text/javascript" src="resources/js-jsx/lib/react-dom.min.js"></script>
+	
+	<script type="text/javascript" src="resources/js-jsx/model/CheckBalanceModel.js"></script>
+	<script type="text/javascript" src="resources/js-jsx/model/DepositModel.js"></script>
+
+    <script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/CheckBalanceForm.jsx"></script>
+    <script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/DepositForm.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Balance.jsx"></script>
 </head>
 
-<body onload="CheckBalanceController.init()">
-	<h3>Check Balances</h3>
-	<label for="accountNumber">AccountNumber:</label>
-	<input id="accountNumber" type="text" name="accountNumber" />
-	<button id="checkBalance">Check Balance</button>
-	<span id="balance"></span>
+<body>
+	<div id="root"></div>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/CheckBalanceController.jsx"></script>
+	<!-- <script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/DepositController.jsx"></script> -->
+
 </body>
 
 </html>
