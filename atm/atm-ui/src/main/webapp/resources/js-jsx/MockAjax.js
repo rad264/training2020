@@ -53,6 +53,18 @@ $.ajax = function (config) {
                     error(404);
             }
         },
+        "/atm-api/transfer/from/123456/to/654321/amount/{amount}/": {
+            "POST": function (params) {
+                var toTransferFrom = "123456";
+                accountBalances[toTransferFrom] -= parseFloat(params.amount);
+                var toTransferTo = "654321";
+                accountBalances[toTransferTo] += parseFloat(params.amount);
+                if (accountBalances[toTransferFrom] && accountBalances[toTransferTo])
+                    success();
+                else
+                    error(404);
+            }
+        },
     }
     for (var resourcePath in resources) {
         var urlPattern = "^" + resourcePath.replace(/{.*}/, "[^/]*") + "$";
