@@ -25,9 +25,10 @@ class CheckBalanceController extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div id="check-balance-form">
                 <CheckBalanceForm accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.getBalance} />
                 <Balance statusCode={this.state.responseStatus} balance={this.state.balance} />
+                <div id="deposit-box"></div>
             </div>
         );
     }
