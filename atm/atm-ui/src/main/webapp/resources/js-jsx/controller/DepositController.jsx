@@ -1,15 +1,12 @@
 class DepositController extends React.Component {
     constructor(props) {
-        console.log("here")
         super(props);
         this.state = new DepositModel();
         this.onChange = this.onChange.bind(this);
         this.deposit = this.deposit.bind(this);
-        console.log(this.state)
     }
 
     onChange(event) {
-        console.log(event.target.name)
         if(event.target.name === "accountNumber"){
             this.setState(new DepositModel(event.target.value,this.state.depositAmount));
         }
@@ -17,7 +14,6 @@ class DepositController extends React.Component {
             this.setState(new DepositModel(this.state.accountNumber,event.target.value));
         }
 
-        console.log(this.state)
     }
 
     deposit() {
