@@ -10,6 +10,22 @@ var users = {
     }
 }
 
+var summaries ={
+    "l":{
+        "content" : "654321: $200.17\n123456: $100.00\n"
+    }
+}
+
+var histories ={
+    "123456": {
+        "content" : "Deposited  $70.54 at: Tue Jul 28 14:49:24 MDT 2020\nWithdrew  $80.41 at: Tue Jul 28 14:49:37 MDT 2020\nDeposited  $100.12 at: Wed Jul 29 09:40:46 MDT 2020\nDeposited  $150.12 at: Wed Jul 29 09:41:01 MDT 2020\n"
+    },
+    "654321": {
+        "content": "Just a debug message\nLorem ipsum dolor sit amet\n"
+    }
+}
+
+
 $.ajax = function (config) {
     var resources = {
         "/atm-api/users/{userId}": {
@@ -61,6 +77,24 @@ $.ajax = function (config) {
                 accountBalances[toTransferTo] += parseFloat(params.amount);
                 if (accountBalances[toTransferFrom] && accountBalances[toTransferTo])
                     success();
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/summary/{userId}": {
+            "GET": function (params) {
+                var summary = summaries[params.userId];
+                if (summary)
+                    success({ "content": summary });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/history/{accountNumber}": {
+            "GET": function (params) {
+                var history = histories[params.accountNumber];
+                if (history)
+                    success({ "content": history });
                 else
                     error(404);
             }
