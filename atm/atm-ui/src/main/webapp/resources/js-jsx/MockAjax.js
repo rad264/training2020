@@ -37,9 +37,18 @@ $.ajax = function (config) {
             "POST": function (params) {
                 var accountNumber = "123456";
                 accountBalances[accountNumber] += parseFloat(params.depositAmount);
-                var balance = accountBalances[accountNumber]
-                if (balance)
-                    success({ "balance": balance });
+                if (accountBalances[accountNumber])
+                    success();
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/accounts/123456/withdraw/{withdrawAmount}/": {
+            "POST": function (params) {
+                var accountNumber = "123456";
+                accountBalances[accountNumber] -= parseFloat(params.withdrawAmount);
+                if (accountBalances[accountNumber])
+                    success();
                 else
                     error(404);
             }

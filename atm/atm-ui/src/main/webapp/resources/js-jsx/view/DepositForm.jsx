@@ -1,7 +1,7 @@
 function DepositForm(props) {
     return (
         <div>
-            <h3>Deposit</h3>
+            <h3>Deposits</h3>
             <label for="accountNumber">Account number:</label>
             <input type="text" name="accountNumber" onChange={props.onChange} value={props.accountNumber} ></input>
             <br></br>
