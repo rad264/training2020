@@ -49,4 +49,4 @@ class TransferController extends React.Component {
 
 }
 
-ReactDOM.render(<TransferController />, document.getElementById("transfer-box"))
+// ReactDOM.render(<TransferController />, document.getElementById("transfer-box"))

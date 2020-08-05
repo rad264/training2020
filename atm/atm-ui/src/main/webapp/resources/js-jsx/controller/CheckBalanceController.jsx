@@ -37,4 +37,4 @@ class CheckBalanceController extends React.Component {
         );
     }
 }
-ReactDOM.render(<CheckBalanceController />, document.getElementById("root"));
+// ReactDOM.render(<CheckBalanceController />, document.getElementById("root"));

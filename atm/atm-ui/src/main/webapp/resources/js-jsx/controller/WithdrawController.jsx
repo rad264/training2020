@@ -45,4 +45,4 @@ class WithdrawController extends React.Component {
 
 }
 
-ReactDOM.render(<WithdrawController />, document.getElementById("withdraw-box"))
+// ReactDOM.render(<WithdrawController />, document.getElementById("withdraw-box"))

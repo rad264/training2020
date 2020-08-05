@@ -45,4 +45,4 @@ class DepositController extends React.Component {
 
 }
 
-ReactDOM.render(<DepositController />, document.getElementById("deposit-box"))
+// ReactDOM.render(<DepositController />, document.getElementById("deposit-box"))
