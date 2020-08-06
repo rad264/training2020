@@ -9,8 +9,8 @@ function NavbarForm() {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active" >
-                            <a class="nav-link home-navbar-button" role="button">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item" >
+                            <a class="nav-link home-navbar-button active" role="button">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link deposit-navbar-button" role="button">Deposit</a>
@@ -19,10 +19,10 @@ function NavbarForm() {
                             <a class="nav-link withdraw-navbar-button" role="button">Withdraw</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="transfer-navbar-button" role="button">Transfer</a>
+                            <a class="nav-link transfer-navbar-button" role="button">Transfer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="check-balance-navbar-button" role="button">Balance</a>
+                            <a class="nav-link check-balance-navbar-button" role="button">Balance</a>
                         </li>
                     </ul>
 
