@@ -10,7 +10,7 @@ function DepositForm(props) {
                 <input class="form-control" placeholder="e.g. 10.50" type="text" name="depositAmount" onChange={props.onChange} value={props.depositAmount} ></input>
 
             </div>
-            <div class="">
+            <div >
                 <button class="btn btn-primary" onClick={props.onClick}>Deposit</button>
 
             </div>

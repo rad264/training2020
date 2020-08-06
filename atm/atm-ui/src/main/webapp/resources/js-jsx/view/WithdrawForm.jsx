@@ -9,7 +9,7 @@ function WithdrawForm(props) {
                 <label for="withdrawAmount">Withdraw amount:</label>
                 <input class="form-control" placeholder="e.g. 10.50" type="text" name="withdrawAmount" onChange={props.onChange} value={props.withdrawAmount} ></input>
             </div>
-            <div class="">
+            <div>
             <button class="btn btn-primary" onClick={props.onClick}>Withdraw</button>
 
             </div>

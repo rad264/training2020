@@ -17,7 +17,6 @@ class Main extends React.Component {
                 <div id="current-container">
 
                 </div>
-
             </div>
 
         )
