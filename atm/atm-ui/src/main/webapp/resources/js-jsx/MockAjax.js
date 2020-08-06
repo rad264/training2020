@@ -36,13 +36,13 @@ var accountTransactions = {
     ],
     "111222": [{
             "date": 1596653726310,
-            "type": "Deposit",
-            "amount": 100
+            "type": "Withdraw",
+            "amount": 300
         },
         {
             "date": 1596653726310,
-            "type": "Withdraw",
-            "amount": 50
+            "type": "Deposit",
+            "amount": 500
         },
     ],
 };

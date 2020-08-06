@@ -26,8 +26,6 @@ class GetAccountsController extends React.Component {
         });
     }
     render() {
-        return (
-            <AccountGroup statusCode={this.state.responseStatus} onClick={this.getAccounts} accounts={this.state.accounts}/>
-        );
+        return (<AccountGroup statusCode={this.state.responseStatus} onClick={this.getAccounts} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>);
     }
 }
