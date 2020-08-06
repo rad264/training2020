@@ -1,26 +1,23 @@
 class Main extends React.Component {
     constructor(props) {
         super(props);
+        this.onChange = this.onChange.bind(this);
         this.insertLocation = "current-container";
     }
 
+    onChange(event){
+        this.bindNavButtons()
+    }
 
     render() {
 
         return (
             <div>
                 <NavbarController/>
-                {/* <SummaryController/> */}
-                {/* <button onClick={this.insertDepositController.bind(this)}>Insert depo controller</button> */}
                 <div id="current-container">
 
                 </div>
 
-
-                {/* <CheckBalanceController />
-                <DepositController />
-                <WithdrawController />
-                <TransferController /> */}
             </div>
 
         )
@@ -35,10 +32,10 @@ class Main extends React.Component {
         $(".home-navbar-button").click(function () {
             this.insertSummaryController(this.insertLocation);
         }.bind(this));     
-        $("#deposit-navbar-button").click(function () {
+        $(".deposit-navbar-button").click(function () {
             this.insertDepositController(this.insertLocation);
         }.bind(this));
-        $("#withdraw-navbar-button").click(function () {
+        $(".withdraw-navbar-button").click(function () {
             this.insertWithdrawController(this.insertLocation);
         }.bind(this));
 

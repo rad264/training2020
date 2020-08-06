@@ -1,19 +1,16 @@
 function SummaryForm(props) {
     let summaries;
     if (props.summary) {
-        console.log(props.summary.split("\n"))
-
         summaries = props.summary.split("\n").map((summary) => {
             if (summary) {
-                console.log(summary)
                 return (
                     <div>
                         <div class="card account-summary col-md-6">
                             <div class="card-body">
                                 <h5 class="card-title">{summary.substring(7)}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{summary.substring(0,5)}</h6>
-                                <a href="#" class="card-link">Deposit</a>
-                                <a href="#" class="card-link">Withdraw</a>
+                                <h6 class="card-subtitle mb-2 text-muted">{summary.substring(0, 6)}</h6>
+                                <a role="button" class="card-link deposit-navbar-button">Deposit</a>
+                                <a role="button" class="card-link withdraw-navbar-button">Withdraw</a>
                             </div>
                         </div>
                     </div>
@@ -26,8 +23,14 @@ function SummaryForm(props) {
 
     return (
         <div>
-            <p> {summaries}</p>
-        </div>
+            <br></br>
+            <div class="col-md-6">
+                <h3 class="card-title">Account overview</h3>
+            </div>
 
+            <div>
+                {summaries}
+            </div>
+        </div>
     )
 }

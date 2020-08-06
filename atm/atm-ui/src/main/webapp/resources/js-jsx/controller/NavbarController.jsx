@@ -6,7 +6,6 @@ class NavbarController extends React.Component {
     };
 
     onChange(event) {
-        console.log("Navbar Controller changed")
         this.setState(new CheckBalanceModel(event.target.value));
     };
 

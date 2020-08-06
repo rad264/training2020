@@ -13,10 +13,10 @@ function NavbarForm() {
                             <a class="nav-link home-navbar-button" role="button">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="deposit-navbar-button" role="button">Deposit</a>
+                            <a class="nav-link deposit-navbar-button" role="button">Deposit</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="withdraw-navbar-button" role="button">Withdraw</a>
+                            <a class="nav-link withdraw-navbar-button" role="button">Withdraw</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="transfer-navbar-button" role="button">Transfer</a>
