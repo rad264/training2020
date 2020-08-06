@@ -8,8 +8,16 @@ function SummaryForm(props) {
                 console.log(summary)
                 return (
                     <div>
-                        <p>{summary}</p>
+                        <div class="card account-summary col-md-6">
+                            <div class="card-body">
+                                <h5 class="card-title">{summary.substring(7)}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{summary.substring(0,5)}</h6>
+                                <a href="#" class="card-link">Deposit</a>
+                                <a href="#" class="card-link">Withdraw</a>
+                            </div>
+                        </div>
                     </div>
+
                 )
             }
         });
@@ -18,8 +26,6 @@ function SummaryForm(props) {
 
     return (
         <div>
-            {/* <div>{summaries}</div> */}
-            <p>Summary works</p>
             <p> {summaries}</p>
         </div>
 
