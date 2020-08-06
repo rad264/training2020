@@ -10,7 +10,7 @@ class Main extends React.Component {
         return (
             <div>
                 <NavbarController/>
-                <SummaryController/>
+                {/* <SummaryController/> */}
                 {/* <button onClick={this.insertDepositController.bind(this)}>Insert depo controller</button> */}
                 <div id="current-container">
 
@@ -28,12 +28,12 @@ class Main extends React.Component {
 
     componentDidMount(){
         this.bindNavButtons()
-        this.insertCheckBalanceController(this.insertLocation)
+        this.insertSummaryController(this.insertLocation)
     }
 
     bindNavButtons() {
-        $("#home-navbar-button").click(function () {
-            this.insertCheckBalanceController(this.insertLocation);
+        $(".home-navbar-button").click(function () {
+            this.insertSummaryController(this.insertLocation);
         }.bind(this));     
         $("#deposit-navbar-button").click(function () {
             this.insertDepositController(this.insertLocation);
@@ -45,6 +45,14 @@ class Main extends React.Component {
         $("#transfer-navbar-button").click(function () {
             this.insertTransferController(this.insertLocation);
         }.bind(this));
+
+        $("#check-balance-navbar-button").click(function () {
+            this.insertCheckBalanceController(this.insertLocation);
+        }.bind(this));
+    };
+
+    insertSummaryController(locationId) {
+        ReactDOM.render(<SummaryController />, document.getElementById(locationId))
     };
 
     insertCheckBalanceController(locationId) {
