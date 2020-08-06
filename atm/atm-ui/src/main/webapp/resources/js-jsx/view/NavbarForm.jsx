@@ -10,16 +10,16 @@ function NavbarForm() {
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active" >
-                            <a class="nav-link" role="button">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" id="home-navbar-button" role="button">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" role="button">Deposit</a>
+                            <a class="nav-link" id="deposit-navbar-button" role="button">Deposit</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" role="button">Withdraw</a>
+                            <a class="nav-link" id="withdraw-navbar-button" role="button">Withdraw</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" role="button">Transfer</a>
+                            <a class="nav-link" id="transfer-navbar-button" role="button">Transfer</a>
                         </li>
                     </ul>
 
