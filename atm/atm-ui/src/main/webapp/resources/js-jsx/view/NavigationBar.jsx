@@ -25,7 +25,7 @@ class NavigationBar extends React.Component {
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="#">Deposit</a>
-                                    <a class="dropdown-item" href="#">WithDraw</a>
+                                    <a class="dropdown-item" href="#">Withdraw</a>
                                     <a class="dropdown-item" href="#">Transfer</a>
                                 </div>
                             </li>

@@ -8,7 +8,8 @@ class CheckBalanceController extends React.Component {
     onChange(event) {
         this.setState(new CheckBalanceModel(event.target.value));
     }
-    getBalance() {
+    getBalance(e) {
+        e.preventDefault();
         const accountNumber = this.state.accountNumber;
         let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: balance});
         handleResponse = handleResponse.bind(this);
@@ -30,4 +31,3 @@ class CheckBalanceController extends React.Component {
         </div>);
     }
 }
-// ReactDOM.render(<CheckBalanceController/>, document.getElementById("root"));

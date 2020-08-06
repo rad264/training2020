@@ -2,9 +2,9 @@ class App extends React.Component {
     render() {
         return (<div>
             <NavigationBar/>
-            <div class="container">
+            <div class="container pt-5">
                 <div class="row">
-                    <AccountGroup/>
+                    <GetAccountsController/>
                     <div class="col-8">
                         <AccountSummary/>
                         <AccountActions/>
