@@ -24,12 +24,10 @@ class CheckBalanceController extends React.Component {
         });
     }
     render() {
-        return (
-            <div>
-                <CheckBalanceForm accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.getBalance} />
-                <Balance statusCode={this.state.responseStatus} balance={this.state.balance} />
-            </div>
-        );
+        return (<div>
+            <CheckBalanceForm accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.getBalance}/>
+            <Balance statusCode={this.state.responseStatus} balance={this.state.balance}/>
+        </div>);
     }
 }
-ReactDOM.render(<CheckBalanceController />, document.getElementById("root"));
+// ReactDOM.render(<CheckBalanceController/>, document.getElementById("root"));

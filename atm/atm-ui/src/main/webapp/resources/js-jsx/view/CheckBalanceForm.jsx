@@ -1,10 +1,13 @@
 function CheckBalanceForm(props) {
-    return (
-        <div>
-            <h3>Check Balance</h3>
-            <label for="accountNumber">AccountNumber:</label>
-            <input type="text" name="accountNumber" onChange={props.onChange} value={props.accountNumber} />
-            <button onClick={props.onClick}>Check Balance</button>
-        </div>
-    );
+    return (<div>
+        <form class="form-inline">
+            <div class="form-group mb-2">
+                <label for="accountNumber">Account Number:</label>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="accountNumber" class="form-control" id="accountNumber" onChange={props.onChange} value={props.accountNumber}></input>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2" onClick={props.onClick}>Check Balance</button>
+        </form>
+    </div>);
 }

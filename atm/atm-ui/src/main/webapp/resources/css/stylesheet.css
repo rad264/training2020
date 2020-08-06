@@ -1,3 +1,21 @@
-body {
-	font-family: Arial, Helvetica, sans-sarif;
+.smbc-color-primary {
+    background-color: #1c6434;
+    color: white;
+}
+
+.smbc-color-secondary {
+    background-color: #acd62b;
+}
+
+.nav-tabs {
+    background-color: #acd62b;
+}
+
+.nav-link a {
+    color: white;
+}
+
+.nav-tabs .nav-link.active {
+    color: white;
+    background-color: #1c6434;
 }
