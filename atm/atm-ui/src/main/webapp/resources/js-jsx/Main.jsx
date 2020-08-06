@@ -10,6 +10,7 @@ class Main extends React.Component {
         return (
             <div>
                 <NavbarController/>
+                <SummaryController/>
                 {/* <button onClick={this.insertDepositController.bind(this)}>Insert depo controller</button> */}
                 <div id="current-container">
 
