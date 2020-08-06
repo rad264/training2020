@@ -24,13 +24,13 @@ class SummaryController extends React.Component {
             url: "/atm-api/summary/" + userId,
             type: "GET",
             success: function (response) {
-                console.log(response.content)
                 handleResponse(200, response.content);
             },
             error: function (xhr, status, error) {
                 handleResponse(xhr.status);
             }
         });
+        console.log(this.state.summary.content)
     }
 
     render() {
