@@ -11,8 +11,12 @@ var users = {
     }
 }
 
-function generateAccountSummary(){
-    return "654321: $" + this.accountBalances["654321"] + "\n123456: $" + this.accountBalances["123456"] + "\n567890: $" + this.accountBalances["567890"] + "\n"
+function generateAccountSummary(userId){
+    let summary = ""
+    users[userId].accounts.map((account) => {
+        summary += account + ": $" + this.accountBalances[account]  + "\n"
+    });
+    return summary
 }
 
 var histories = {
@@ -82,9 +86,9 @@ $.ajax = function (config) {
         },
         "/atm-api/summary/{userId}": {
             "GET": function (params) {
-                var summary = generateAccountSummary();
+                var summary = generateAccountSummary(params.userId);
                 if (summary)
-                    success({ "content": generateAccountSummary() });
+                    success({ "content": generateAccountSummary(params.userId) });
                 else
                     error(404);
             }
