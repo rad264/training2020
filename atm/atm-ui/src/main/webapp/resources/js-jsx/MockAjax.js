@@ -85,7 +85,7 @@ $.ajax = function (config) {
             "GET": function (params) {
                 var summary = summaries[params.userId];
                 if (summary)
-                    success({ "content": summary });
+                    success({ "content": summary.content });
                 else
                     error(404);
             }
