@@ -1,24 +1,23 @@
 var accountBalances = {
-    "123456": 100.00,
+    "123456": 100.01,
     "654321": 200.17,
+    "567890": 13.45,
 };
 
 var users = {
     "l": {
         "userId": "l",
-        "accounts": ["123456", "654321"],
+        "accounts": ["123456", "654321", "567890"],
     }
 }
 
-var summaries ={
-    "l":{
-        "content" : "654321: $200.17\n123456: $100.00\n"
-    }
+function generateAccountSummary(){
+    return "654321: $" + this.accountBalances["654321"] + "\n123456: $" + this.accountBalances["123456"] + "\n567890: $" + this.accountBalances["567890"] + "\n"
 }
 
-var histories ={
+var histories = {
     "123456": {
-        "content" : "Deposited  $70.54 at: Tue Jul 28 14:49:24 MDT 2020\nWithdrew  $80.41 at: Tue Jul 28 14:49:37 MDT 2020\nDeposited  $100.12 at: Wed Jul 29 09:40:46 MDT 2020\nDeposited  $150.12 at: Wed Jul 29 09:41:01 MDT 2020\n"
+        "content": "Deposited  $70.54 at: Tue Jul 28 14:49:24 MDT 2020\nWithdrew  $80.41 at: Tue Jul 28 14:49:37 MDT 2020\nDeposited  $100.12 at: Wed Jul 29 09:40:46 MDT 2020\nDeposited  $150.12 at: Wed Jul 29 09:41:01 MDT 2020\n"
     },
     "654321": {
         "content": "Just a debug message\nLorem ipsum dolor sit amet\n"
@@ -83,9 +82,9 @@ $.ajax = function (config) {
         },
         "/atm-api/summary/{userId}": {
             "GET": function (params) {
-                var summary = summaries[params.userId];
+                var summary = generateAccountSummary();
                 if (summary)
-                    success({ "content": summary.content });
+                    success({ "content": generateAccountSummary() });
                 else
                     error(404);
             }
