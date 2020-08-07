@@ -1,6 +1,6 @@
-function SummaryModel(summary, user) {
-    this.summary = summary;
+function SummaryModel(user,summary) {
     this.userId = user;
+    this.summary = summary;
     this.responseStatus = null;
 
 }

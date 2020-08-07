@@ -90,11 +90,11 @@ class Main extends React.Component {
     };
 
     insertSummaryController(locationId) {
-        ReactDOM.render(<SummaryController />, document.getElementById(locationId))
+        ReactDOM.render(<SummaryController userId={this.userId}/>, document.getElementById(locationId))
     };
 
     insertHistoryController(locationId) {
-        ReactDOM.render(<HistoryController userdId={this.userId} />, document.getElementById(locationId))
+        ReactDOM.render(<HistoryController userId={this.userId} />, document.getElementById(locationId))
     };
 
     insertCheckBalanceController(locationId) {

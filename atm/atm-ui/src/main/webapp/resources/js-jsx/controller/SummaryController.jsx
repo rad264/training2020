@@ -1,8 +1,7 @@
 class SummaryController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new SummaryModel("", "l");
-        // this.onChange = this.onChange.bind(this);
+        this.state = new SummaryModel(props.userId);
         this.getSummary = this.getSummary.bind(this);
 
     };

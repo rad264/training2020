@@ -1,8 +1,7 @@
 class HistoryController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new HistoryModel("","l","", []);
-        this.setState({userId: props.userId})
+        this.state = new HistoryModel(props.userId);
         this.getHistory = this.getHistory.bind(this);
         this.setActiveAccount = this.setActiveAccount.bind(this);
     };
