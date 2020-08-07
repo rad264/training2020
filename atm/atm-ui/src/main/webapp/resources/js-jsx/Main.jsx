@@ -31,7 +31,8 @@ class Main extends React.Component {
 
     componentDidMount(){
         this.bindNavButtons()
-        this.insertSummaryController(this.insertLocation)
+        // this.insertSummaryController(this.insertLocation)
+        this.insertHistoryController(this.insertLocation)
         this.setState({activePage: this.homeState})
         this.setActivePage("home")
     }
@@ -83,12 +84,16 @@ class Main extends React.Component {
         ReactDOM.render(<SummaryController />, document.getElementById(locationId))
     };
 
+    insertHistoryController(locationId) {
+        ReactDOM.render(<HistoryController />, document.getElementById(locationId))
+    };
+
     insertCheckBalanceController(locationId) {
         ReactDOM.render(<CheckBalanceController />, document.getElementById(locationId))
     };
 
     insertDepositController(locationId) {
-        ReactDOM.render(<DepositController />, document.getElementById(locationId))
+        ReactDOM.render(<DepositController/>, document.getElementById(locationId))
     };
 
     insertWithdrawController(locationId) {
