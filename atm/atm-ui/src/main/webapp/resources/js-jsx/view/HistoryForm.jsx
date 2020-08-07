@@ -1,11 +1,11 @@
 function HistoryForm(props) {
-    
+
     let histories;
 
-    if(props.history){
-        histories = props.history.split("\n").reverse().map((history) =>{
+    if (props.history) {
+        histories = props.history.split("\n").reverse().map((history) => {
             console.log(history);
-            if(history) {
+            if (history) {
                 console.log(history)
                 return (
                     <div>
@@ -22,13 +22,20 @@ function HistoryForm(props) {
     }
 
     return (
+
         <div>
-            <p>History works</p>
-            <p>{histories}</p>
-            <div >
-                <button class="btn btn-primary" onClick={props.onClick}>Get history</button>
+            <br></br>
+            <div class="col-md-6">
+                <h3 class="card-title">Account history <button class="btn btn-secondary btn-small" onClick={props.onClick}><span class="material-icons">refresh</span></button>
+                </h3>
+
+            </div>
+
+            <div>
+                {histories}
 
             </div>
         </div>
+
     )
 }
