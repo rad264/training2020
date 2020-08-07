@@ -2,7 +2,6 @@ class HistoryController extends React.Component {
     constructor(props) {
         super(props);
         this.state = new HistoryModel("","123456");
-        // this.onChange = this.onChange.bind(this);
         this.getHistory = this.getHistory.bind(this);
 
     };
@@ -15,7 +14,6 @@ class HistoryController extends React.Component {
             url: "/atm-api/history/" + accountNumber,
             type: "GET",
             success: function (response) {
-                console.log(response.content)
                 handleResponse(200, response.content);
             }.bind(this),
             error: function (xhr, status, error) {
