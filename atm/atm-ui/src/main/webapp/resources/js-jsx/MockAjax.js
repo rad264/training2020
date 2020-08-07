@@ -97,7 +97,7 @@ $.ajax = function (config) {
             "GET": function (params) {
                 var history = histories[params.accountNumber];
                 if (history)
-                    success({ "content": history });
+                    success({ "content": history.content });
                 else
                     error(404);
             }

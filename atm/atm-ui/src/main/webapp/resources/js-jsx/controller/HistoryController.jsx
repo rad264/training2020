@@ -1,15 +1,33 @@
 class HistoryController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new SummaryModel("", "l");
+        this.state = new HistoryModel("","123456");
         // this.onChange = this.onChange.bind(this);
-        // this.getSummary = this.getSummary.bind(this);
+        this.getHistory = this.getHistory.bind(this);
 
     };
 
+    getHistory(){
+        const accountNumber = this.state.accountNumber;
+        let handleResponse = (status, content) => this.setState({ responseStatus: status, history: content});
+        handleResponse = handleResponse.bind(this);
+        $.ajax({
+            url: "/atm-api/history/" + accountNumber,
+            type: "GET",
+            success: function (response) {
+                console.log(response.content)
+                handleResponse(200, response.content);
+            }.bind(this),
+            error: function (xhr, status, error) {
+                console.log("error")
+                handleResponse(xhr.status);
+            }
+        });
+    }
+
     render() {
         return(
-            <HistoryForm history={this.state.history} />
+            <HistoryForm history={this.state.history} onClick={this.getHistory}/>
         )
     }
 }
