@@ -1,4 +1,4 @@
-function DepositModel(user) {
-    this.user = user;
+function LoginModel(userId) {
+    this.userId = userId;
     this.responseStatus = null;
 }

@@ -1,4 +1,4 @@
-function NavbarModel(activePage, currentUser) {
-    this.activePage = activePage;
+function NavbarModel(currentUser, activePage) {
     this.currentUser = currentUser;
+    this.activePage = activePage;
 }

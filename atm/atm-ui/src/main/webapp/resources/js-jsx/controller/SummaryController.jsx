@@ -5,12 +5,7 @@ class SummaryController extends React.Component {
         this.getSummary = this.getSummary.bind(this);
 
     };
-
-    // onChange(event) {
-    //     console.log("changin")
-    //     this.setState(new SummaryModel(event.target.value));
-    // };
-
+    
     componentDidMount(){
         this.getSummary();
     }

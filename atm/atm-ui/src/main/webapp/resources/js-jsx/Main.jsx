@@ -1,10 +1,9 @@
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new NavbarModel();
+        this.state = new NavbarModel(props.userId);
         this.onChange = this.onChange.bind(this);
-
-        this.userId = "l";
+        this.userId = props.userId;
 
         this.insertLocation = "current-container";
         this.homeState ="home";
@@ -23,7 +22,7 @@ class Main extends React.Component {
 
         return (
             <div>
-                <NavbarController/>
+                <NavbarController />
                 <div id="current-container">
 
                 </div>
@@ -114,4 +113,4 @@ class Main extends React.Component {
     };
 }
 
-ReactDOM.render(<Main />, document.getElementById("root"));
+// ReactDOM.render(<Main />, document.getElementById("root"));

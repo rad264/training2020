@@ -28,9 +28,6 @@ class CheckBalanceController extends React.Component {
             <div class="check-balance-form">
                 <CheckBalanceForm accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.getBalance} />
                 <Balance statusCode={this.state.responseStatus} balance={this.state.balance} />
-                <div id="deposit-box"></div>
-                <div id="withdraw-box"></div>
-                <div id="transfer-box"></div>
 
 
             </div>
