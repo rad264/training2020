@@ -103,6 +103,19 @@ $.ajax = function(config) {
                     error(404);
             }
         },
+        "/atm-api/accounts/{fromAccountNumber}/transfer": {
+            "POST": function(params, data) {
+                var fromBalance = accountBalances[params.fromAccountNumber];
+                var toBalance = accountBalances[data.toAccountNumber];
+                if (fromBalance && toBalance)
+                    success({
+                        "fromBalance" : fromBalance - data.transferAmount,
+                        "toBalance" : toBalance + data.transferAmount
+                    });
+                else
+                    error(404);
+            }
+        },
         "/atm-api/accounts/{accountNumber}/transactions": {
             "GET": function(params) {
                 var transactions = accountTransactions[params.accountNumber];

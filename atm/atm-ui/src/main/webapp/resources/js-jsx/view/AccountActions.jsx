@@ -20,7 +20,9 @@ class AccountActions extends React.Component {
                 <div class="tab-pane fade" id="nav-withdraw" role="tabpanel" aria-labelledby="nav-withdraw-tab">
                     <PostWithdrawController accountNumber={this.props.accountNumber}/>
                 </div>
-                <div class="tab-pane fade" id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab">Transfer</div>
+                <div class="tab-pane fade" id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab">
+                    <PostTransferController fromAccountNumber={this.props.accountNumber}/>
+                </div>
             </div>
         </div>);
     }
