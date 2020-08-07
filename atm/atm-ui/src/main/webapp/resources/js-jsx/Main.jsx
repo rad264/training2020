@@ -77,11 +77,11 @@ class Main extends React.Component {
             this.setActivePage()
         }.bind(this));
 
-        $(".check-balance-navbar-button").click(function () {
-            this.insertCheckBalanceController(this.insertLocation);
-            this.setState({activePage: this.balanaceState})
-            this.setActivePage()
-        }.bind(this));
+        // $(".check-balance-navbar-button").click(function () {
+        //     this.insertCheckBalanceController(this.insertLocation);
+        //     this.setState({activePage: this.balanaceState})
+        //     this.setActivePage()
+        // }.bind(this));
 
         $(".history-navbar-button").click(function () {
             this.insertHistoryController(this.insertLocation);
