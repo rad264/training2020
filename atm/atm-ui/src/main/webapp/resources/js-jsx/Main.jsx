@@ -24,7 +24,9 @@ class Main extends React.Component {
             <div>
                 <NavbarController />
                 <div id="current-container">
-
+                    <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                 </div>
             </div>
 
