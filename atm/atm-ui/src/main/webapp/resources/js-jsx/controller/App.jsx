@@ -18,7 +18,7 @@ class App extends React.Component {
                     <GetAccountsController updateSelectedAccount={this.updateSelectedAccount}/>
                     <div class="col-8">
                         <GetSummaryController accountNumber={this.state.accountNumber}/>
-                        <AccountActions/>
+                        <AccountActions accountNumber={this.state.accountNumber}/>
                         <GetTransactionsController accountNumber={this.state.accountNumber}/>
                     </div>
                 </div>

@@ -79,9 +79,28 @@ $.ajax = function(config) {
                     });
                 else
                     error(404);
-            },
-            "PUT": function(params) {
-                error(500);
+            }
+        },
+        "/atm-api/accounts/{accountNumber}/deposit": {
+            "POST": function(params, data) {
+                var balance = accountBalances[params.accountNumber] + data.depositAmount;
+                if (balance)
+                    success({
+                        "balance": balance
+                    });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/accounts/{accountNumber}/withdraw": {
+            "POST": function(params, data) {
+                var balance = accountBalances[params.accountNumber] - data.withdrawAmount;
+                if (balance)
+                    success({
+                        "balance": balance
+                    });
+                else
+                    error(404);
             }
         },
         "/atm-api/accounts/{accountNumber}/transactions": {
