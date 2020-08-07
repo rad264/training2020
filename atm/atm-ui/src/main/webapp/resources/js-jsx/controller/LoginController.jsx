@@ -11,24 +11,27 @@ class LoginController extends React.Component {
     login() {
 
         const userId = this.state.userId;
-        let handleResponse = (status) => this.setState({ responseStatus: status }, () => {if(this.state.responseStatus === 200) {this.renderMain()}});
+        let handleResponse = (status, userId) => this.setState({ responseStatus: status, userId: userId }, () => {if(this.state.responseStatus === 200) {this.renderMain()}});
         $.ajax({
             
             url: "/atm-api/users/" + userId,
             type: "GET",
             success: function (response) {
-                handleResponse(200, response);
+                handleResponse(200, response.userId);
             },
             error: function (xhr, status, error) {
-                handleResponse(xhr.status);
+                handleResponse(xhr.status, "");
             }
         }).bind(this);
+    }
+
+    componentDidMount(){
+        $("#login-form").focus()
     }
 
     renderMain(){
         ReactDOM.render(<Main userId={this.state.userId}/>, document.getElementById("root"));
     }
-    
 
     render() {
         return(
