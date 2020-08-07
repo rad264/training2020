@@ -1,12 +1,22 @@
 function HistoryForm(props) {
 
+    let accountButtons;
+
+    if(props.accounts){
+        accountButtons = props.accounts.map( (account) => {
+            if(account){
+                return (
+                    <button class="btn btn-secondary account-history-button" onClick={() => props.setActiveAccount(account)}>{account}</button>
+                )
+            }
+        });
+    }
+
     let histories;
 
     if (props.history) {
         histories = props.history.split("\n").reverse().map((history) => {
-            console.log(history);
             if (history) {
-                console.log(history)
                 return (
                     <div>
                         <div class="card account-summary col-md-4">
@@ -24,6 +34,11 @@ function HistoryForm(props) {
     return (
 
         <div>
+
+            <br></br>
+            <div>
+                {accountButtons}
+            </div>
             <br></br>
             <div class="col-md-6">
                 <h3 class="card-title">Account history <button class="btn btn-secondary btn-small" onClick={props.onClick}><span class="material-icons">refresh</span></button>

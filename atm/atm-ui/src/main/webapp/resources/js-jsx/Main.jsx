@@ -3,13 +3,16 @@ class Main extends React.Component {
         super(props);
         this.state = new NavbarModel();
         this.onChange = this.onChange.bind(this);
+
+        this.userId = "l";
+
         this.insertLocation = "current-container";
         this.homeState ="home";
         this.depositState ="deposit";
         this.withdrawState ="withdraw";
         this.transferState ="transfer";
         this.balanaceState ="check-balance";
-
+        this.historyState ="history";
     }
 
     onChange(event){
@@ -31,8 +34,7 @@ class Main extends React.Component {
 
     componentDidMount(){
         this.bindNavButtons()
-        // this.insertSummaryController(this.insertLocation)
-        this.insertHistoryController(this.insertLocation)
+        this.insertSummaryController(this.insertLocation)
         this.setState({activePage: this.homeState})
         this.setActivePage("home")
     }
@@ -43,6 +45,7 @@ class Main extends React.Component {
         $(".withdraw-navbar-button").removeClass("active")
         $(".transfer-navbar-button").removeClass("active")
         $(".check-balance-navbar-button").removeClass("active")
+        $(".history-navbar-button").removeClass("active")
 
         if(override){
             $("." + override + "-navbar-button").addClass("active")
@@ -78,6 +81,12 @@ class Main extends React.Component {
             this.setState({activePage: this.balanaceState})
             this.setActivePage()
         }.bind(this));
+
+        $(".history-navbar-button").click(function () {
+            this.insertHistoryController(this.insertLocation);
+            this.setState({activePage: this.historyState})
+            this.setActivePage()
+        }.bind(this));
     };
 
     insertSummaryController(locationId) {
@@ -85,7 +94,7 @@ class Main extends React.Component {
     };
 
     insertHistoryController(locationId) {
-        ReactDOM.render(<HistoryController />, document.getElementById(locationId))
+        ReactDOM.render(<HistoryController userdId={this.userId} />, document.getElementById(locationId))
     };
 
     insertCheckBalanceController(locationId) {

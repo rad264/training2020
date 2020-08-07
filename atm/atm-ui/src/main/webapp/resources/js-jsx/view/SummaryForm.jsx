@@ -4,7 +4,7 @@ function SummaryForm(props) {
         summaries = props.summary.split("\n").map((summary) => {
             if (summary) {
                 return (
-                    <div>
+                    <div id={"summary-" + summary.substring(0,6)}>
                         <div class="card account-summary col-md-4">
                             <div class="card-body">
                                 <h5 class="card-title">{summary.substring(7)}</h5>

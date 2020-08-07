@@ -1,10 +1,36 @@
 class HistoryController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new HistoryModel("","123456");
+        this.state = new HistoryModel("","l","", []);
+        this.setState({userId: props.userId})
         this.getHistory = this.getHistory.bind(this);
-
+        this.setActiveAccount = this.setActiveAccount.bind(this);
     };
+
+    setActiveAccount(accountNumber){
+        this.setState({accountNumber: accountNumber},  () => {this.getHistory()});
+        
+    }
+
+    componentWillMount() {
+        this.getUserAccounts();
+    }
+
+    getUserAccounts() {
+        const userId = this.state.userId;
+        let handleResponse = (status, accounts) => this.setState({ responseStatus: status, accounts: accounts});
+        handleResponse = handleResponse.bind(this);
+        $.ajax({
+            url: "/atm-api/users/" + userId,
+            type: "GET",
+            success: function (response) {
+                handleResponse(200, response.accounts);
+            }.bind(this),
+            error: function (xhr, status, error) {
+                handleResponse(xhr.status);
+            }
+        });
+    }
 
     getHistory(){
         const accountNumber = this.state.accountNumber;
@@ -17,7 +43,6 @@ class HistoryController extends React.Component {
                 handleResponse(200, response.content);
             }.bind(this),
             error: function (xhr, status, error) {
-                console.log("error")
                 handleResponse(xhr.status);
             }
         });
@@ -25,7 +50,7 @@ class HistoryController extends React.Component {
 
     render() {
         return(
-            <HistoryForm history={this.state.history} onClick={this.getHistory}/>
+            <HistoryForm history={this.state.history} accounts={this.state.accounts} onClick={this.getHistory} setActiveAccount={this.setActiveAccount} />
         )
     }
 }

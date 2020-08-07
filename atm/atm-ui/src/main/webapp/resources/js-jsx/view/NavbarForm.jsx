@@ -22,6 +22,9 @@ function NavbarForm() {
                             <a class="nav-link transfer-navbar-button" role="button">Transfer</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link history-navbar-button" role="button">History</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link check-balance-navbar-button" role="button">Balance</a>
                         </li>
                     </ul>
