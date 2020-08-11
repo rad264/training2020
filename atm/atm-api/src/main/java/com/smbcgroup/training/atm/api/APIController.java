@@ -103,6 +103,7 @@ public class APIController {
 	public ResponseEntity<Void> accountTransfer(@PathVariable("accountNumber") String accountNumber,
 			@RequestBody Transfer transfer) {
 		try {
+			System.out.println(transfer.getFromAccountNumber());
 			service.transfer(transfer);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {

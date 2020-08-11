@@ -1,6 +1,7 @@
 .smbc-color-primary {
     background-color: #1c6434;
     color: white;
+    border-bottom: 5px solid #acd62b;
 }
 
 .smbc-color-secondary {
@@ -18,4 +19,8 @@
 .nav-tabs .nav-link.active {
     color: white;
     background-color: #1c6434;
+}
+
+.loginCard {
+    width: 30%;
 }

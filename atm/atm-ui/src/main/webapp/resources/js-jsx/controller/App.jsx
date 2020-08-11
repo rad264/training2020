@@ -1,29 +1,19 @@
+const ReactRouter = window.ReactRouter
+const Router = ReactRouter.Router
+const Route = ReactRouter.Route
+const Link = ReactRouter.Link
+const Redirect = ReactRouter.Redirect
+const browserHistory = ReactRouter.browserHistory
+const hashHistory = ReactRouter.hashHistory
+
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = new AppModel("123456");
-        this.updateSelectedAccount = this.updateSelectedAccount.bind(this);
-    }
-
-    updateSelectedAccount(accountNumber) {
-        this.setState(new AppModel(accountNumber));
-    }
-
     render() {
-        return (<div>
-            <NavigationBar/>
-            <div class="container pt-5">
-                <div class="row">
-                    <GetAccountsController updateSelectedAccount={this.updateSelectedAccount}/>
-                    <div class="col-8">
-                        <GetSummaryController accountNumber={this.state.accountNumber}/>
-                        <AccountActions accountNumber={this.state.accountNumber}/>
-                        <GetTransactionsController accountNumber={this.state.accountNumber}/>
-                    </div>
-                </div>
-            </div>
-        </div>);
+        return (<Router history={hashHistory}>
+            <Route path="/" component={Login}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/dashboard" component={Dashboard}></Route>
+        </Router>);
     }
 }
 ReactDOM.render(<App/>, document.getElementById("root"));

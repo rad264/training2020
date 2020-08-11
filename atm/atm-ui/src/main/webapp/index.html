@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel="icon" href="resources/images/smbclogo.png" />
+	<link rel="icon" type="image/png" href="resources/images/smbclogo.png" />
 	<link rel="apple-touch-icon" href="resources/images/smbclogo.png" />
 
 	<title>ATM</title>
@@ -11,12 +11,16 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+
 	<script type="text/javascript" src="resources/js-jsx/MockAjax.js"></script>
+
 	<script type="text/javascript" src="resources/js-jsx/lib/babel.min.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/lib/react.min.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/lib/react-dom.min.js"></script>
+	<script src="https://unpkg.com/react-router@3.2.0/umd/ReactRouter.min.js"></script>
 
 	<script type="text/javascript" src="resources/js-jsx/model/AppModel.js"></script>
+	<script type="text/javascript" src="resources/js-jsx/model/DashboardModel.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/model/CheckBalanceModel.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/model/GetAccountsModel.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/model/GetSummaryModel.js"></script>
@@ -24,6 +28,8 @@
 	<script type="text/javascript" src="resources/js-jsx/model/PostDepositModel.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/model/PostWithdrawModel.js"></script>
 	<script type="text/javascript" src="resources/js-jsx/model/PostTransferModel.js"></script>
+	<script type="text/javascript" src="resources/js-jsx/model/PostCreateAccountModel.js"></script>
+	<script type="text/javascript" src="resources/js-jsx/model/GetUserModel.js"></script>
 
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Account.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/AccountGroup.jsx"></script>
@@ -31,22 +37,30 @@
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/AccountSummary.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Balance.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/CheckBalanceForm.jsx"></script>
-	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/NavigationBar.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/NavBarLogin.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/NavBarDashboard.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Transaction.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Transactions.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/DepositCard.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/WithdrawCard.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/TransferCard.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/CreateAccountCard.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/LoginCard.jsx"></script>
 
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/CheckBalanceController.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/Dashboard.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/Login.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/LoginController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/GetAccountsController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/GetSummaryController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/GetTransactionsController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/PostDepositController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/PostWithdrawController.jsx"></script>
 	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/PostTransferController.jsx"></script>
+	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/PostCreateAccountController.jsx"></script>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<link rel="stylesheet" href="resources/css/stylesheet.css">
 </head>
 

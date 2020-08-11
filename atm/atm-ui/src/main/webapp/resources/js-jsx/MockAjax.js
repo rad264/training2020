@@ -26,23 +26,27 @@ var accountTransactions = {
     "123456": [{
             "date": 1596653726310,
             "type": "Deposit",
-            "amount": 100
+            "amount": 100,
+            "balance": 150.00
         },
         {
             "date": 1596653726310,
             "type": "Withdraw",
-            "amount": 50
+            "amount": 50.00,
+            "balance": 100.00,
         },
     ],
     "111222": [{
             "date": 1596653726310,
             "type": "Withdraw",
-            "amount": 300
+            "amount": 50,
+            "balance": 150.00
         },
         {
             "date": 1596653726310,
             "type": "Deposit",
-            "amount": 500
+            "amount": 500,
+            "balance": 550.00
         },
     ],
 };
@@ -53,7 +57,7 @@ $.ajax = function(config) {
                 var accountNumbers = userAccountsNumbers[params.userId];
                 if (accountNumbers)
                     success({
-                        "accounts": accountNumbers
+                        "accountNumbers": accountNumbers
                     });
                 else
                     error(401);
@@ -111,6 +115,16 @@ $.ajax = function(config) {
                     success({
                         "fromBalance" : fromBalance - data.transferAmount,
                         "toBalance" : toBalance + data.transferAmount
+                    });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/accounts/create/": {
+            "POST": function(params, data) {
+                if (!(data.accountNumber in accountBalances))
+                    success({
+                        "createdAccountNumber" : data.accountNumber
                     });
                 else
                     error(404);

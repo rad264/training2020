@@ -1,4 +1,4 @@
-class NavigationBar extends React.Component {
+class NavBarDashboard extends React.Component {
 
     render() {
         return (<div>
@@ -17,7 +17,7 @@ class NavigationBar extends React.Component {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">User</a>
+                                <a class="nav-link" href="/#/dashboard">Dashboard</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,15 +29,17 @@ class NavigationBar extends React.Component {
                                     <a class="dropdown-item" href="#">Transfer</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">History</a>
-                            </li>
                         </ul>
-                        <span class="mr-sm-5 navbar-text">Signed in as: <a href="#login">James Wong</a></span>
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                        <span class="mr-sm-5 navbar-text">Signed in as:
+                            <a href="#login">
+                                 {this.props.userId}</a>
+                        </span>
+                        <div>
+                            <button class="btn btn-success my-2 my-sm-0" type="submit" onClick={() => {
+                                    hashHistory.goBack()
+                                }}>
+                                Logout</button>
+                        </div>
                     </div>
                 </nav>
             </header>

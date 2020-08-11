@@ -34,7 +34,6 @@ class PostTransferController extends React.Component {
         });
     }
     render() {
-        console.log(this.state)
         return (<TransferCard toAccountNumber={this.state.toAccountNumber} fromAccountNumber={this.state.fromAccountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} transferAmount={this.state.transferAmount}/>);
     }
 }
