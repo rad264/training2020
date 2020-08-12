@@ -24,6 +24,7 @@ class DepositController extends React.Component {
 
     componentDidMount(){
         this.initialFocus();
+        $("#account-input").autocomplete({source: this.props.accounts})
     }
 
     initialFocus(){

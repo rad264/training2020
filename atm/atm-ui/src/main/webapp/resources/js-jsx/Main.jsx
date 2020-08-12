@@ -1,7 +1,8 @@
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new NavbarModel(props.userId);
+        console.log(props)
+        this.state = new NavbarModel(props.userId, props.accounts);
         this.onChange = this.onChange.bind(this);
         this.userId = props.userId;
 
@@ -111,7 +112,7 @@ class Main extends React.Component {
     };
 
     insertDepositController(locationId) {
-        ReactDOM.render(<DepositController />, document.getElementById(locationId))
+        ReactDOM.render(<DepositController accounts={this.state.accounts} />, document.getElementById(locationId))
     };
 
     insertWithdrawController(locationId) {

@@ -11,18 +11,18 @@ class LoginController extends React.Component {
     login() {
 
         const userId = this.state.userId;
-        let handleResponse = (status, userId) => this.setState({ responseStatus: status, userId: userId }, () => {if(this.state.responseStatus === 200) {this.renderMain()}});
+        let handleResponse = (status, userId, accounts) => this.setState({ responseStatus: status, userId: userId, accounts: accounts }, () => {if(this.state.responseStatus === 200) {this.renderMain()}});
         $.ajax({
             
             url: "/atm-api/users/" + userId,
             type: "GET",
             success: function (response) {
-                handleResponse(200, response.userId);
+                handleResponse(200, response.userId, response.accounts);
             },
             error: function (xhr, status, error) {
                 handleResponse(xhr.status, "");
             }
-        }).bind(this);
+        });
     }
 
     componentDidMount(){
@@ -30,16 +30,16 @@ class LoginController extends React.Component {
     }
 
     renderMain(){
-        ReactDOM.render(<Main userId={this.state.userId}/>, document.getElementById("root"));
+        ReactDOM.render(<Main userId={this.state.userId} accounts={this.state.accounts}/>, document.getElementById("root"));
     }
 
     render() {
         return(
-            <LoginForm userId={this.state.userId} onChange={this.onChange} onClick={this.login} />
+            <LoginForm userId={this.state.userId} accounts={this.state.accounts} onChange={this.onChange} onClick={this.login} />
             
         )
     }
 }
 
-ReactDOM.render(<Main userId={"lbritton"}/>, document.getElementById("root"));
+ReactDOM.render(<Main userId={"lbritton"} accounts={["123456","654321","567890"]}/>, document.getElementById("root"));
 // ReactDOM.render(<LoginController/>, document.getElementById("root"));
