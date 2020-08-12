@@ -21,6 +21,7 @@ class LoginController extends React.Component {
         $.ajax({
             url: "/atm-api/users/" + userId,
             type: "GET",
+            contentType: "application/json",
             success: function(response) {
                 handleResponse(200, response.accountNumbers);
                 hashHistory.push('/dashboard');

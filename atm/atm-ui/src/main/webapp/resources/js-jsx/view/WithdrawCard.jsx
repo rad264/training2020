@@ -18,7 +18,7 @@ class WithdrawCard extends React.Component {
                             <input type="number" class="form-control" id="amount" name="withdrawAmount" onChange={this.props.onChange} value={this.props.withdrawAmount}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2" onClick={this.props.onClick}>Withdraw</button>
+                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Withdraw</button>
                 </form>
             </div>
             <div class="card-footer bg-transparent">

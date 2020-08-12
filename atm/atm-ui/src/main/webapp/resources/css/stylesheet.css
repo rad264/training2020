@@ -66,6 +66,12 @@ a:hover {
 .footer {
     background: var(--green1);
     color: white;
-    position:relative;
+    position: relative;
     padding: 20px;
+}
+
+.accountCard:hover {
+
+    outline: 3px solid var(--green2);
+    cursor: pointer;
 }

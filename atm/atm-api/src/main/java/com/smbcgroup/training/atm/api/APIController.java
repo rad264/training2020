@@ -54,11 +54,11 @@ public class APIController {
 	}
 
 	@ApiOperation("Deposit")
-	@RequestMapping(value = "/accounts/{accountNumber}/deposit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/{accountNumber}/deposit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber,
-			@RequestBody BigDecimal amount) {
+			@RequestBody BigDecimal depositAmount) {
 		try {
-			service.deposit(accountNumber, amount);
+			service.deposit(accountNumber, depositAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -70,11 +70,11 @@ public class APIController {
 	}
 
 	@ApiOperation("Withdraw")
-	@RequestMapping(value = "/accounts/{accountNumber}/withdraw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/{accountNumber}/withdraw", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber,
-			@RequestBody BigDecimal amount) {
+			@RequestBody BigDecimal withdrawAmount) {
 		try {
-			service.withdraw(accountNumber, amount);
+			service.withdraw(accountNumber, withdrawAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -86,7 +86,7 @@ public class APIController {
 	}
 
 	@ApiOperation("Create account")
-	@RequestMapping(value = "/accounts/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createAccount(@RequestBody String accountNumber) {
 		try {
 			service.createAccount(accountNumber);
@@ -126,7 +126,7 @@ public class APIController {
 	}
 
 	@ApiOperation("Get account transactions")
-	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Transaction[]> getAccountTransactions(@PathVariable("accountNumber") String accountNumber) {
 		try {
 			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(accountNumber), HttpStatus.OK);

@@ -3,8 +3,8 @@ class Account extends React.Component {
     render() {
 
         return (<div className={this.props.isActive
-                ? 'card mb-3'
-                : 'card mb-3 inactive-bg'} onClick={() => {
+                ? 'card mb-3 accountCard'
+                : 'card mb-3 inactive-bg accountCard'} onClick={() => {
                 this.props.onClick();
                 this.props.onActiveCard();
             }}>

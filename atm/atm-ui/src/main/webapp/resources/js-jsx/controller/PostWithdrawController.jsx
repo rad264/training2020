@@ -20,9 +20,8 @@ class PostWithdrawController extends React.Component {
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber + "/withdraw",
             type: "POST",
-            data: {
-                withdrawAmount: parseFloat(withdrawAmount)
-            },
+            contentType: "application/json",
+            data: withdrawAmount,
             success: function(response) {
                 handleResponse(200, response.balance);
             },

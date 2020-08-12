@@ -11,7 +11,7 @@ class CreateAccountCard extends React.Component {
                             <input type="text" class="form-control" id="accountNumber" name="accountNumber" onChange={this.props.onChange} value={this.props.accountNumber}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2" onClick={this.props.onClick}>Create Account</button>
+                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Create Account</button>
                 </form>
             </div>
         </div>);

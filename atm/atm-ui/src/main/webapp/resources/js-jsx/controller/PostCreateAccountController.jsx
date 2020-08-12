@@ -19,9 +19,8 @@ class PostCreateAccountController extends React.Component {
         $.ajax({
             url: "/atm-api/accounts/create/",
             type: "POST",
-            data: {
-                accountNumber: accountNumber
-            },
+            contentType: "application/json",
+            data: accountNumber,
             success: function(response) {
                 handleResponse(200, response.createdAccountNumber);
             },

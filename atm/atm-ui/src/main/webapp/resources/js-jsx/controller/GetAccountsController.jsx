@@ -11,14 +11,14 @@ class GetAccountsController extends React.Component {
 
     getAccounts() {
         const userId = "jwong";
-        const accountNumber = "123456";
         let handleResponse = (status, accounts) => this.setState({responseStatus: status, accounts: accounts});
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/users/" + userId + "/accounts",
             type: "GET",
+            contentType: "application/json",
             success: function(response) {
-                handleResponse(200, response.accounts);
+                handleResponse(200, response);
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);

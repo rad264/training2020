@@ -18,7 +18,7 @@ class DepositCard extends React.Component {
                             <input type="number" class="form-control" id="amount" name="depositAmount" onChange={this.props.onChange} value={this.props.depositAmount}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2" onClick={this.props.onClick}>Deposit</button>
+                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Deposit</button>
                 </form>
             </div>
             <div class="card-footer bg-transparent">

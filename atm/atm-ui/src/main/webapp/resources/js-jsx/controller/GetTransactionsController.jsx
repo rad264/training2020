@@ -22,8 +22,9 @@ class GetTransactionsController extends React.Component {
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber + "/transactions",
             type: "GET",
+            contentType: "application/json",
             success: function(response) {
-                handleResponse(200, response.transactions);
+                handleResponse(200, response);
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);

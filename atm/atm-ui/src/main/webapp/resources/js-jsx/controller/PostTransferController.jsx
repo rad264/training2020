@@ -16,17 +16,19 @@ class PostTransferController extends React.Component {
         const fromAccountNumber = this.state.fromAccountNumber;
         const toAccountNumber = this.state.toAccountNumber;
         const transferAmount = this.state.transferAmount;
-        let handleResponse = (status, fromBalance, toBalance) => this.setState({responseStatus: status, fromBalance: fromBalance, toBalance: toBalance});
+        let handleResponse = (status, response) => this.setState({responseStatus: status});
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + fromAccountNumber + "/transfer",
             type: "POST",
-            data: {
+            contentType: "application/json",
+            data: JSON.stringify({
+                fromAccountNumber: fromAccountNumber,
                 toAccountNumber: toAccountNumber,
-                transferAmount: parseFloat(transferAmount)
-            },
+                transferAmount: transferAmount
+            }),
             success: function(response) {
-                handleResponse(200, response.fromBalance, response.toBalance);
+                handleResponse(200, response);
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);
@@ -34,6 +36,7 @@ class PostTransferController extends React.Component {
         });
     }
     render() {
+        console.log(this.state);
         return (<TransferCard toAccountNumber={this.state.toAccountNumber} fromAccountNumber={this.state.fromAccountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} transferAmount={this.state.transferAmount}/>);
     }
 }
