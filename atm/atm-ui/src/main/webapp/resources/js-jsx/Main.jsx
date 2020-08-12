@@ -112,7 +112,7 @@ class Main extends React.Component {
     };
 
     insertDepositController(locationId) {
-        ReactDOM.render(<DepositController accounts={this.state.accounts} />, document.getElementById(locationId))
+        ReactDOM.render(<DepositController />, document.getElementById(locationId))
     };
 
     insertWithdrawController(locationId) {
