@@ -4,11 +4,17 @@ class CreateAccountController extends React.Component {
         this.state = new CreateAccountModel(props.userId);
         this.createAccount = this.createAccount.bind(this);
         this.toast;
+        this.confirmation;
     }
 
     createAccount() {
         const userId = this.state.userId;
-        let handleResponse = (status, newAccountNumber) => this.setState({ responseStatus: status, newAccountNumber: newAccountNumber });
+        let handleResponse = (status, newAccountNumber) => {
+            this.setState({ responseStatus: status, newAccountNumber: newAccountNumber })
+            this.confirmation = (
+                <ConfirmationMessage message={ "New account " + newAccountNumber + " created."} />
+            )
+        };
         handleResponse = handleResponse.bind(this);
 
         $.ajax({
@@ -16,6 +22,8 @@ class CreateAccountController extends React.Component {
             type: "GET",
             success: function (response) {
                 handleResponse(200, response.accounts[(response.accounts.length - 1)]);
+
+    
             },
             error: function (xhr, status, error) {
                 handleResponse(xhr.status);
@@ -25,14 +33,12 @@ class CreateAccountController extends React.Component {
     }
 
     render() {
-        let newAccountMessage;
-        if(this.state.newAccountNumber){
-            newAccountMessage = "New account " + this.state.newAccountNumber + " created.";
-        }
+
         return (
             <div>
-                <CreateAccountForm userId={this.state.userId} onClick={this.createAccount} newAccountNumber={newAccountMessage} />
-            </div>
+                <CreateAccountForm userId={this.state.userId} onClick={this.createAccount} />
+                {this.confirmation}
+            </div >
         )
     }
 }

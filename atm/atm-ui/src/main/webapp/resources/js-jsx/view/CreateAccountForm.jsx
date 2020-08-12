@@ -11,9 +11,6 @@ function CreateAccountForm(props) {
                 <button class="btn btn-primary" onClick={props.onClick}>Open account</button>
             </div>
             <br />
-            <div>
-                <h6 class="card-subtitle mb-2 text-muted">{props.newAccountNumber}</h6>
-            </div>
         </div>
     )
 }
