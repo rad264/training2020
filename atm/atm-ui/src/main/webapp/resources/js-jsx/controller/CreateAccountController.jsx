@@ -14,7 +14,6 @@ class CreateAccountController extends React.Component {
             url: "/atm-api/users/create-account/" + userId,
             type: "GET",
             success: function (response) {
-                console.log(response);
                 handleResponse(200, response.accounts[(response.accounts.length -1)]);
             },
             error: function (xhr, status, error) {
