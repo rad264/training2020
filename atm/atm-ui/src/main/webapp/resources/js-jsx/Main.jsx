@@ -1,7 +1,6 @@
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = new NavbarModel(props.userId, props.accounts);
         this.onChange = this.onChange.bind(this);
         this.userId = props.userId;
@@ -45,13 +44,13 @@ class Main extends React.Component {
         }
 
     setActivePage(override) {
-        $(".home-navbar-button").removeClass("active")
-        $(".deposit-navbar-button").removeClass("active")
-        $(".withdraw-navbar-button").removeClass("active")
-        $(".transfer-navbar-button").removeClass("active")
-        $(".check-balance-navbar-button").removeClass("active")
-        $(".history-navbar-button").removeClass("active")
-        $(".create-account-navbar-button").removeClass("active")
+        $("."+ this.homeState + "-navbar-button").removeClass("active")
+        $("."+ this.depositState + "-navbar-button").removeClass("active")
+        $("."+ this.withdrawState + "-navbar-button").removeClass("active")
+        $("."+ this.transferState + "-navbar-button").removeClass("active")
+        $("."+ this.balanaceState + "-navbar-button").removeClass("active")
+        $("."+ this.historyState + "-navbar-button").removeClass("active")
+        $("."+ this.createAccountState + "-navbar-button").removeClass("active")
 
 
         if (override) {
@@ -61,41 +60,39 @@ class Main extends React.Component {
         }
     }
 
+    changeActivePage(activePageState){
+        this.setState({activePage: activePageState})
+        this.setActivePage();
+    }
+
     bindNavButtons() {
-        $(".home-navbar-button").click(function () {
+        $("."+ this.homeState + "-navbar-button").click(function () {
             this.insertSummaryController(this.insertLocation);
-            this.setState({ activePage: this.homeState });
-            this.setActivePage();
+            this.changeActivePage(this.homeState);
         }.bind(this));
         $(".user-navbar-button").click(function () {
             this.insertSummaryController(this.insertLocation);
-            this.setState({ activePage: this.homeState });
-            this.setActivePage();
+            this.changeActivePage(this.homeState);
         }.bind(this));
-        $(".deposit-navbar-button").click(function () {
+        $("."+ this.depositState + "-navbar-button").click(function () {
             this.insertDepositController(this.insertLocation);
-            this.setState({ activePage: this.depositState });
-            this.setActivePage();
+            this.changeActivePage(this.depositState);
         }.bind(this));
-        $(".withdraw-navbar-button").click(function () {
+        $("."+ this.withdrawState + "-navbar-button").click(function () {
             this.insertWithdrawController(this.insertLocation);
-            this.setState({ activePage: this.withdrawState });
-            this.setActivePage();
+            this.changeActivePage(this.withdrawState);
         }.bind(this));
-        $(".transfer-navbar-button").click(function () {
+        $("."+ this.transferState + "-navbar-button").click(function () {
             this.insertTransferController(this.insertLocation);
-            this.setState({ activePage: this.transferState });
-            this.setActivePage();
+            this.changeActivePage(this.transferState);
         }.bind(this));
-        $(".history-navbar-button").click(function () {
+        $("."+ this.historyState + "-navbar-button").click(function () {
             this.insertHistoryController(this.insertLocation);
-            this.setState({ activePage: this.historyState });
-            this.setActivePage();
+            this.changeActivePage(this.historyState);
         }.bind(this));
-        $(".create-account-navbar-button").click(function () {
+        $("."+ this.createAccountState + "-navbar-button").click(function () {
             this.insertCreateAccountController(this.insertLocation);
-            this.setState({ activePage: this.createAccountState });
-            this.setActivePage();
+            this.changeActivePage(this.createAccountState);
         }.bind(this));
     };
 
