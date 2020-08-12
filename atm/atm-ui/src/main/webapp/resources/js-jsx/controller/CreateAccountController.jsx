@@ -25,7 +25,7 @@ class CreateAccountController extends React.Component {
 
     render(){
         return (
-            <CreateAccountForm onClick={this.createAccount}/>
+            <CreateAccountForm userId={this.state.userId} onClick={this.createAccount}/>
         )
     }
 }

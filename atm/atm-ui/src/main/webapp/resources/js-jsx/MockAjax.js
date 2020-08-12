@@ -8,6 +8,10 @@ var users = {
     "l": {
         "userId": "l",
         "accounts": ["123456", "654321", "567890"],
+    },
+    "lbritton": {
+        "userId": "lbritton",
+        "accounts": ["123456", "654321", "567890"],
     }
 }
 
