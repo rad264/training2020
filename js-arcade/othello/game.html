@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Othello</title>
+	<link rel="stylesheet" href="../default.css">
+	<link rel="stylesheet" href="othello.css">
+	<script type="text/javascript" src="../GameBoard.js"></script>
+	<script type="text/javascript" src="Othello.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+	<button class="top_button" onclick="window.location='../index.html'">Home</button>
+	<button class="top_button" onclick="new Othello()">New Game</button>
+	<div id="Info area">
+		<span id="black-score"></span>
+		<span id="score-separator"></span>
+		<span id="white-score"></span>
+
+	</div>
+	<div id="gameArea" class="board">
+
+	</div>
+</body>
+
+</html>
