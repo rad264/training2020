@@ -1,0 +1,13 @@
+.viable-move{
+    background-color: lightgray;
+}
+.black-tile{
+    background-color: #343a40;
+}
+
+.white-tile{
+    background-color: #f8f9fa;
+}
+.active-player{
+    text-decoration: underline;
+}

@@ -1,4 +1,7 @@
 function TicTacToe() {
+    let width = 3
+    let height = 3
+
     var thisObj = this;
     this.squares = [[], [], []];
     this.xIsNext = true;
@@ -16,7 +19,55 @@ function TicTacToe() {
             this.xIsNext = !this.xIsNext;
         }
     };
-    this.isGameOver = function(x, y) {
+    this.isGameOver = function (x, y) {
+        let current_player = this.xIsNext ? true : false;
+        //Check row
+        for (i = 0; i < width; i++) {
+            if (!(this.squares[i][y] === current_player)) {
+                break
+            }
+            if (i === (width - 1)) {
+                return true
+            }
+        }
 
+        //Check column
+        for (i = 0; i < height; i++) {
+            if (!(this.squares[x][i] === current_player)) {
+                break
+            }
+            if (i === (height - 1)) {
+                return true
+            }
+        }
+
+        //check diagonal
+        if (x === y) {
+            for (i = 0; i < width; i++) {
+                if (!(this.squares[i][i] === current_player)) {
+                    break
+                }
+            }
+            if (i === (width)) {
+                return true
+            }
+        }
+
+        //check cross diagonal
+        if ((x+y) === ((width - 1))) {
+
+            for (i = 0; i < width; i++) {
+                
+                if (!(this.squares[i][((width - 1) - i)] === current_player)) {
+                    break
+                }
+            }
+            if (i === (width)) {
+                return true
+            }
+        }
+
+        return false
     };
-}
+
+}     
