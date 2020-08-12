@@ -116,7 +116,7 @@ class Main extends React.Component {
     };
     
     insertCreateAccountController(locationId) {
-        ReactDOM.render(<CreateAccountController />, document.getElementById(locationId))
+        ReactDOM.render(<CreateAccountController userId={this.userId} />, document.getElementById(locationId))
     };
 }
 

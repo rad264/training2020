@@ -25,7 +25,10 @@ var histories = {
     },
     "654321": {
         "content": "Deposited  $70.54 at: Tue Jul 28 14:49:24 MDT 2020\nWithdrew  $80.41 at: Tue Jul 28 14:49:37 MDT 2020\nDeposited  $100.12 at: Wed Jul 29 09:40:46 MDT 2020\nDeposited  $150.12 at: Wed Jul 29 09:41:01 MDT 2020\nWithdrew  $80.32 at: Wed Jul 29 09:41:25 MDT 2020\nTransferred  $23.89 to account: 669742 at: Wed Jul 29 09:45:38 MDT 2020\nReceived $23.89 transfer from account: 669742 at: Wed Jul 29 09:46:00 MDT 2020\nDeposited  $100.12 at: Wed Aug 05 12:46:36 MDT 2020\nDeposited  $12.78 at: Thu Aug 06 07:12:55 MDT 2020\nWithdrew  $44.55 at: Thu Aug 06 07:13:01 MDT 2020\nTransferred  $300.01 to account: 123456 at: Thu Aug 06 07:13:14 MDT 2020\nDeposited  $80.23 at: Thu Aug 06 11:49:32 MDT 2020\n"
-    }
+    },
+    "999888": {
+        "content": "Created account using the mock ajax file at: Wed Aug 12 14:25:23 MDT 2020\n"
+    },
 }
 
 
@@ -98,6 +101,21 @@ $.ajax = function (config) {
                 var history = histories[params.accountNumber];
                 if (history)
                     success({ "content": history.content });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/users/create-account/{userId}": {
+            "GET": function (params) {
+                var user = params.userId;
+                if (users[user]){
+                    let newAccount = "999888";
+                    users[user].accounts.push(newAccount);
+                    
+                    accountBalances[newAccount] = 0.00;
+
+                    success({ "accounts": users[user].accounts});
+                }
                 else
                     error(404);
             }

@@ -1,6 +1,11 @@
 function CreateAccountForm(props) {
 
     return (
-        <div>Create Account Works</div>
+        <div>
+            <div >
+                <button class="btn btn-primary" onClick={props.onClick}>Open new account</button>
+
+            </div>
+        </div>
     )
 }
