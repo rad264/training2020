@@ -4,17 +4,18 @@ class TransferController extends React.Component {
         this.state = new TransferModel();
         this.onChange = this.onChange.bind(this);
         this.transfer = this.transfer.bind(this);
+        this.confirmation;
     }
 
     onChange(event) {
-        if(event.target.name === "toTransferFrom"){
-            this.setState(new TransferModel(event.target.value,this.state.toTransferTo,this.state.amount));
+        if (event.target.name === "toTransferFrom") {
+            this.setState(new TransferModel(event.target.value, this.state.toTransferTo, this.state.amount));
         }
-        if(event.target.name === "toTransferTo"){
+        if (event.target.name === "toTransferTo") {
             this.setState(new TransferModel(this.state.toTransferFrom, event.target.value, this.state.amount));
         }
-        if(event.target.name === "amount"){
-            this.setState(new TransferModel(this.state.toTransferFrom,this.state.toTransferTo, event.target.value));
+        if (event.target.name === "amount") {
+            this.setState(new TransferModel(this.state.toTransferFrom, this.state.toTransferTo, event.target.value));
         }
 
     }
@@ -25,7 +26,12 @@ class TransferController extends React.Component {
 
         const amount = this.state.amount;
 
-        let handleResponse = (status) => this.setState({ responseStatus: status })
+        let handleResponse = (status) => {
+            this.setState({ responseStatus: status })
+            this.confirmation = (
+                <ConfirmationMessage message={"Transfered $" + amount + " from " + toTransferFrom + " to " + toTransferTo} />
+            )
+        }
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/transfer/from/" + toTransferFrom + "/to/" + toTransferTo + "/amount/" + amount + "/",
@@ -43,6 +49,7 @@ class TransferController extends React.Component {
         return (
             <div class="transfer-form">
                 <TransferForm toTransferFrom={this.state.toTransferFrom} toTransferTo={this.state.toTransferTo} amount={this.state.amount} onChange={this.onChange} onClick={this.transfer} />
+                {this.confirmation}
             </div>
         );
     }

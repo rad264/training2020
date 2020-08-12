@@ -4,14 +4,15 @@ class DepositController extends React.Component {
         this.state = new DepositModel();
         this.onChange = this.onChange.bind(this);
         this.deposit = this.deposit.bind(this);
+        this.confirmation;
     }
 
     onChange(event) {
-        if(event.target.name === "accountNumber"){
-            this.setState(new DepositModel(event.target.value,this.state.depositAmount));
+        if (event.target.name === "accountNumber") {
+            this.setState(new DepositModel(event.target.value, this.state.depositAmount));
         }
-        if(event.target.name === "depositAmount"){
-            this.setState(new DepositModel(this.state.accountNumber,event.target.value));
+        if (event.target.name === "depositAmount") {
+            this.setState(new DepositModel(this.state.accountNumber, event.target.value));
         }
 
     }
@@ -20,7 +21,12 @@ class DepositController extends React.Component {
         const accountNumber = this.state.accountNumber;
         const depositAmount = this.state.depositAmount;
 
-        let handleResponse = (status) => this.setState({ responseStatus: status })
+        let handleResponse = (status) => {
+            this.setState({ responseStatus: status })
+            this.confirmation = (
+                <ConfirmationMessage message={"Deposited $" + depositAmount + " to " + accountNumber} />
+            )
+        }
         handleResponse = handleResponse.bind(this);
 
         $.ajax({
@@ -39,6 +45,7 @@ class DepositController extends React.Component {
         return (
             <div class="deposit-form">
                 <DepositForm accountNumber={this.state.accountNumber} depositAmount={this.state.depositAmount} onChange={this.onChange} onClick={this.deposit} />
+                {this.confirmation}
             </div>
         );
     }

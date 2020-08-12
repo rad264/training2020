@@ -12,7 +12,7 @@ class CreateAccountController extends React.Component {
         let handleResponse = (status, newAccountNumber) => {
             this.setState({ responseStatus: status, newAccountNumber: newAccountNumber })
             this.confirmation = (
-                <ConfirmationMessage message={ "New account " + newAccountNumber + " created."} />
+                <ConfirmationMessage message={"New account " + newAccountNumber + " created."} />
             )
         };
         handleResponse = handleResponse.bind(this);
@@ -23,7 +23,7 @@ class CreateAccountController extends React.Component {
             success: function (response) {
                 handleResponse(200, response.accounts[(response.accounts.length - 1)]);
 
-    
+
             },
             error: function (xhr, status, error) {
                 handleResponse(xhr.status);

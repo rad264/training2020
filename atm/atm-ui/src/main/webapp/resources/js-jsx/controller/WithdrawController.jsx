@@ -4,14 +4,15 @@ class WithdrawController extends React.Component {
         this.state = new WithdrawModel();
         this.onChange = this.onChange.bind(this);
         this.withdraw = this.withdraw.bind(this);
+        this.confirmation;
     }
 
     onChange(event) {
-        if(event.target.name === "accountNumber"){
-            this.setState(new WithdrawModel(event.target.value,this.state.withdrawAmount));
+        if (event.target.name === "accountNumber") {
+            this.setState(new WithdrawModel(event.target.value, this.state.withdrawAmount));
         }
-        if(event.target.name === "withdrawAmount"){
-            this.setState(new WithdrawModel(this.state.accountNumber,event.target.value));
+        if (event.target.name === "withdrawAmount") {
+            this.setState(new WithdrawModel(this.state.accountNumber, event.target.value));
         }
 
     }
@@ -20,7 +21,12 @@ class WithdrawController extends React.Component {
         const accountNumber = this.state.accountNumber;
         const withdrawAmount = this.state.withdrawAmount;
 
-        let handleResponse = (status) => this.setState({ responseStatus: status })
+        let handleResponse = (status) => {
+            this.setState({ responseStatus: status })
+            this.confirmation = (
+                <ConfirmationMessage message={"Withdrew $" + withdrawAmount + " from " + accountNumber} />
+            )
+        }
         handleResponse = handleResponse.bind(this);
 
         $.ajax({
@@ -39,6 +45,7 @@ class WithdrawController extends React.Component {
         return (
             <div class="withdraw-form">
                 <WithdrawForm accountNumber={this.state.accountNumber} withdrawAmount={this.state.withdrawAmount} onChange={this.onChange} onClick={this.withdraw} />
+                {this.confirmation}
             </div>
         );
     }
