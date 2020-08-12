@@ -1,0 +1,68 @@
+.top_button {
+    width: 100px;
+    background-color: lightgrey;
+    border-radius: 20px;;
+    margin: 5px;
+    padding: 5px;
+}
+
+table button{
+    margin: 1px;
+    padding: 5px;
+    border-width: 0px;
+    background-color: rgba(128, 128, 128, 0);
+    width: 90%;
+    height: 90%;
+    height: 46px;
+    width: 46px;
+}
+
+td{
+    margin: 3px;
+    padding: 3px;
+}
+
+tr{
+    margin: 1px;
+    padding: 1px;
+}
+
+table{
+    border: solid 10px;
+    border-color: black;
+    border-collapse: collapse;
+}
+
+.piece{
+    border: 2px solid gray;
+    border-radius: 12px;
+    margin: 5px;
+}
+
+.blackPiece{
+    /* color:white; */
+    color: gray;
+    background-color:black;
+}
+
+.whitePiece{
+    /* color: black; */
+    color: gray;
+    background-color: white;
+}
+
+.selected {
+    color: yellow;
+    border: 2px solid yellow;
+    background-color: gray;
+}
+
+.movable {
+    border: solid 1.5px rgb(214, 213, 170);
+    border-radius: 5px;
+    background-color: rgba(223, 223, 59, 0.651) !important;
+}
+
+.piece{
+    font-size: 20px;
+}

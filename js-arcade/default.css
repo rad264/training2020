@@ -1,0 +1,40 @@
+body {
+    text-align: center;
+}
+
+#game_menu {
+    width: 250px;
+    margin: auto;
+    text-align: left;
+}
+
+.board {
+    display: table;
+    margin: 0 auto;
+}
+
+.board_cell {
+    width: 36px;
+    height: 36px;
+}
+
+.black_cell {
+    background-color:rgb(126, 81, 45);
+    /* outline: 2px solid black; */
+    border: 2px solid black;
+}
+
+.white_cell {
+    background-color: rgb(204, 182, 154);
+    /* outline: 2px solid black; */
+    border: 2px solid black;
+}
+
+table{
+    table-layout: fixed;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(95, 214, 184);
+}
