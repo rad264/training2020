@@ -14,10 +14,11 @@ class LoginCard extends React.Component {
         return (<div>
             <div class="container pt-5 loginCard">
                 <div class="jumbotron">
-                    <h1>Sign In</h1>
+                    <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
                     <form>
-                        <div class="input-group form-group">
+                        <label for="userId">Username</label>
+                        <div class="input-group form-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     <i class="fas fa-user"></i>

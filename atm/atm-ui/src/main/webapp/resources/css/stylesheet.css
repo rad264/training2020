@@ -1,15 +1,53 @@
-.smbc-color-primary {
-    background-color: #1c6434;
+:root {
+    --green1: #1c6434;
+    --green2: #acd62b;
+    --grey1: #FAF6F3;
+    --grey2: #EEEAE3;
+    --grey3: #ebebeb;
+}
+
+.smbc-color-navbar {
+    background-color: var(--green1);
     color: white;
-    border-bottom: 5px solid #acd62b;
+    border-bottom: 5px solid var(--green2);
+}
+
+.smbc-color-primary {
+    background-color: var(--green1);
+    color: white;
 }
 
 .smbc-color-secondary {
-    background-color: #acd62b;
+    background-color: var(--green2);
+}
+
+a:hover {
+    color: var(--green2);
+}
+
+.smbc-color1 {
+    color: var(--green1);
+}
+
+.smbc-color2 {
+    color: var(--green2);
+}
+
+.btn-smbc {
+    background-color: var(--green2);
+    color: var(--green1);
+}
+
+.app-bg {
+    background-color: var(--grey2);
+}
+
+.inactive-bg {
+    background-color: var(--grey1);
 }
 
 .nav-tabs {
-    background-color: #acd62b;
+    background-color: var(--green2);
 }
 
 .nav-tabs .nav-link {
@@ -18,9 +56,16 @@
 
 .nav-tabs .nav-link.active {
     color: white;
-    background-color: #1c6434;
+    background-color: var(--green1);
 }
 
 .loginCard {
     width: 30%;
+}
+
+.footer {
+    background: var(--green1);
+    color: white;
+    position:relative;
+    padding: 20px;
 }

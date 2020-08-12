@@ -11,12 +11,12 @@ class Transactions extends React.Component {
             })
         }
 
-        return (<div class="card border-primary mb-3">
-            <div class="card-header bg-transparent border-primary">Transactions</div>
+        return (<div class="card mb-3">
+            <div class="card-header inactive-bg border-success">Transactions</div>
             <div class="card-body text-primary">
                 <table class="table table-hover">
-                    <thead>
-                        <tr>
+                    <thead class="table-borderless">
+                        <tr class="text-muted">
                             <th scope="col">Date</th>
                             <th scope="col" colspan="2">Type</th>
                             <th scope="col">Amount</th>

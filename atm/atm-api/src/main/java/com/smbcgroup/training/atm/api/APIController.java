@@ -99,7 +99,7 @@ public class APIController {
 	}
 
 	@ApiOperation("Transfer")
-	@RequestMapping(value = "/accounts/{accountNumber}/transfer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/{accountNumber}/transfer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> accountTransfer(@PathVariable("accountNumber") String accountNumber,
 			@RequestBody Transfer transfer) {
 		try {

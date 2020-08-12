@@ -2,18 +2,22 @@ class Account extends React.Component {
 
     render() {
 
-        return (<div class="card border-success mb-3" onClick={() => {
+        return (<div className={this.props.isActive
+                ? 'card mb-3'
+                : 'card mb-3 inactive-bg'} onClick={() => {
                 this.props.onClick();
                 this.props.onActiveCard();
             }}>
             <div className={this.props.isActive
-                    ? 'smbc-color-secondary card-header border-success'
-                    : 'bg-transparent card-header border-success'}></div>
+                    ? 'smbc-color-primary card-header'
+                    : 'bg-transparent card-header'}></div>
             <div class="card-body text-success">
-                <h3>{this.props.accountNumber}</h3>
-                <h5 class="card-title float-right">${this.props.balance}</h5>
+                <h4 class="card-title">{this.props.accountNumber}</h4>
+                <div class="float-right">
+                    <h1 class="card-text">${this.props.balance}</h1>
+                    <p class="card-subtitle text-muted">Available Balance</p>
+                </div>
             </div>
-            <div class="card-footer bg-transparent border-success">Available Balance</div>
         </div>);
     }
 

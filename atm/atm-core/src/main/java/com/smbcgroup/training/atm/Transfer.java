@@ -8,6 +8,10 @@ public class Transfer {
 	private String toAccountNumber;
 	private BigDecimal transferAmount;
 	
+	public Transfer() {
+		
+	}
+	
 	public Transfer(String fromAccountNumber, String toAccountNumber, BigDecimal transferAmount) {
 		this.fromAccountNumber = fromAccountNumber;
 		this.toAccountNumber = toAccountNumber;

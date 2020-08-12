@@ -3,7 +3,7 @@ class NavBarDashboard extends React.Component {
     render() {
         return (<div>
             <header class="App-header">
-                <nav class="navbar navbar-expand-lg navbar-dark smbc-color-primary">
+                <nav class="navbar navbar-expand-lg navbar-dark smbc-color-navbar">
                     <a class="navbar-brand" href="#">SMBC</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -30,16 +30,22 @@ class NavBarDashboard extends React.Component {
                                 </div>
                             </li>
                         </ul>
-                        <span class="mr-sm-5 navbar-text">Signed in as:
-                            <a href="#login">
-                                 {this.props.userId}</a>
-                        </span>
-                        <div>
-                            <button class="btn btn-success my-2 my-sm-0" type="submit" onClick={() => {
-                                    hashHistory.goBack()
-                                }}>
-                                Logout</button>
-                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href='#' class="dropdown-toggle smbc-color-primary" data-toggle="dropdown">
+                                    <i class="fa fa-fw fa-user"></i>
+                                    <strong>{this.props.userId}</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a class="dropdown-item" href="/#/dashboard">Account</a>
+                                        <a class="dropdown-item" href="#" onClick={() => {
+                                                hashHistory.goBack()
+                                            }}>Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </header>
