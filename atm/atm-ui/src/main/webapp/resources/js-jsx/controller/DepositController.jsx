@@ -17,6 +17,19 @@ class DepositController extends React.Component {
 
     }
 
+    clearForm(){
+        this.setState( { accountNumber: "", depositAmount: "" })
+        this.initialFocus();
+    }
+
+    componentDidMount(){
+        this.initialFocus();
+    }
+
+    initialFocus(){
+        $("#account-input").focus()
+    }
+
     deposit() {
         const accountNumber = this.state.accountNumber;
         const depositAmount = this.state.depositAmount;
@@ -26,6 +39,7 @@ class DepositController extends React.Component {
             this.confirmation = (
                 <ConfirmationMessage message={"Deposited $" + depositAmount + " to " + accountNumber} />
             )
+            this.clearForm();
         }
         handleResponse = handleResponse.bind(this);
 

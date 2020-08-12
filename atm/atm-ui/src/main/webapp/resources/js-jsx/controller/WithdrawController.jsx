@@ -17,6 +17,19 @@ class WithdrawController extends React.Component {
 
     }
 
+    clearForm(){
+        this.setState( { accountNumber: "", withdrawAmount: "" })
+        this.initialFocus();
+    }
+
+    componentDidMount(){
+        this.initialFocus();
+    }
+
+    initialFocus(){
+        $("#account-input").focus()
+    }
+
     withdraw() {
         const accountNumber = this.state.accountNumber;
         const withdrawAmount = this.state.withdrawAmount;
@@ -26,6 +39,7 @@ class WithdrawController extends React.Component {
             this.confirmation = (
                 <ConfirmationMessage message={"Withdrew $" + withdrawAmount + " from " + accountNumber} />
             )
+            this.clearForm();
         }
         handleResponse = handleResponse.bind(this);
 

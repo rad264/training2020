@@ -4,7 +4,7 @@ function TransferForm(props) {
             <div class="form-group">
                 <h3 class="card-title">Transfer</h3>
                 <label for="toTransferFrom">Transfer from account:</label>
-                <input class="form-control" placeholder="e.g. 123456" type="text" name="toTransferFrom" onChange={props.onChange} value={props.toTransferFrom} ></input>
+                <input id="account-input" class="form-control" placeholder="e.g. 123456" type="text" name="toTransferFrom" onChange={props.onChange} value={props.toTransferFrom} ></input>
                 <br></br>
                 <label for="toTransferTo">Transfer to account:</label>
                 <input class="form-control" placeholder="e.g. 654321" type="text" name="toTransferTo" onChange={props.onChange} value={props.toTransferTo} ></input>

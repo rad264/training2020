@@ -20,6 +20,19 @@ class TransferController extends React.Component {
 
     }
 
+    clearForm(){
+        this.setState( { toTransferFrom: "", toTransferTo: "", amount: "" })
+        this.initialFocus();
+    }
+
+    componentDidMount(){
+        this.initialFocus();
+    }
+
+    initialFocus(){
+        $("#account-input").focus()
+    }
+
     transfer() {
         const toTransferFrom = this.state.toTransferFrom;
         const toTransferTo = this.state.toTransferTo;
@@ -31,6 +44,7 @@ class TransferController extends React.Component {
             this.confirmation = (
                 <ConfirmationMessage message={"Transfered $" + amount + " from " + toTransferFrom + " to " + toTransferTo} />
             )
+            this.clearForm();
         }
         handleResponse = handleResponse.bind(this);
         $.ajax({
