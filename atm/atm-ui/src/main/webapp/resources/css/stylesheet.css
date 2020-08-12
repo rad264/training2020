@@ -26,6 +26,14 @@ body {
 	margin-left: 0.5rem;
 }
 
+.toast-container{
+	position: absolute;
+	z-index: 99;
+	top: 4rem;
+	right: 3rem;
+	
+}
+
 #login-card{
 	margin-left:33%;
 }

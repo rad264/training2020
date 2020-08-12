@@ -1,6 +1,6 @@
 function Toast(props) {
     return (
-        <div class="toast" data-autohide="false">
+        <div class="toast toast-container" data-delay="3000">
             <div class="toast-header">
                 <strong class="mr-auto text-primary">{props.header}</strong>
                 <small class="text-muted">{props.time}</small>

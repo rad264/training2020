@@ -24,8 +24,6 @@ class Main extends React.Component {
         return (
             <div>
                 <NavbarController currentUser={this.userId} />
-                <div id="toast-container">
-                </div>
                 <div id="current-container">
 
                     <div class="spinner-border" role="status">
@@ -38,20 +36,12 @@ class Main extends React.Component {
         )
     };
 
-
-    showToasts() {
-        $(document).ready(function () {
-            $('.toast').toast('show');
-        });
-    }
-
     componentDidMount() {
         this.bindNavButtons();
         this.insertSummaryController(this.insertLocation);
         this.setState({ activePage: this.homeState });
         this.setActivePage("home");
-        this.showToasts();
-    }
+        }
 
     setActivePage(override) {
         $(".home-navbar-button").removeClass("active")
