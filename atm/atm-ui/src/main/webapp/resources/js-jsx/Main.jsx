@@ -23,7 +23,7 @@ class Main extends React.Component {
 
         return (
             <div>
-                <NavbarController />
+                <NavbarController currentUser={this.userId}/>
                 <div id="current-container">
                     <div class="spinner-border" role="status">
                             <span class="sr-only">Loading...</span>
@@ -60,6 +60,11 @@ class Main extends React.Component {
 
     bindNavButtons() {
         $(".home-navbar-button").click(function () {
+            this.insertSummaryController(this.insertLocation);
+            this.setState({activePage: this.homeState});
+            this.setActivePage();
+        }.bind(this));  
+        $(".user-navbar-button").click(function () {
             this.insertSummaryController(this.insertLocation);
             this.setState({activePage: this.homeState});
             this.setActivePage();

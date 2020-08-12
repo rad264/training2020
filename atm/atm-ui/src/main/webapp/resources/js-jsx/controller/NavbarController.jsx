@@ -1,7 +1,7 @@
 class NavbarController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new NavbarModel();
+        this.state = new NavbarModel(props.currentUser);
         this.onChange = this.onChange.bind(this);
     };
 
@@ -11,7 +11,7 @@ class NavbarController extends React.Component {
 
     render() {
         return (
-            <NavbarForm />
+            <NavbarForm currentUser={this.state.currentUser}/>
 
         )
     };

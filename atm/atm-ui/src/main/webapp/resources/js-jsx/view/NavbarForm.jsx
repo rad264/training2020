@@ -1,4 +1,4 @@
-function NavbarForm() {
+function NavbarForm(props) {
     return (
         <div>
 
@@ -27,11 +27,15 @@ function NavbarForm() {
                         <li class="nav-item">
                             <a class="nav-link create-account-navbar-button" role="button">Open</a>
                         </li>
-                        {/* <li class="nav-item">
-                            <a class="nav-link check-balance-navbar-button" role="button">Balance</a>
-                        </li> */}
                     </ul>
+                    <div id="user-id-display" class="form-inline my-2 my-lg-0 ">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" >
+                            <a class="nav-link user-navbar-button " role="button">{props.currentUser}</a>
+                        </li>
 
+                    </ul>                    
+                    </div>
                 </div>
             </nav>
         </div>
