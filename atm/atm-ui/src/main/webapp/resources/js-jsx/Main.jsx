@@ -12,6 +12,7 @@ class Main extends React.Component {
         this.transferState ="transfer";
         this.balanaceState ="check-balance";
         this.historyState ="history";
+        this.createAccountState = "create-account";
     }
 
     onChange(event){
@@ -47,6 +48,8 @@ class Main extends React.Component {
         $(".transfer-navbar-button").removeClass("active")
         $(".check-balance-navbar-button").removeClass("active")
         $(".history-navbar-button").removeClass("active")
+        $(".create-account-navbar-button").removeClass("active")
+
 
         if(override){
             $("." + override + "-navbar-button").addClass("active")
@@ -58,35 +61,33 @@ class Main extends React.Component {
     bindNavButtons() {
         $(".home-navbar-button").click(function () {
             this.insertSummaryController(this.insertLocation);
-            this.setState({activePage: this.homeState})
-            this.setActivePage()
+            this.setState({activePage: this.homeState});
+            this.setActivePage();
         }.bind(this));     
         $(".deposit-navbar-button").click(function () {
             this.insertDepositController(this.insertLocation);
-            this.setState({activePage: this.depositState})
-            this.setActivePage()
+            this.setState({activePage: this.depositState});
+            this.setActivePage();
         }.bind(this));
         $(".withdraw-navbar-button").click(function () {
             this.insertWithdrawController(this.insertLocation);
-            this.setState({activePage: this.withdrawState})
-            this.setActivePage()
+            this.setState({activePage: this.withdrawState});
+            this.setActivePage();
         }.bind(this));
         $(".transfer-navbar-button").click(function () {
             this.insertTransferController(this.insertLocation);
-            this.setState({activePage: this.transferState})
-            this.setActivePage()
+            this.setState({activePage: this.transferState});
+            this.setActivePage();
         }.bind(this));
-
-        // $(".check-balance-navbar-button").click(function () {
-        //     this.insertCheckBalanceController(this.insertLocation);
-        //     this.setState({activePage: this.balanaceState})
-        //     this.setActivePage()
-        // }.bind(this));
-
         $(".history-navbar-button").click(function () {
             this.insertHistoryController(this.insertLocation);
-            this.setState({activePage: this.historyState})
-            this.setActivePage()
+            this.setState({activePage: this.historyState});
+            this.setActivePage();
+        }.bind(this));
+        $(".create-account-navbar-button").click(function () {
+            this.insertCreateAccountController(this.insertLocation);
+            this.setState({activePage: this.createAccountState});
+            this.setActivePage();
         }.bind(this));
     };
 
@@ -112,6 +113,10 @@ class Main extends React.Component {
 
     insertTransferController(locationId) {
         ReactDOM.render(<TransferController />, document.getElementById(locationId))
+    };
+    
+    insertCreateAccountController(locationId) {
+        ReactDOM.render(<CreateAccountController />, document.getElementById(locationId))
     };
 }
 

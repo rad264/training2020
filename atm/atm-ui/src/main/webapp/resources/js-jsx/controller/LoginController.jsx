@@ -41,4 +41,5 @@ class LoginController extends React.Component {
     }
 }
 
-ReactDOM.render(<LoginController/>, document.getElementById("root"));
+ReactDOM.render(<Main userId={"l"}/>, document.getElementById("root"));
+// ReactDOM.render(<LoginController/>, document.getElementById("root"));
