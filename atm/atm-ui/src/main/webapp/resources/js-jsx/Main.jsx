@@ -13,6 +13,9 @@ class Main extends React.Component {
         this.balanaceState = "check-balance";
         this.historyState = "history";
         this.createAccountState = "create-account";
+
+        this.controllerToInsert;
+
     }
 
     onChange(event) {
@@ -38,19 +41,19 @@ class Main extends React.Component {
 
     componentDidMount() {
         this.bindNavButtons();
-        this.insertSummaryController(this.insertLocation);
-        this.setState({ activePage: this.homeState });
+        this.controllerToInsert = ( <SummaryController userId={this.userId} /> );
+        this.changeActivePage(this.homeState, this.controllerToInsert, this.insertLocation);
         this.setActivePage("home");
-        }
+    }
 
     setActivePage(override) {
-        $("."+ this.homeState + "-navbar-button").removeClass("active")
-        $("."+ this.depositState + "-navbar-button").removeClass("active")
-        $("."+ this.withdrawState + "-navbar-button").removeClass("active")
-        $("."+ this.transferState + "-navbar-button").removeClass("active")
-        $("."+ this.balanaceState + "-navbar-button").removeClass("active")
-        $("."+ this.historyState + "-navbar-button").removeClass("active")
-        $("."+ this.createAccountState + "-navbar-button").removeClass("active")
+        $("." + this.homeState + "-navbar-button").removeClass("active")
+        $("." + this.depositState + "-navbar-button").removeClass("active")
+        $("." + this.withdrawState + "-navbar-button").removeClass("active")
+        $("." + this.transferState + "-navbar-button").removeClass("active")
+        $("." + this.balanaceState + "-navbar-button").removeClass("active")
+        $("." + this.historyState + "-navbar-button").removeClass("active")
+        $("." + this.createAccountState + "-navbar-button").removeClass("active")
 
 
         if (override) {
@@ -60,69 +63,49 @@ class Main extends React.Component {
         }
     }
 
-    changeActivePage(activePageState){
-        this.setState({activePage: activePageState})
+    changeActivePage(activePageState, controller, insertLocation) {
+        if (controller) {
+            this.insertController(controller, insertLocation)
+        }
+        this.setState({ activePage: activePageState })
         this.setActivePage();
     }
 
     bindNavButtons() {
-        $("."+ this.homeState + "-navbar-button").click(function () {
-            this.insertSummaryController(this.insertLocation);
-            this.changeActivePage(this.homeState);
+        $("." + this.homeState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <SummaryController userId={this.userId} /> );
+            this.changeActivePage(this.homeState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
         $(".user-navbar-button").click(function () {
-            this.insertSummaryController(this.insertLocation);
-            this.changeActivePage(this.homeState);
+            this.controllerToInsert = ( <SummaryController userId={this.userId} /> );
+            this.changeActivePage(this.homeState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
-        $("."+ this.depositState + "-navbar-button").click(function () {
-            this.insertDepositController(this.insertLocation);
-            this.changeActivePage(this.depositState);
+        $("." + this.depositState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <DepositController />);
+            this.changeActivePage(this.depositState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
-        $("."+ this.withdrawState + "-navbar-button").click(function () {
-            this.insertWithdrawController(this.insertLocation);
-            this.changeActivePage(this.withdrawState);
+        $("." + this.withdrawState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <WithdrawController />);
+            this.changeActivePage(this.withdrawState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
-        $("."+ this.transferState + "-navbar-button").click(function () {
-            this.insertTransferController(this.insertLocation);
-            this.changeActivePage(this.transferState);
+        $("." + this.transferState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <TransferController />);
+            this.changeActivePage(this.transferState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
-        $("."+ this.historyState + "-navbar-button").click(function () {
-            this.insertHistoryController(this.insertLocation);
-            this.changeActivePage(this.historyState);
+        $("." + this.historyState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <HistoryController userId={this.userId} />);
+            this.changeActivePage(this.historyState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
-        $("."+ this.createAccountState + "-navbar-button").click(function () {
-            this.insertCreateAccountController(this.insertLocation);
-            this.changeActivePage(this.createAccountState);
+        $("." + this.createAccountState + "-navbar-button").click(function () {
+            this.controllerToInsert = ( <CreateAccountController userId={this.userId} />);
+            this.changeActivePage(this.createAccountState, this.controllerToInsert, this.insertLocation);
         }.bind(this));
     };
 
-    insertSummaryController(locationId) {
-        ReactDOM.render(<SummaryController userId={this.userId} />, document.getElementById(locationId))
-    };
+    insertController(controller, locationId) {
+        ReactDOM.render(controller, document.getElementById(locationId))
+    }
 
-    insertHistoryController(locationId) {
-        ReactDOM.render(<HistoryController userId={this.userId} />, document.getElementById(locationId))
-    };
-
-    insertCheckBalanceController(locationId) {
-        ReactDOM.render(<CheckBalanceController />, document.getElementById(locationId))
-    };
-
-    insertDepositController(locationId) {
-        ReactDOM.render(<DepositController />, document.getElementById(locationId))
-    };
-
-    insertWithdrawController(locationId) {
-        ReactDOM.render(<WithdrawController />, document.getElementById(locationId))
-    };
-
-    insertTransferController(locationId) {
-        ReactDOM.render(<TransferController />, document.getElementById(locationId))
-    };
-
-    insertCreateAccountController(locationId) {
-        ReactDOM.render(<CreateAccountController userId={this.userId} />, document.getElementById(locationId))
-    };
 }
 
 // ReactDOM.render(<Main />, document.getElementById("root"));
