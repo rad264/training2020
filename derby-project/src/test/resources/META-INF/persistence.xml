@@ -10,7 +10,7 @@
 		<class>com.smbcgroup.training.jpa.Department</class>
 		<properties>
 			<property name="openjpa.jdbc.SynchronizeMappings"
-				value="buildSchema(SchemaAction='deleteTableContents,drop,add',IgnoreErrors=true)" />
+				value="buildSchema(SchemaAction='drop,add,deleteTableContents',IgnoreErrors=true)" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:derby:target/testdb;create=true" />
 			<property name="javax.persistence.jdbc.driver"

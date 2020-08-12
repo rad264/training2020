@@ -40,7 +40,7 @@ public class JPATest {
 
 		em.getTransaction().commit();
 		em.close();
-		
+
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
 	}
@@ -68,10 +68,20 @@ public class JPATest {
 
 	@Test
 	public void testSelect3() {
-		List<Department> departments = em.createQuery("SELECT d FROM Department d ORDER BY d.id", Department.class).getResultList();
+		List<Department> departments = em.createQuery("SELECT d FROM Department d ORDER BY d.id", Department.class)
+				.getResultList();
 		assertEquals(3, departments.get(0).getEmployees().size());
 		assertEquals(1, departments.get(1).getEmployees().size());
 		assertEquals(3, departments.get(2).getEmployees().size());
+	}
+
+	@Test
+	public void testSelect6() {
+		TypedQuery<DepartmentSummary> query = em.createNamedQuery("GetSalaryStatsForDepartment", DepartmentSummary.class);
+		query.setParameter(1, 1);
+		DepartmentSummary results = query.getSingleResult();
+		assertEquals(new BigDecimal("50000.0"), results.getMin());
+
 	}
 
 	@After

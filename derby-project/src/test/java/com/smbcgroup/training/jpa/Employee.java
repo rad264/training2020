@@ -7,30 +7,34 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Employees")
+@NamedQueries({
+		@NamedQuery(name = "GetSalaryStatsForDepartment", query = "SELECT new com.smbcgroup.training.jpa.DepartmentSummary(MIN(e.salary), MAX(e.salary), AVG(e.salary)) FROM Employee e WHERE e.department.id = ?1") })
 public class Employee {
-	
+
 	@Id
 	@Column(name = "id")
 	private Integer id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "salary")
 	private BigDecimal salary;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "department_id", referencedColumnName = "id")
 	private Department department;
-	
+
 	public Employee() {
-		
+
 	}
-	
+
 	public Employee(Integer id, String name, BigDecimal salary, Department department) {
 		this.id = id;
 		this.name = name;
