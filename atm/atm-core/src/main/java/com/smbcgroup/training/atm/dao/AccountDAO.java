@@ -30,6 +30,6 @@ public interface AccountDAO {
 //
 //	void clearUserTransactions(String userId);
 //
-	void createAccount(String userId, String accountNumber);
+	void createAccount(String userId, String accountNumber) throws UserNotFoundException;
 
 }

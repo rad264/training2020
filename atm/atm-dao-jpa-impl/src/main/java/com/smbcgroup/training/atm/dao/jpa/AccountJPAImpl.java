@@ -80,7 +80,7 @@ public class AccountJPAImpl implements AccountDAO {
 	}
 
 	@Override
-	public void createAccount(String userId, String accountNumber) {
+	public void createAccount(String userId, String accountNumber) throws UserNotFoundException {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		try {
@@ -88,6 +88,9 @@ public class AccountJPAImpl implements AccountDAO {
 			entity.setAccountNumber(accountNumber);
 			entity.setBalance(new BigDecimal("0.0"));
 			UserEntity userEntity = em.find(UserEntity.class, userId);
+			if (userEntity == null) {
+				throw new UserNotFoundException();
+			}
 			entity.setUser(userEntity);
 			em.merge(entity);
 			em.getTransaction().commit();

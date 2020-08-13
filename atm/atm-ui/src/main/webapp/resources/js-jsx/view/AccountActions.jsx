@@ -22,7 +22,7 @@ class AccountActions extends React.Component {
                     <PostTransferController fromAccountNumber={this.props.accountNumber}/>
                 </div>
                 <div class="tab-pane fade" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
-                    <PostCreateAccountController/>
+                    <PostCreateAccountController userId={this.props.userId}/>
                 </div>
                 <div class="tab-pane fade" id="nav-check" role="tabpanel" aria-labelledby="nav-check-tab">
                     <div class="card">

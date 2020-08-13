@@ -1,6 +1,7 @@
 package com.smbcgroup.training.atm.api;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.BankInfo;
 import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.Transfer;
 import com.smbcgroup.training.atm.User;
@@ -87,9 +89,9 @@ public class APIController {
 
 	@ApiOperation("Create account")
 	@RequestMapping(value = "/accounts/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> createAccount(@RequestBody String accountNumber) {
+	public ResponseEntity<Void> createAccount(@RequestBody BankInfo bankinfo) {
 		try {
-			service.createAccount(accountNumber);
+			service.createAccount(bankinfo);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

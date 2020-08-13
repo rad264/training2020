@@ -28,9 +28,6 @@ class TransferCard extends React.Component {
                     <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Transfer</button>
                 </form>
             </div>
-            <div class="card-footer bg-transparent">
-                New Balance
-            </div>
         </div>);
     }
 

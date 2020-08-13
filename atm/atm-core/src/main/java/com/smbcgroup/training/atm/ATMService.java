@@ -55,20 +55,24 @@ public class ATMService {
 		loggedInUser = userId;
 	}
 
-	public void changeAccount(String accountNumber) throws UserNotFoundException, AccountNotFoundException {
-		if (!accountAlreadyExists(accountNumber))
+	public void changeAccount(String userId, String accountNumber) throws UserNotFoundException, AccountNotFoundException {
+		if (!accountAlreadyExists(userId, accountNumber))
 			throw new AccountNotFoundException();
 		selectedAccount = accountNumber;
 	}
 
-	public void createAccount(String accountNumber) throws AccountAlreadyExistsException, UserNotFoundException {
-		if (accountAlreadyExists(accountNumber))
+	public void createAccount(BankInfo bankinfo) throws AccountAlreadyExistsException, UserNotFoundException {
+		createAccount(bankinfo.getUserId(), bankinfo.getAccountNumber());
+	}
+	
+	public void createAccount(String userId, String accountNumber) throws AccountAlreadyExistsException, UserNotFoundException {
+		if (accountAlreadyExists(userId, accountNumber))
 			throw new AccountAlreadyExistsException();
-		dao.createAccount(loggedInUser, accountNumber);
+		dao.createAccount(userId, accountNumber);
 	}
 
-	private Boolean accountAlreadyExists(String accountNumber) throws UserNotFoundException {
-		for (String userAccount : getAccountNumbers(loggedInUser)) {
+	private Boolean accountAlreadyExists(String userId, String accountNumber) throws UserNotFoundException {
+		for (String userAccount : getAccountNumbers(userId)) {
 			if (userAccount.equals(accountNumber))
 				return true;
 		}

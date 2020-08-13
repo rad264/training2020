@@ -103,7 +103,7 @@ public class AccountJPAImplTest {
 	}
 
 	@Test
-	public void testCreateAccount_Success() {
+	public void testCreateAccount_Success() throws UserNotFoundException {
 		dao.createAccount("jwong", "111222");
 
 		EntityManager em = dao.emf.createEntityManager();

@@ -13,6 +13,7 @@ class PostCreateAccountController extends React.Component {
     }
     postCreateAccount(e) {
         e.preventDefault();
+        const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
         let handleResponse = (status, createdAccountNumber) => this.setState({responseStatus: status, createdAccountNumber: createdAccountNumber});
         handleResponse = handleResponse.bind(this);
@@ -20,7 +21,7 @@ class PostCreateAccountController extends React.Component {
             url: "/atm-api/accounts/create/",
             type: "POST",
             contentType: "application/json",
-            data: accountNumber,
+            data: JSON.stringify({userId: userId, accountNumber: accountNumber}),
             success: function(response) {
                 handleResponse(200, response.createdAccountNumber);
             },
