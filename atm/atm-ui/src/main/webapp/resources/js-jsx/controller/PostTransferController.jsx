@@ -16,7 +16,10 @@ class PostTransferController extends React.Component {
         const fromAccountNumber = this.state.fromAccountNumber;
         const toAccountNumber = this.state.toAccountNumber;
         const transferAmount = this.state.transferAmount;
-        let handleResponse = (status, response) => this.setState({responseStatus: status});
+        let handleResponse = (status, response) => {
+            this.setState({responseStatus: status});
+            if (status == 200) this.props.updateDashboard();
+        }
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + fromAccountNumber + "/transfer",

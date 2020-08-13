@@ -3,7 +3,7 @@ class TransferCard extends React.Component {
     render() {
         return (<div class="card mb-3">
             <div class="card-body text-success">
-                <form>
+                <form autocomplete="off">
                     <div class="form-group row">
                         <label for="fromAccountNumber" class="col-5 col-form-label">From Account Number</label>
 

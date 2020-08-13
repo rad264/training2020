@@ -32,7 +32,7 @@ class AccountGroup extends React.Component {
             })
         }
 
-        return (<div onClick={this.props.onClick}>
+        return (<div>
             {accountCards}
             <div class="d-flex justify-content-between">
                 <span>Total Balance:</span>

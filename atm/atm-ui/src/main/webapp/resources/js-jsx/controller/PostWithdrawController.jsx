@@ -15,7 +15,10 @@ class PostWithdrawController extends React.Component {
         e.preventDefault();
         const accountNumber = this.state.accountNumber;
         const withdrawAmount = this.state.withdrawAmount;
-        let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: balance});
+        let handleResponse = (status, balance) => {
+            this.setState({responseStatus: status, balance: balance});
+            if (status == 200) this.props.updateDashboard();
+        }
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber + "/withdraw",

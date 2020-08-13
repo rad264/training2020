@@ -16,7 +16,7 @@ class LoginCard extends React.Component {
                 <div class="jumbotron">
                     <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
-                    <form>
+                    <form autocomplete="off">
                         <label for="userId">Username</label>
                         <div class="input-group form-group input-group-lg">
                             <div class="input-group-prepend">

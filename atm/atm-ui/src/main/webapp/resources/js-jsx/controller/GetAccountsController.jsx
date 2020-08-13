@@ -1,7 +1,7 @@
 class GetAccountsController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = new GetAccountsModel("jwong");
+        this.state = new GetAccountsModel(props.userId);
         this.getAccounts = this.getAccounts.bind(this);
     }
 
@@ -9,8 +9,14 @@ class GetAccountsController extends React.Component {
         this.getAccounts();
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState(new GetAccountsModel(nextProps.userId), () => {
+            this.getAccounts();
+        });
+    }
+
     getAccounts() {
-        const userId = "jwong";
+        const userId = this.state.userId;
         let handleResponse = (status, accounts) => this.setState({responseStatus: status, accounts: accounts});
         handleResponse = handleResponse.bind(this);
         $.ajax({
@@ -26,6 +32,6 @@ class GetAccountsController extends React.Component {
         });
     }
     render() {
-        return (<AccountGroup statusCode={this.state.responseStatus} onClick={this.getAccounts} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>);
+        return (<AccountGroup statusCode={this.state.responseStatus} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>);
     }
 }

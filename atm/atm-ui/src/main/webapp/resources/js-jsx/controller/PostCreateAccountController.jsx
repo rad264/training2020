@@ -15,7 +15,10 @@ class PostCreateAccountController extends React.Component {
         e.preventDefault();
         const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, createdAccountNumber) => this.setState({responseStatus: status, createdAccountNumber: createdAccountNumber});
+        let handleResponse = (status, createdAccountNumber) => {
+            this.setState({responseStatus: status, createdAccountNumber: createdAccountNumber});
+            if (status == 200) this.props.updateDashboard();
+        }
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/create/",

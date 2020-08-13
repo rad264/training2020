@@ -1,6 +1,6 @@
 function CheckBalanceForm(props) {
     return (<div>
-        <form class="form-inline">
+        <form class="form-inline" autocomplete="off">
             <div class="form-group mb-2">
                 <label for="accountNumber">Account Number:</label>
             </div>
