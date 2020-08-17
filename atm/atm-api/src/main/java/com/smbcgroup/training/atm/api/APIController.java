@@ -128,7 +128,7 @@ public class APIController {
 	}
 
 	@ApiOperation("Get account transactions")
-	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Transaction[]> getAccountTransactions(@PathVariable("accountNumber") String accountNumber) {
 		try {
 			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(accountNumber), HttpStatus.OK);

@@ -33,7 +33,7 @@ public class AccountJPAImplTest {
 		AccountEntity ac1 = new AccountEntity("123456", new BigDecimal("100"), jwong);
 		em.persist(ac1);
 
-		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), ac1));
+		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1));
 
 		em.getTransaction().commit();
 		em.close();

@@ -14,7 +14,10 @@ class WithdrawCard extends React.Component {
                     <div class="form-group row">
                         <label for="depositAmount" class="col-5 col-form-label">Amount</label>
 
-                        <div class="col-7">
+                        <div class="col-7 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
                             <input type="number" class="form-control" id="amount" name="withdrawAmount" onChange={this.props.onChange} value={this.props.withdrawAmount}></input>
                         </div>
                     </div>

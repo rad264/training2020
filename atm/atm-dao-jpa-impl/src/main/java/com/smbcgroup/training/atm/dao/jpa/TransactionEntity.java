@@ -30,6 +30,9 @@ public class TransactionEntity {
 
 	@Column(name = "amount")
 	private BigDecimal amount;
+	
+	@Column(name = "balance")
+	private BigDecimal balance;
 
 	@ManyToOne
 	@JoinColumn(name = "account_number")
@@ -39,10 +42,11 @@ public class TransactionEntity {
 
 	}
 
-	public TransactionEntity(Date date, String type, BigDecimal amount, AccountEntity account) {
+	public TransactionEntity(Date date, String type, BigDecimal amount, BigDecimal balance, AccountEntity account) {
 		this.date = date;
 		this.type = type;
 		this.amount = amount;
+		this.balance = balance;
 		this.account = account;
 	}
 
@@ -50,6 +54,7 @@ public class TransactionEntity {
 		Transaction transaction = new Transaction();
 		transaction.setDate(date);
 		transaction.setType(type);
+		transaction.setBalance(balance);
 		transaction.setAmount(amount);
 		return transaction;
 	}
@@ -81,6 +86,14 @@ public class TransactionEntity {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
 	public AccountEntity getAccount() {
 		return account;
@@ -97,6 +110,8 @@ public class TransactionEntity {
 		str.append(type);
 		str.append("; Amount: ");
 		str.append(amount.toString());
+		str.append("; Balance: ");
+		str.append(balance.toString());
 		str.append(";");
 		return str.toString();
 	}

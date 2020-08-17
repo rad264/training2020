@@ -1,26 +1,65 @@
 class Transactions extends React.Component {
 
+    componentDidMount() {
+        $('#table_id').DataTable({
+        //     "columns": [
+        //         {
+        //             "data": "date"
+        //         }, {
+        //             "data": "type"
+        //         }, {
+        //             "data": "amount"
+        //         }, {
+        //             "data": "balance"
+        //         }
+        //     ]
+        });
+    }
+
+    componentDidUpdate() {
+        const table = $('.data-table-wrapper')
+                      .find('table')
+                      .DataTable();
+        table.clear();
+        // table.rows.add(names);
+        table.draw();
+    }
+    //
+    // componentWillUnmount() {
+    //     $('.data-table-wrapper').find('table').DataTable().destroy(true);
+    // }
+
     render() {
 
         this.transactions = this.props.transactions;
         var transactionTableRows = [];
 
         if (this.transactions) {
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
             this.transactions.forEach(function(e) {
-                transactionTableRows.push(<Transaction date={e.date} type={e.type} amount={e.amount} balance={e.balance}/>);
+                var date = (new Date(parseInt(e.date))).toLocaleDateString(undefined, options);
+                var amount = Number.parseFloat(e.amount).toFixed(2);
+                var balance = Number.parseFloat(e.balance).toFixed(2);
+                transactionTableRows.unshift(<Transaction date={date} type={e.type} amount={amount} balance={balance}/>);
             })
         }
 
         return (<div class="card mb-3">
             <div class="card-header inactive-bg border-success">Transactions</div>
-            <div class="card-body text-primary">
-                <table class="table table-hover">
-                    <thead class="table-borderless">
-                        <tr class="text-muted">
-                            <th scope="col">Date</th>
-                            <th scope="col" colspan="2">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Balance</th>
+            <div class="card-body">
+
+                <table id="table_id" class="display">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
                         </tr>
                     </thead>
                     <tbody>

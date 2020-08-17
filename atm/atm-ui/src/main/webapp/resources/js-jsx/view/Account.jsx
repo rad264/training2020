@@ -14,7 +14,7 @@ class Account extends React.Component {
             <div class="card-body text-success">
                 <h4 class="card-title">{this.props.accountNumber}</h4>
                 <div class="float-right">
-                    <h1 class="card-text">${this.props.balance}</h1>
+                    <h1 class="card-text">${Number.parseFloat(this.props.balance).toFixed(2)}</h1>
                     <p class="card-subtitle text-muted">Available Balance</p>
                 </div>
             </div>

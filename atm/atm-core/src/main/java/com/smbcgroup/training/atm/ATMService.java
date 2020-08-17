@@ -104,9 +104,10 @@ public class ATMService {
 			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
 		checkPositive(amount);
 		Account account = getAccount(accountNumber);
-		account.setBalance(account.getBalance().add(amount));
+		BigDecimal newBalance = account.getBalance().add(amount);
+		account.setBalance(newBalance);
 		dao.updateAccount(account);
-		updateTransactions(accountNumber, "Deposit", amount);
+		updateTransactions(accountNumber, "Deposit", amount, newBalance);
 	}
 
 	public void withdraw(BigDecimal amount)
@@ -120,9 +121,10 @@ public class ATMService {
 		Account account = getAccount(accountNumber);
 		if (account.getBalance().subtract(amount).compareTo(BigDecimal.TEN) < 0)
 			throw new InvalidAmountException();
-		account.setBalance(account.getBalance().subtract(amount));
+		BigDecimal newBalance = account.getBalance().subtract(amount);
+		account.setBalance(newBalance);
 		dao.updateAccount(account);
-		updateTransactions(accountNumber, "Withdraw", amount);
+		updateTransactions(accountNumber, "Withdraw", amount, newBalance);
 	}
 
 	private void checkPositive(BigDecimal amount) throws InvalidAmountException {
@@ -146,12 +148,13 @@ public class ATMService {
 		deposit(destinationAccountNumber, amount);
 	}
 
-	public void updateTransactions(String accountNumber, String type, BigDecimal amount)
+	public void updateTransactions(String accountNumber, String type, BigDecimal amount, BigDecimal balance)
 			throws AccountNotFoundException {
 		Transaction transaction = new Transaction();
 		transaction.setDate(new Date());
 		transaction.setType(type);
 		transaction.setAmount(amount);
+		transaction.setBalance(balance);
 		dao.updateAccountTransactions(accountNumber, transaction);
 	}
 

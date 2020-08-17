@@ -128,6 +128,7 @@ public class AccountJPAImpl implements AccountDAO {
 			entity.setDate(transaction.getDate());
 			entity.setType(transaction.getType());
 			entity.setAmount(transaction.getAmount());
+			entity.setBalance(transaction.getBalance());
 			AccountEntity accountEntity = em.find(AccountEntity.class, accountNumber);
 			if (accountEntity == null)
 				throw new AccountNotFoundException();

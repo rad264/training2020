@@ -11,7 +11,7 @@ class CheckBalanceController extends React.Component {
     getBalance(e) {
         e.preventDefault();
         const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: balance});
+        let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: Number.parseFloat(balance).toFixed(2)});
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber,

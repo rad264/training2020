@@ -8,6 +8,7 @@ public class Transaction {
 	private Date date;
 	private String type;
 	private BigDecimal amount;
+	private BigDecimal balance;
 
 	public Date getDate() {
 		return date;
@@ -32,6 +33,14 @@ public class Transaction {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
 	public String toString() {
 		StringBuilder str = new StringBuilder("Date: ");
@@ -40,6 +49,8 @@ public class Transaction {
 		str.append(type);
 		str.append("; Amount: ");
 		str.append(amount.toString());
+		str.append("; Balance: ");
+		str.append(balance.toString());
 		str.append(";");
 		return str.toString();
 	}
