@@ -1,0 +1,111 @@
+body {	
+    background: #eaeaea url(images/background.gif) 0 0;
+    text-align:center;
+    font-family: sans-serif;
+    color: #595d64;
+}
+
+#grid { 
+    position:absolute; top:0; left:0;
+}
+
+#playerSelector {
+    display:inline-block;
+    text-align:left;
+    line-height: 23px;    
+    vertical-align:middle;
+}
+
+#centerElements {
+    margin-top: -10px;
+}
+
+#newGame {
+    float:right;
+    margin-right: 48px;
+}
+
+#board { 
+    position:absolute; top:0; left:0;
+    border: solid rgb(88, 148, 190) 2px;
+}
+
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    background:rgba(255,255,255,0.4);
+    position:relative; width:585px; height:500px;
+}
+
+#scoreDiv {
+    margin-top: 15px;
+    float:right;
+    font-size: 16px;
+	
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+    
+    background-color: rgba(255, 255, 255, 0.75);
+	box-shadow: 0px 3px 0px 0px rgba(177, 177, 177, 0.75);
+}
+
+#outputDiv {
+    width: 135px;
+    margin-top: 15px;
+    float:left;
+    font-size: 16px;
+	
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+    
+    background-color: rgba(255, 255, 255, 0.75);
+	box-shadow: 0px 3px 0px 0px rgba(177, 177, 177, 0.75);
+}
+
+.content {
+    margin: 8px 15px 12px 15px;
+    line-height: 25px;
+}
+
+.title{
+    background: rgb(122, 187, 227);
+    color: rgb(255, 255, 255);
+    width:100%;
+    line-height:30px;
+    font-weight:bold;
+}
+
+#board td {
+    border: none;
+    background: url(images/cellBackground.png);
+}
+
+td {
+    -webkit-transition: all 0.3s ;
+    -moz-transition: all 0.3s ;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s ;
+    transition: all 0.3s ;
+
+    border: solid gray 1px;
+    border-style: dotted;
+   
+}
+
+table {
+    width: 585px;
+    height: 500px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.player1{
+    color: rgb(226, 65, 65);
+}
+.player2{
+    color: rgb(255, 167, 0);
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Connect Four</title>
+        <link href="style.css" type="text/css" rel="stylesheet" />
+        <script src="js/connectfourMain.js" type="text/javascript"></script>
+        <script src="js/animation.js" type="text/javascript"></script>
+        <script>
+        </script> 
+    </head>
+    <body onload="init(6, 7, grid)">
+        <div id="wrapper">
+            <canvas id="canvas" width="585" height="500"></canvas>
+            <div id="grid"></div>
+            <div id="board"></div>
+            <div id = "outputDiv">
+                <div class="content">
+                    <span id="output"></span>
+                </div>
+            </div>
+        <div id = "scoreDiv">
+                <div class="title">Score</div>
+                <div class="content">
+                    <span class="player1">Player 1:
+                        <span id="player1Score"></span>
+                    </span>
+                    <br/>
+                    <span class="player2">Player 2:
+                        <span id="player2Score"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div id="centerElements">
+            <a id="newGame" onclick="resetGame(6, 7, grid)" href="#" class="button button2">New Game</a>
+        </div>
+        
+    </body>
+</html>
