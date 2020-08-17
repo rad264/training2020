@@ -9,7 +9,7 @@
         <script>
         </script> 
     </head>
-    <body onload="init(6, 7, grid)">
+    <body>
         <div id="wrapper">
             <canvas id="canvas" width="585" height="500"></canvas>
             <div id="grid"></div>
@@ -35,7 +35,7 @@
         <br/>
         <br/>
         <div id="centerElements">
-            <a id="newGame" onclick="resetGame(6, 7, grid)" href="#" class="button button2">New Game</a>
+            <a id="newGame" onclick="board ? resetGame(6, 7, grid) : init(6, 7, grid)" href="#" class="button button2">New Game</a>
         </div>
         
     </body>
