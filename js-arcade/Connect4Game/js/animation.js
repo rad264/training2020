@@ -1,8 +1,8 @@
 
 function animateDroppingDisk (x_, y_, w_, h_, color) {
-	var vy = 0;
-	var gravity = 200;
-	var bounce_factor = 0;
+	var vy = 1;
+	var gravity = 0.9;
+	var bounce_factor = 0.5;
     
 	function Ball() {
 		this.radius = 40;
@@ -24,7 +24,7 @@ function animateDroppingDisk (x_, y_, w_, h_, color) {
             context.clearRect(x_, y_, w_, h_);      
             vy += gravity;
             ball.y += vy;
-            if (ball.y + ball.radius > h_) { // Rebounce
+            if (ball.y + ball.radius > h_) { 
                 ball.y = h_ - ball.radius;
                 vy *= -bounce_factor;
             }
