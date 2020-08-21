@@ -11,8 +11,10 @@ class LoginCard extends React.Component {
     // }
 
     render() {
-        return (<div>
+        return (<div class="bg-login">
+
             <div class="container pt-5 loginCard">
+
                 <div class="jumbotron">
                     <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
@@ -32,6 +34,7 @@ class LoginCard extends React.Component {
                     </form>
                 </div>
             </div>
+
         </div>);
     }
 }

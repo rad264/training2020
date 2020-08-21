@@ -2,7 +2,7 @@ class Dashboard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = new DashboardModel("jwong", "123456");
+        this.state = new DashboardModel(props.params.userId, "123456");
         this.updateSelectedUserId = this.updateSelectedUserId.bind(this);
         this.updateSelectedAccount = this.updateSelectedAccount.bind(this);
         this.updateDashboard = this.updateDashboard.bind(this);
@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
                     <div class="col-8">
                         <span>&nbsp;</span>
                         <GetSummaryController accountNumber={this.state.accountNumber}/>
-                        <AccountActions userId={this.state.userId} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
+                        <AccountActions userInfo={this.state} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
                         <GetTransactionsController accountNumber={this.state.accountNumber}/>
                     </div>
                 </div>

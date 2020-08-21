@@ -56,9 +56,9 @@ $.ajax = function(config) {
             "GET": function(params) {
                 var accountNumbers = userAccountsNumbers[params.userId];
                 if (accountNumbers)
-                    success({
-                        "accountNumbers": accountNumbers
-                    });
+                    success(
+                        accountNumbers
+                    );
                 else
                     error(401);
             }
@@ -67,9 +67,7 @@ $.ajax = function(config) {
             "GET": function(params) {
                 var accounts = userAccounts[params.userId];
                 if (accounts)
-                    success({
-                        "accounts": accounts
-                    });
+                    success(accounts);
                 else
                     error(402);
             }
@@ -113,8 +111,8 @@ $.ajax = function(config) {
                 var toBalance = accountBalances[data.toAccountNumber];
                 if (fromBalance && toBalance)
                     success({
-                        "fromBalance" : fromBalance - data.transferAmount,
-                        "toBalance" : toBalance + data.transferAmount
+                        "fromBalance": fromBalance - data.transferAmount,
+                        "toBalance": toBalance + data.transferAmount
                     });
                 else
                     error(404);
@@ -124,7 +122,7 @@ $.ajax = function(config) {
             "POST": function(params, data) {
                 if (!(data.accountNumber in accountBalances))
                     success({
-                        "createdAccountNumber" : data.accountNumber
+                        "createdAccountNumber": data.accountNumber
                     });
                 else
                     error(404);
@@ -134,9 +132,7 @@ $.ajax = function(config) {
             "GET": function(params) {
                 var transactions = accountTransactions[params.accountNumber];
                 if (transactions)
-                    success({
-                        "transactions": transactions
-                    });
+                    success(transactions);
                 else
                     error(403);
             },

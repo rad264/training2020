@@ -25,7 +25,7 @@ class TransferCard extends React.Component {
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control" id="amount" name="transferAmount" onChange={this.props.onChange} value={this.props.transferAmount}></input>
+                            <input type="number" class="form-control" id="transferAmount" name="transferAmount" onChange={this.props.onChange} value={this.props.transferAmount}></input>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Transfer</button>

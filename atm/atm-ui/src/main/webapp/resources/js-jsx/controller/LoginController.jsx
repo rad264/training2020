@@ -5,6 +5,7 @@ class LoginController extends React.Component {
         this.state = new GetUserModel();
         this.onChange = this.onChange.bind(this);
         this.getUser = this.getUser.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     onChange(event) {
         this.setState({
@@ -12,9 +13,12 @@ class LoginController extends React.Component {
             [event.target.name]: event.target.value
         });
     }
-
+    onSubmit() {
+        this.props.onUserIdChange(this.state.userId);
+    }
     getUser(e) {
         e.preventDefault();
+        var _this = this;
         const userId = this.state.userId;
         let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers});
         handleResponse = handleResponse.bind(this);
@@ -24,7 +28,7 @@ class LoginController extends React.Component {
             contentType: "application/json",
             success: function(response) {
                 handleResponse(200, response.accountNumbers);
-                hashHistory.push('/dashboard');
+                hashHistory.push('/dashboard/' + userId, {accountNumbers : response.accountNumbers});
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);

@@ -1,7 +1,7 @@
 class Transactions extends React.Component {
 
     componentDidMount() {
-        $('#table_id').DataTable({
+        // $('#table_id').DataTable({
         //     "columns": [
         //         {
         //             "data": "date"
@@ -13,18 +13,22 @@ class Transactions extends React.Component {
         //             "data": "balance"
         //         }
         //     ]
-        });
+        // });
     }
 
-    componentDidUpdate() {
-        const table = $('.data-table-wrapper')
-                      .find('table')
-                      .DataTable();
-        table.clear();
-        // table.rows.add(names);
-        table.draw();
+    // componentDidUpdate() {
+    //     const table = $('.data-table-wrapper')
+    //                   .find('table')
+    //                   .DataTable();
+    //     table.clear();
+    //     // table.rows.add(names);
+    //     table.draw();
+    // }
+
+    shouldComponentUpdate() {
+        $("#table_id").DataTable();
     }
-    //
+
     // componentWillUnmount() {
     //     $('.data-table-wrapper').find('table').DataTable().destroy(true);
     // }
@@ -50,7 +54,7 @@ class Transactions extends React.Component {
         }
 
         return (<div class="card mb-3">
-            <div class="card-header inactive-bg border-success">Transactions</div>
+            <div class="card-header smbc-color-primary border-success">Transactions</div>
             <div class="card-body">
 
                 <table id="table_id" class="display">

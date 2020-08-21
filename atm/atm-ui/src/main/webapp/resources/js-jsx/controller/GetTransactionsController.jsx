@@ -25,7 +25,7 @@ class GetTransactionsController extends React.Component {
             contentType: "application/json",
             success: function(response) {
                 handleResponse(200, response);
-                // $("#table_id").DataTable();
+                $("#table_id").DataTable();
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);

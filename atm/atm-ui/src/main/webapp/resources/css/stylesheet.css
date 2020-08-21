@@ -6,6 +6,15 @@
     --grey3: #ebebeb;
 }
 
+.bg-login {
+    background-image: url("../images/ny_city.jpg");
+    height: 100vh;
+}
+
+.smbc-logo {
+    background-color: var(--green1);
+}
+
 .smbc-color-navbar {
     background-color: var(--green1);
     color: white;
@@ -60,7 +69,7 @@ a:hover {
 }
 
 .loginCard {
-    width: 30%;
+    width: 40%;
 }
 
 .footer {
@@ -71,7 +80,6 @@ a:hover {
 }
 
 .accountCard:hover {
-
     outline: 3px solid var(--green2);
     cursor: pointer;
 }

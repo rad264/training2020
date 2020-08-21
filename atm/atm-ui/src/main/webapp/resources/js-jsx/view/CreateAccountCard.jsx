@@ -8,7 +8,7 @@ class CreateAccountCard extends React.Component {
                         <label for="accountNumber" class="col-5 col-form-label">Account Number</label>
 
                         <div class="col-7">
-                            <input type="text" class="form-control" id="accountNumber" name="accountNumber" onChange={this.props.onChange} value={this.props.accountNumber}></input>
+                            <input type="text" class="form-control" name="accountNumber" onChange={this.props.onChange} value={this.props.accountNumber}></input>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Create Account</button>

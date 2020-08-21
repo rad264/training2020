@@ -5,15 +5,26 @@ const Link = ReactRouter.Link
 const Redirect = ReactRouter.Redirect
 const browserHistory = ReactRouter.browserHistory
 const hashHistory = ReactRouter.hashHistory
+const Switch = ReactRouter.Switch
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            userId: ''
+        };
+    }
+
+    onUserIdChange = (userId) => {
+        this.setState({userId: userId});
+    }
+
     render() {
         return (<Router history={hashHistory}>
-            <Route path="/" component={Login}></Route>
-            <Route path="/login" component={Login}></Route>
-            <Route path="/dashboard" component={Dashboard}></Route>
-        </Router>);
+            <Route exact path="/" component={Login}></Route>
+            <Route path="/dashboard/:userId" component={Dashboard}></Route>
+        </Router>)
     }
 }
 ReactDOM.render(<App/>, document.getElementById("root"));

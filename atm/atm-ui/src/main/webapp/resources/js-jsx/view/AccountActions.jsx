@@ -13,7 +13,8 @@ class AccountActions extends React.Component {
             </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-deposit" role="tabpanel" aria-labelledby="nav-deposit-tab">
-                    <PostDepositController accountNumber={this.props.accountNumber} updateDashboard={this.props.updateDashboard}/>
+                    <PostDepositController
+                        userInfo={this.props.userInfo} accountNumber={this.props.accountNumber} updateDashboard={this.props.updateDashboard}/>
                 </div>
                 <div class="tab-pane fade" id="nav-withdraw" role="tabpanel" aria-labelledby="nav-withdraw-tab">
                     <PostWithdrawController accountNumber={this.props.accountNumber} updateDashboard={this.props.updateDashboard}/>

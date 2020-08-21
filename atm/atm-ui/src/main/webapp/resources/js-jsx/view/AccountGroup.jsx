@@ -3,17 +3,17 @@ class AccountGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedCardId: "123456"
+            selectedAccount: 0
         }
         this.setActiveCard = this.setActiveCard.bind(this);
     }
 
     isActive(id) {
-        return this.state.selectedCardId === id;
+        return this.state.selectedAccount === id;
     }
 
-    setActiveCard(selectedCardId) {
-        this.setState({selectedCardId});
+    setActiveCard(selectedAccount) {
+        this.setState({selectedAccount});
     }
 
     render() {
@@ -27,7 +27,7 @@ class AccountGroup extends React.Component {
         if (this.accounts) {
 
             this.accounts.forEach(function(e, i) {
-                accountCards.push(<Account key={i} accountNumber={e.accountNumber} balance={e.balance} isActive={AccGroup.isActive(e.accountNumber)} onActiveCard={AccGroup.setActiveCard.bind(AccGroup, e.accountNumber)} onClick={() => AccGroup.props.updateSelectedAccount(e.accountNumber)}/>);
+                accountCards.push(<Account key={i} accountNumber={e.accountNumber} balance={e.balance} isActive={AccGroup.isActive(i)} onActiveCard={AccGroup.setActiveCard.bind(AccGroup, i)} onClick={() => AccGroup.props.updateSelectedAccount(e.accountNumber)}/>);
                 totalBalance += e.balance;
             })
         }
