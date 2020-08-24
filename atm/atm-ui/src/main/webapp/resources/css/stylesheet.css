@@ -7,8 +7,9 @@
 }
 
 .bg-login {
-    background-image: url("../images/ny_city.jpg");
-    height: 100vh;
+    background: url("../images/ny_city.jpg") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 .smbc-logo {
@@ -69,7 +70,16 @@ a:hover {
 }
 
 .loginCard {
-    width: 40%;
+    width: 50%;
+}
+
+.vertical-center {
+    min-height: 100%;
+    /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+    /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
 }
 
 .footer {

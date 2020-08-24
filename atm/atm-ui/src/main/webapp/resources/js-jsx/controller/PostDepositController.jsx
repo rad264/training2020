@@ -36,7 +36,7 @@ class PostDepositController extends React.Component {
     }
 
     render() {
-        console.log(this.state);
+        // console.log(this.state);
         return (<DepositCard userId={this.props.userInfo.userId} accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postDeposit} statusCode={this.state.responseStatus} depositAmount={this.state.depositAmount}/>);
     }
 }

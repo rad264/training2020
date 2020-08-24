@@ -1,6 +1,19 @@
 class TransferCard extends React.Component {
 
     render() {
+
+        let alert;
+        switch (this.props.statusCode) {
+            case 200:
+                alert = <AlertSuccess msg={"Transfer Success."}/>;
+                break;
+            case 404:
+                alert = <AlertFail error={"Account Not Found."}/>;
+                break;
+            default:
+                break;
+        }
+
         return (<div class="card mb-3">
             <div class="card-body text-success">
                 <form autocomplete="off">
@@ -28,7 +41,14 @@ class TransferCard extends React.Component {
                             <input type="number" class="form-control" id="transferAmount" name="transferAmount" onChange={this.props.onChange} value={this.props.transferAmount}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Transfer</button>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            {alert}
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Transfer</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>);

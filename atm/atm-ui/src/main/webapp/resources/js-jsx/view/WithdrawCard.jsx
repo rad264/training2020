@@ -1,6 +1,19 @@
 class WithdrawCard extends React.Component {
 
     render() {
+
+        let alert;
+        switch (this.props.statusCode) {
+            case 200:
+                alert = <AlertSuccess msg={"Withdraw Success."}/>;
+                break;
+            case 404:
+                alert = <AlertFail error={"Account Not Found."}/>;
+                break;
+            default:
+                break;
+        }
+
         return (<div class="card mb-3">
             <div class="card-body text-success">
                 <form autocomplete="off">
@@ -21,7 +34,14 @@ class WithdrawCard extends React.Component {
                             <input type="number" class="form-control" id="withdrawAmount" name="withdrawAmount" onChange={this.props.onChange} value={this.props.withdrawAmount}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Withdraw</button>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            {alert}
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Withdraw</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>);

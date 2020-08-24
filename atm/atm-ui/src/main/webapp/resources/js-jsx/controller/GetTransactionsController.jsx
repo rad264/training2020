@@ -25,7 +25,6 @@ class GetTransactionsController extends React.Component {
             contentType: "application/json",
             success: function(response) {
                 handleResponse(200, response);
-                $("#table_id").DataTable();
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);
@@ -33,6 +32,8 @@ class GetTransactionsController extends React.Component {
         });
     }
     render() {
-        return (<Transactions accountNumber={this.state.accountNumber} statusCode={this.state.responseStatus} transactions={this.state.transactions}/>);
+        return (
+            <TransactionsCard transactions={this.state.transactions} statusCode={this.state.responseStatus}/>
+        );
     }
 }

@@ -26,7 +26,7 @@ var accountTransactions = {
     "123456": [{
             "date": 1596653726310,
             "type": "Deposit",
-            "amount": 100,
+            "amount": 150,
             "balance": 150.00
         },
         {
@@ -38,15 +38,15 @@ var accountTransactions = {
     ],
     "111222": [{
             "date": 1596653726310,
-            "type": "Withdraw",
-            "amount": 50,
-            "balance": 150.00
+            "type": "Deposit",
+            "amount": 550,
+            "balance": 550.00
         },
         {
             "date": 1596653726310,
-            "type": "Deposit",
-            "amount": 500,
-            "balance": 550.00
+            "type": "Withdraw",
+            "amount": 400,
+            "balance": 150.00
         },
     ],
 };
@@ -60,7 +60,7 @@ $.ajax = function(config) {
                         accountNumbers
                     );
                 else
-                    error(401);
+                    error(404);
             }
         },
         "/atm-api/users/{userId}/accounts": {
@@ -69,7 +69,7 @@ $.ajax = function(config) {
                 if (accounts)
                     success(accounts);
                 else
-                    error(402);
+                    error(404);
             }
         },
         "/atm-api/accounts/{accountNumber}": {
@@ -85,7 +85,7 @@ $.ajax = function(config) {
         },
         "/atm-api/accounts/{accountNumber}/deposit": {
             "POST": function(params, data) {
-                var balance = accountBalances[params.accountNumber] + data.depositAmount;
+                var balance = accountBalances[params.accountNumber] + parseFloat(data);
                 if (balance)
                     success({
                         "balance": balance
@@ -96,7 +96,7 @@ $.ajax = function(config) {
         },
         "/atm-api/accounts/{accountNumber}/withdraw": {
             "POST": function(params, data) {
-                var balance = accountBalances[params.accountNumber] - data.withdrawAmount;
+                var balance = accountBalances[params.accountNumber] - parseFloat(data);
                 if (balance)
                     success({
                         "balance": balance
@@ -134,7 +134,7 @@ $.ajax = function(config) {
                 if (transactions)
                     success(transactions);
                 else
-                    error(403);
+                    error(404);
             },
         }
     }

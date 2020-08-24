@@ -18,6 +18,22 @@ class AccountGroup extends React.Component {
 
     render() {
 
+        let alert;
+        switch (this.props.statusCode) {
+            case(null):
+                alert = null;
+                break;
+            case 200:
+                alert = null;
+                break;
+            case 404:
+                alert = <AlertFail error={"User Not Found."}/>;
+                break;
+            default:
+                alert = <AlertFail error={"Unexpected Error."}/>;
+                break;
+        }
+
         const AccGroup = this;
 
         this.accounts = this.props.accounts;
@@ -38,6 +54,7 @@ class AccountGroup extends React.Component {
                 <span>Total Balance:</span>
                 <span>${totalBalance}</span>
             </div>
+            {alert}
         </div>);
     }
 }

@@ -34,7 +34,21 @@ class DepositCard extends React.Component {
     }
 
     render() {
-        var accountNumbersOptions = [<option>Select Account</option>];
+
+        let alert;
+        switch (this.props.statusCode) {
+            case 200:
+                alert = <AlertSuccess msg={"Deposit Success."}/>;
+                break;
+            case 404:
+                alert = <AlertFail error={"Account Not Found."}/>;
+                break;
+            default:
+                break;
+        }
+
+        var accountNumbersOptions = [<option>Select Account</option>
+            ];
         if (this.state.accountNumbers) {
             this.state.accountNumbers.forEach(function(n, i) {
                 accountNumbersOptions.push(<option>{n}</option>)
@@ -68,7 +82,14 @@ class DepositCard extends React.Component {
                             <input type="number" class="form-control" id="depositAmount" name="depositAmount" onChange={this.props.onChange} value={this.props.depositAmount}></input>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Deposit</button>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            {alert}
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-smbc float-right" onClick={this.props.onClick}>Deposit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>);

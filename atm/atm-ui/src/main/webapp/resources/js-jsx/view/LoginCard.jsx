@@ -1,21 +1,29 @@
 class LoginCard extends React.Component {
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = new DashboardModel("123456");
-    //     this.updateSelectedAccount = this.updateSelectedAccount.bind(this);
-    // }
-    //
-    // updateSelectedAccount(accountNumber) {
-    //     this.setState(new DashboardModel(accountNumber));
-    // }
-
     render() {
+
+        let alert;
+        switch (this.props.statusCode) {
+            case(null):
+                alert = null;
+                break;
+            case 200:
+                alert = <AlertSuccess msg={"Login Success."}/>;
+                break;
+            case 404:
+                alert = <AlertFail error={"User Not Found."}/>;
+                break;
+            default:
+                alert = <AlertFail error={"Unexpected Error."}/>;
+                break;
+        }
+
         return (<div class="bg-login">
 
             <div class="container pt-5 loginCard">
 
                 <div class="jumbotron">
+
                     <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
                     <form autocomplete="off">
@@ -32,6 +40,7 @@ class LoginCard extends React.Component {
                             <input type="submit" value="Login" class="btn btn-primary btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
                         </div>
                     </form>
+                    {alert}
                 </div>
             </div>
 
