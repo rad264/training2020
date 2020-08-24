@@ -7,6 +7,9 @@ class CreateAccountCard extends React.Component {
             case 200:
                 alert = <AlertSuccess msg={"Create Account Success."}/>;
                 break;
+            case 403:
+                alert = <AlertFail error={"Forbidden."}/>;
+                break;
             case 404:
                 alert = <AlertFail error={"User Not Found."}/>;
                 break;

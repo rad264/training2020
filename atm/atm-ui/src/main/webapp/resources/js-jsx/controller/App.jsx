@@ -4,7 +4,7 @@ const Route = ReactRouter.Route
 const Link = ReactRouter.Link
 const Redirect = ReactRouter.Redirect
 const browserHistory = ReactRouter.browserHistory
-const hashHistory = ReactRouter.hashHistory
+
 const Switch = ReactRouter.Switch
 
 class App extends React.Component {
@@ -21,9 +21,9 @@ class App extends React.Component {
     }
 
     render() {
-        return (<Router history={hashHistory}>
+        return (<Router history={browserHistory}>
             <Route exact path="/" component={Login}></Route>
-            <Route path="/dashboard/:userId" component={Dashboard}></Route>
+            <Route path="/dashboard" component={Dashboard}></Route>
         </Router>)
     }
 }

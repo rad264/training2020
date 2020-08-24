@@ -2,7 +2,7 @@ class Dashboard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = new DashboardModel(props.params.userId, "123456");
+        this.state = new DashboardModel(props.location.state.userId, props.location.state.initialAccountNumber);
         this.updateSelectedUserId = this.updateSelectedUserId.bind(this);
         this.updateSelectedAccount = this.updateSelectedAccount.bind(this);
         this.updateDashboard = this.updateDashboard.bind(this);

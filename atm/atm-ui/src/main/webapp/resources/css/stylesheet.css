@@ -6,6 +6,10 @@
     --grey3: #ebebeb;
 }
 
+.boldType {
+    font-weight: bold;
+}
+
 .bg-login {
     background: url("../images/ny_city.jpg") no-repeat center center fixed;
     background-size: cover;

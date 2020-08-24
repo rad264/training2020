@@ -27,8 +27,15 @@ class LoginController extends React.Component {
             type: "GET",
             contentType: "application/json",
             success: function(response) {
-                handleResponse(200, response.accountNumbers);
-                hashHistory.push('/dashboard/' + userId, {accountNumbers : response.accountNumbers});
+                handleResponse(200, response);
+                var nextPath = '/dashboard';
+                browserHistory.push({
+                    pathname: nextPath,
+                    state: {
+                        userId: userId,
+                        initialAccountNumber: response[0]
+                    }
+                });
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);
@@ -36,8 +43,6 @@ class LoginController extends React.Component {
         });
     }
     render() {
-        return (
-            <LoginCard userId={this.state.userId} onChange={this.onChange} onClick={this.getUser} statusCode={this.state.responseStatus}/>
-        );
+        return (<LoginCard userId={this.state.userId} onChange={this.onChange} onClick={this.getUser} statusCode={this.state.responseStatus}/>);
     }
 }

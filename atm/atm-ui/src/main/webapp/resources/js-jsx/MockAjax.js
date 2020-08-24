@@ -14,9 +14,13 @@ var userAccounts = {
             ]
         },
     ],
+    "jsmith": [
+
+    ]
 };
 var userAccountsNumbers = {
-    "jwong": ["123456", "111222"]
+    "jwong": ["123456", "111222"],
+    "jsmith": ["123123", "010101"],
 };
 var accountBalances = {
     "123456": 100.00,
@@ -107,12 +111,14 @@ $.ajax = function(config) {
         },
         "/atm-api/accounts/{fromAccountNumber}/transfer": {
             "POST": function(params, data) {
+                var d = JSON.parse(data);
                 var fromBalance = accountBalances[params.fromAccountNumber];
-                var toBalance = accountBalances[data.toAccountNumber];
+                var toBalance = accountBalances[d.toAccountNumber];
+
                 if (fromBalance && toBalance)
                     success({
-                        "fromBalance": fromBalance - data.transferAmount,
-                        "toBalance": toBalance + data.transferAmount
+                        "fromBalance": fromBalance - d.transferAmount,
+                        "toBalance": toBalance + d.transferAmount
                     });
                 else
                     error(404);
@@ -120,12 +126,13 @@ $.ajax = function(config) {
         },
         "/atm-api/accounts/create/": {
             "POST": function(params, data) {
-                if (!(data.accountNumber in accountBalances))
+                var d = JSON.parse(data);
+                if (!(d.accountNumber in accountBalances))
                     success({
-                        "createdAccountNumber": data.accountNumber
+                        "createdAccountNumber": d.accountNumber
                     });
                 else
-                    error(404);
+                    error(403);
             }
         },
         "/atm-api/accounts/{accountNumber}/transactions": {
