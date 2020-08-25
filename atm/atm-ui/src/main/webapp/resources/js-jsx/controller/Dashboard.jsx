@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
 
     render() {
         return (<div class="app-bg">
-            <NavBarDashboard userId={this.state.userId}/>
+            <NavBarDashboard userId={this.state.userId} location={this.props.location}/>
             <div class="container pt-5">
                 <div class="row">
                     <div class="col-4">
@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
                     <div class="col-8">
                         <span>&nbsp;</span>
                         <GetSummaryController accountNumber={this.state.accountNumber}/>
-                        <AccountActions userInfo={this.state} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
+                        <AccountActions userId={this.state.userId} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
                         <GetTransactionsController accountNumber={this.state.accountNumber}/>
                     </div>
                 </div>

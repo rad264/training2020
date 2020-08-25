@@ -20,8 +20,6 @@ class TransactionsCard extends React.Component {
                 break;
         }
 
-
-
         return (<div class="card mb-3">
             <div class="card-header smbc-color-primary border-success">Transactions</div>
             <div class="card-body">

@@ -12,6 +12,8 @@ class PostWithdrawController extends React.Component {
         });
     }
     postWithdraw(e) {
+        if (!this.state.accountNumber || !this.state.withdrawAmount)
+            return false;
         e.preventDefault();
         const accountNumber = this.state.accountNumber;
         const withdrawAmount = this.state.withdrawAmount;
@@ -34,6 +36,6 @@ class PostWithdrawController extends React.Component {
         });
     }
     render() {
-        return (<WithdrawCard accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} withdrawAmount={this.state.withdrawAmount}/>);
+        return (<WithdrawCard userId={this.props.userId} accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} withdrawAmount={this.state.withdrawAmount}/>);
     }
 }

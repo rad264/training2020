@@ -2,22 +2,6 @@ class LoginCard extends React.Component {
 
     render() {
 
-        let alert;
-        switch (this.props.statusCode) {
-            case(null):
-                alert = null;
-                break;
-            case 200:
-                alert = <AlertSuccess msg={"Login Success."}/>;
-                break;
-            case 404:
-                alert = <AlertFail error={"User Not Found."}/>;
-                break;
-            default:
-                alert = <AlertFail error={"Unexpected Error."}/>;
-                break;
-        }
-
         return (<div class="bg-login">
 
             <div class="container pt-5 loginCard">
@@ -34,13 +18,13 @@ class LoginCard extends React.Component {
                                     <i class="fas fa-user"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" name="userId" onChange={this.props.onChange} value={this.props.userId}></input>
+                            <input type="text" class="form-control" placeholder="username" name="userId" onChange={this.props.onChange} value={this.props.userId} required="required"></input>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn btn-primary btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
+                            <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
                         </div>
                     </form>
-                    {alert}
+                    <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
                 </div>
             </div>
 

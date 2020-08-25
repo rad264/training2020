@@ -14,12 +14,10 @@ class NavBarDashboard extends React.Component {
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="">Home
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/dashboard">Dashboard</a>
+                                <a class="nav-link" href="/#/dashboard" onClick={() => {
+                                    event.preventDefault();
+                                    hashHistory.push(this.props.location)
+                                    }}>Dashboard</a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -30,9 +28,8 @@ class NavBarDashboard extends React.Component {
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a class="dropdown-item" href="/#/dashboard">Account</a>
                                         <a class="dropdown-item" href="#" onClick={() => {
-                                                browserHistory.goBack()
+                                                hashHistory.goBack()
                                             }}>Logout</a>
                                     </li>
                                 </ul>

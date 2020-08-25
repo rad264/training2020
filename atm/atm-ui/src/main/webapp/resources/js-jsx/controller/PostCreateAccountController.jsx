@@ -12,6 +12,8 @@ class PostCreateAccountController extends React.Component {
         });
     }
     postCreateAccount(e) {
+        if (!this.state.accountNumber)
+            return false;
         e.preventDefault();
         const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;

@@ -48,6 +48,8 @@ class AccountGroup extends React.Component {
             })
         }
 
+        totalBalance = totalBalance.toFixed(2);
+
         return (<div>
             {accountCards}
             <div class="d-flex justify-content-between">

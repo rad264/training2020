@@ -24,7 +24,7 @@ class GetTransactionsController extends React.Component {
             type: "GET",
             contentType: "application/json",
             success: function(response) {
-                handleResponse(200, response);
+                handleResponse(200, response.reverse());
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);

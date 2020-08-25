@@ -12,6 +12,8 @@ class PostDepositController extends React.Component {
         });
     }
     postDeposit(e) {
+        if (!this.state.accountNumber || !this.state.depositAmount)
+            return false;
         e.preventDefault();
         const accountNumber = this.state.accountNumber;
         const depositAmount = this.state.depositAmount;
@@ -36,7 +38,6 @@ class PostDepositController extends React.Component {
     }
 
     render() {
-        // console.log(this.state);
-        return (<DepositCard userId={this.props.userInfo.userId} accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postDeposit} statusCode={this.state.responseStatus} depositAmount={this.state.depositAmount}/>);
+        return (<DepositCard userId={this.props.userId} accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postDeposit} statusCode={this.state.responseStatus} depositAmount={this.state.depositAmount}/>);
     }
 }

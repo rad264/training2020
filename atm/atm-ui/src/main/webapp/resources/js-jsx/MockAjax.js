@@ -28,31 +28,29 @@ var accountBalances = {
 };
 var accountTransactions = {
     "123456": [{
-            "date": 1596653726310,
-            "type": "Deposit",
-            "amount": 150,
-            "balance": 150.00
-        },
-        {
-            "date": 1596653726310,
-            "type": "Withdraw",
-            "amount": 50.00,
-            "balance": 100.00,
-        },
-    ],
+        "date": 1596653726310,
+        "type": "Deposit",
+        "amount": 150,
+        "balance": 150.00
+    },
+    {
+        "date": 1596653726310,
+        "type": "Withdraw",
+        "amount": 50.00,
+        "balance": 100.00,
+    }, ],
     "111222": [{
-            "date": 1596653726310,
-            "type": "Deposit",
-            "amount": 550,
-            "balance": 550.00
-        },
-        {
-            "date": 1596653726310,
-            "type": "Withdraw",
-            "amount": 400,
-            "balance": 150.00
-        },
-    ],
+        "date": 1596653726310,
+        "type": "Deposit",
+        "amount": 550,
+        "balance": 550.00
+    },
+    {
+        "date": 1596653726310,
+        "type": "Withdraw",
+        "amount": 400,
+        "balance": 150.00
+    }],
 };
 $.ajax = function(config) {
     var resources = {
@@ -60,9 +58,9 @@ $.ajax = function(config) {
             "GET": function(params) {
                 var accountNumbers = userAccountsNumbers[params.userId];
                 if (accountNumbers)
-                    success(
-                        accountNumbers
-                    );
+                    success({
+                        "accounts": accountNumbers
+                    });
                 else
                     error(404);
             }

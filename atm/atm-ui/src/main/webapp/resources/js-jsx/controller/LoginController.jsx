@@ -17,6 +17,8 @@ class LoginController extends React.Component {
         this.props.onUserIdChange(this.state.userId);
     }
     getUser(e) {
+        if (!this.state.userId)
+            return false;
         e.preventDefault();
         var _this = this;
         const userId = this.state.userId;
@@ -27,13 +29,13 @@ class LoginController extends React.Component {
             type: "GET",
             contentType: "application/json",
             success: function(response) {
-                handleResponse(200, response);
+                handleResponse(200, response.accounts);
                 var nextPath = '/dashboard';
-                browserHistory.push({
+                hashHistory.push({
                     pathname: nextPath,
                     state: {
                         userId: userId,
-                        initialAccountNumber: response[0]
+                        initialAccountNumber: response.accounts[0]
                     }
                 });
             },
