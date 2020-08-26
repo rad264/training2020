@@ -54,9 +54,7 @@ public class AccountAccessor {
 			String newBalance = (getAccountBalance(accountNumber).add(new BigDecimal(amount))).toString();
 			logging(accountNumber, null, newBalance, amount, "deposit");
 			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Failed to deposit for account: " + accountNumber, e);
 		}
 	}
@@ -66,10 +64,8 @@ public class AccountAccessor {
 			String newBalance = (getAccountBalance(accountNumber).subtract(new BigDecimal(amount))).toString();
 			logging(accountNumber, null, newBalance, amount, "withdraw");
 			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to deposit for account: " + accountNumber, e);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to withdraw for account: " + accountNumber, e);
 		}
 	}
 	
@@ -85,14 +81,10 @@ public class AccountAccessor {
 		}
 	}
 	
-	public static String withdrawSuccess(String accountNumber, String amount) {
-		try {
-			if (!(getAccountBalance(accountNumber).subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) == 1))
-				return "False";
-			return "True";
-		} catch (NumberFormatException e) {
-			return "Error";
-		}
+	public static boolean  withdrawSuccess(String accountNumber, String amount) {
+		if (!(getAccountBalance(accountNumber).subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) == 1))
+			return false;
+		return true;
 	}
 	
 	private static void logging(String homeAccount, String destinationAccount, String newBalance, String amount, String transactionType) throws IOException {
