@@ -16,11 +16,12 @@ class GetTransactionsController extends React.Component {
     }
 
     getTransactions() {
+        const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
         let handleResponse = (status, transactions) => this.setState({responseStatus: status, transactions: transactions});
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/accounts/" + accountNumber + "/transactions",
+            url: "/atm-api/users/" + userId + "/accounts/" + accountNumber + "/transactions",
             type: "GET",
             contentType: "application/json",
             success: function(response) {

@@ -15,6 +15,7 @@ class PostTransferController extends React.Component {
         if (!this.state.fromAccountNumber || !this.state.toAccountNumber || !this.state.transferAmount)
             return false;
         e.preventDefault();
+        const userId = this.props.userId;
         const fromAccountNumber = this.state.fromAccountNumber;
         const toAccountNumber = this.state.toAccountNumber;
         const transferAmount = this.state.transferAmount;
@@ -29,7 +30,7 @@ class PostTransferController extends React.Component {
             return false;
         }
         $.ajax({
-            url: "/atm-api/accounts/" + fromAccountNumber + "/transfer",
+            url: "/atm-api/users/" + userId + "/accounts/transfer",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({fromAccountNumber: fromAccountNumber, toAccountNumber: toAccountNumber, transferAmount: transferAmount}),

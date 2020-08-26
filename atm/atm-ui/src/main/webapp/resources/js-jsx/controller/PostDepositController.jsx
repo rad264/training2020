@@ -15,6 +15,7 @@ class PostDepositController extends React.Component {
         if (!this.state.accountNumber || !this.state.depositAmount)
             return false;
         e.preventDefault();
+        const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
         const depositAmount = this.state.depositAmount;
         let handleResponse = (status, balance) => {
@@ -24,7 +25,7 @@ class PostDepositController extends React.Component {
             }
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/accounts/" + accountNumber + "/deposit",
+            url: "/atm-api/users/" + userId + "/accounts/" + accountNumber + "/deposit",
             type: "POST",
             contentType: "application/json",
             data: depositAmount,

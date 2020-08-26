@@ -54,6 +54,16 @@ var accountTransactions = {
 };
 $.ajax = function(config) {
     var resources = {
+        "/atm-api/users/create/": {
+            "POST": function(params, data) {
+                if (!(data in userAccounts))
+                    success({
+                        "createdUserId": data
+                    });
+                else
+                    error(404);
+            }
+        },
         "/atm-api/users/{userId}": {
             "GET": function(params) {
                 var accountNumbers = userAccountsNumbers[params.userId];
@@ -74,57 +84,25 @@ $.ajax = function(config) {
                     error(404);
             }
         },
-        "/atm-api/users/create/": {
+        "/atm-api/users/{userId}/accounts/create/": {
             "POST": function(params, data) {
-                console.log(data)
-                if (!(data in userAccounts))
+                var accounts = userAccounts[params.userId];
+                if (accounts && !(data in accountBalances))
                     success({
-                        "createdUserId": data
+                        "createdAccountNumber": data
                     });
                 else
                     error(404);
             }
         },
-        "/atm-api/accounts/{accountNumber}": {
-            "GET": function(params) {
-                var balance = accountBalances[params.accountNumber];
-                if (balance)
-                    success({
-                        "balance": balance
-                    });
-                else
-                    error(404);
-            }
-        },
-        "/atm-api/accounts/{accountNumber}/deposit": {
+        "/atm-api/users/{userId}/accounts/transfer": {
             "POST": function(params, data) {
-                var balance = accountBalances[params.accountNumber] + parseFloat(data);
-                if (balance)
-                    success({
-                        "balance": balance
-                    });
-                else
-                    error(404);
-            }
-        },
-        "/atm-api/accounts/{accountNumber}/withdraw": {
-            "POST": function(params, data) {
-                var balance = accountBalances[params.accountNumber] - parseFloat(data);
-                if (balance)
-                    success({
-                        "balance": balance
-                    });
-                else
-                    error(404);
-            }
-        },
-        "/atm-api/accounts/{fromAccountNumber}/transfer": {
-            "POST": function(params, data) {
+                var accounts = userAccounts[params.userId];
                 var d = JSON.parse(data);
-                var fromBalance = accountBalances[params.fromAccountNumber];
+                var fromBalance = accountBalances[d.fromAccountNumber];
                 var toBalance = accountBalances[d.toAccountNumber];
 
-                if (fromBalance && toBalance)
+                if (accounts && fromBalance && toBalance)
                     success({
                         "fromBalance": fromBalance - d.transferAmount,
                         "toBalance": toBalance + d.transferAmount
@@ -133,21 +111,47 @@ $.ajax = function(config) {
                     error(404);
             }
         },
-        "/atm-api/accounts/create/": {
-            "POST": function(params, data) {
-                var d = JSON.parse(data);
-                if (!(d.accountNumber in accountBalances))
+        "/atm-api/users/{userId}/accounts/{accountNumber}": {
+            "GET": function(params) {
+                var accounts = userAccounts[params.userId];
+                var balance = accountBalances[params.accountNumber];
+                if (accounts && balance)
                     success({
-                        "createdAccountNumber": d.accountNumber
+                        "balance": balance
                     });
                 else
                     error(404);
             }
         },
-        "/atm-api/accounts/{accountNumber}/transactions": {
-            "GET": function(params) {
+        "/atm-api/users/{userId}/accounts/{accountNumber}/deposit": {
+            "POST": function(params, data) {
+                var accounts = userAccounts[params.userId];
+                var balance = accountBalances[params.accountNumber] + parseFloat(data);
+                if (accounts && balance)
+                    success({
+                        "balance": balance
+                    });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/users/{userId}/accounts/{accountNumber}/withdraw": {
+            "POST": function(params, data) {
+                var accounts = userAccounts[params.userId];
+                var balance = accountBalances[params.accountNumber] - parseFloat(data);
+                if (accounts && balance)
+                    success({
+                        "balance": balance
+                    });
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/users/{userId}/accounts/{accountNumber}/transactions": {
+            "GET": function(params, data) {
+                var accounts = userAccounts[params.userId];
                 var transactions = accountTransactions[params.accountNumber];
-                if (transactions)
+                if (accounts && transactions)
                     success(transactions);
                 else
                     error(404);

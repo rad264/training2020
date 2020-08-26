@@ -33,9 +33,9 @@ class Dashboard extends React.Component {
                     </div>
                     <div class="col-8">
                         <h3>&nbsp;</h3>
-                        <GetSummaryController accountNumber={this.state.accountNumber}/>
+                        <GetSummaryController userId={this.state.userId} accountNumber={this.state.accountNumber}/>
                         <AccountActions userId={this.state.userId} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
-                        <GetTransactionsController accountNumber={this.state.accountNumber}/>
+                        <GetTransactionsController userId={this.state.userId} accountNumber={this.state.accountNumber}/>
                     </div>
                 </div>
             </div>

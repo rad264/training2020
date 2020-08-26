@@ -10,11 +10,12 @@ class CheckBalanceController extends React.Component {
     }
     getBalance(e) {
         e.preventDefault();
+        const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
         let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: Number.parseFloat(balance).toFixed(2)});
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/accounts/" + accountNumber,
+            url: "/atm-api/users/" + userId + "/accounts/" + accountNumber,
             type: "GET",
             success: function(response) {
                 handleResponse(200, response.balance);

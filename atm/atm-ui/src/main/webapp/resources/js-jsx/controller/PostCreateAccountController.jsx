@@ -23,10 +23,10 @@ class PostCreateAccountController extends React.Component {
         }
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/accounts/create/",
+            url: "/atm-api/users/" + userId + "/accounts/create/",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({userId: userId, accountNumber: accountNumber}),
+            data: accountNumber,
             success: function(response) {
                 handleResponse(200, response.createdAccountNumber);
             },
