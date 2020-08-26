@@ -20,7 +20,7 @@ var userAccounts = {
 };
 var userAccountsNumbers = {
     "jwong": ["123456", "111222"],
-    "jsmith": ["123123", "010101"],
+    "jsmith": [],
 };
 var accountBalances = {
     "123456": 100.00,
@@ -70,6 +70,17 @@ $.ajax = function(config) {
                 var accounts = userAccounts[params.userId];
                 if (accounts)
                     success(accounts);
+                else
+                    error(404);
+            }
+        },
+        "/atm-api/users/create/": {
+            "POST": function(params, data) {
+                console.log(data)
+                if (!(data in userAccounts))
+                    success({
+                        "createdUserId": data
+                    });
                 else
                     error(404);
             }
@@ -130,7 +141,7 @@ $.ajax = function(config) {
                         "createdAccountNumber": d.accountNumber
                     });
                 else
-                    error(403);
+                    error(404);
             }
         },
         "/atm-api/accounts/{accountNumber}/transactions": {

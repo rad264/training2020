@@ -26,13 +26,13 @@ class Dashboard extends React.Component {
             <div class="container pt-5">
                 <div class="row">
                     <div class="col-4">
-                        <span class="ml-3">Accounts</span>
-                        <span class="mr-3 float-right">Balance</span>
+                        <h3>Accounts</h3>
+
                         <GetAccountsController userId={this.state.userId} updateSelectedAccount={this.updateSelectedAccount}/>
 
                     </div>
                     <div class="col-8">
-                        <span>&nbsp;</span>
+                        <h3>&nbsp;</h3>
                         <GetSummaryController accountNumber={this.state.accountNumber}/>
                         <AccountActions userId={this.state.userId} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
                         <GetTransactionsController accountNumber={this.state.accountNumber}/>

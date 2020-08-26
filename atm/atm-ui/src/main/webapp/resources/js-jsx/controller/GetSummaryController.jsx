@@ -17,7 +17,7 @@ class GetSummaryController extends React.Component {
 
     getSummary() {
         const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: Number.parseFloat(balance).toFixed(2)});
+        let handleResponse = (status, balance) => this.setState({responseStatus: status, balance: balance ? Number.parseFloat(balance).toFixed(2) : (0).toFixed(2)});
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber,

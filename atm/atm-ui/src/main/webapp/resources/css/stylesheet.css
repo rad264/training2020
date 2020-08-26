@@ -4,6 +4,8 @@
     --grey1: #FAF6F3;
     --grey2: #EEEAE3;
     --grey3: #ebebeb;
+    --grey4: #f0f1f1;
+    --black1: #27282c;
 }
 
 .boldType {
@@ -49,11 +51,14 @@ a:hover {
 
 .btn-smbc {
     background-color: var(--green2);
+}
+
+.btn-smbc:hover {
     color: var(--green1);
 }
 
 .app-bg {
-    background-color: var(--grey2);
+    background-color: var(--grey4);
 }
 
 .inactive-bg {
@@ -96,4 +101,9 @@ a:hover {
 .accountCard:hover {
     outline: 3px solid var(--green2);
     cursor: pointer;
+}
+
+table.dataTable {
+    border-collapse: collapse;
+    width: 100% !important;
 }

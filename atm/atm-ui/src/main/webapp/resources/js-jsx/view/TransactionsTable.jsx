@@ -52,6 +52,7 @@ class TransactionsTable extends React.Component {
         $(this.refs.main).DataTable({
             data: this.props.transactions,
             columns,
+            className: "datatables-width",
             order: [
                 [0, "desc"]
             ]

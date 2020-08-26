@@ -28,9 +28,9 @@ class NavBarDashboard extends React.Component {
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a class="dropdown-item" href="#" onClick={() => {
+                                        <button type="button" class="btn btn-block btn-danger" href="#" onClick={() => {
                                                 hashHistory.goBack()
-                                            }}>Logout</a>
+                                            }}>Logout</button>
                                     </li>
                                 </ul>
                             </li>

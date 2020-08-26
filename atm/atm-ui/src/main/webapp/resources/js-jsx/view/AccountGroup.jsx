@@ -53,8 +53,8 @@ class AccountGroup extends React.Component {
         return (<div>
             {accountCards}
             <div class="d-flex justify-content-between">
-                <span>Total Balance:</span>
-                <span>${totalBalance}</span>
+                <h5>Total Balance:</h5>
+                <h5 class="smbc-color1">${totalBalance}</h5>
             </div>
             {alert}
         </div>);

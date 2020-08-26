@@ -12,10 +12,10 @@ class Account extends React.Component {
                     ? 'smbc-color-primary card-header'
                     : 'bg-transparent card-header'}></div>
             <div class="card-body text-success">
-                <h4 class="card-title">{this.props.accountNumber}</h4>
+                <h4 class="card-title smbc-color1">{this.props.accountNumber}</h4>
                 <div class="float-right">
                     <h1 class="card-text">${Number.parseFloat(this.props.balance).toFixed(2)}</h1>
-                    <p class="card-subtitle text-muted">Available Balance</p>
+                    <p class="card-subtitle text-muted ml-4">Available Balance</p>
                 </div>
             </div>
         </div>);

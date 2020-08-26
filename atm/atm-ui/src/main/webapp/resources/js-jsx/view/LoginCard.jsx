@@ -10,24 +10,39 @@ class LoginCard extends React.Component {
 
                     <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
+
                     <form autocomplete="off">
                         <label for="userId">Username</label>
-                        <div class="input-group form-group input-group-lg">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-user"></i>
-                                </span>
+                        <div class="form-group row">
+                            <div class="col-12 input-group input-group-lg">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="username" name="userId" onChange={this.props.onChange} value={this.props.userId} required="required"></input>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" name="userId" onChange={this.props.onChange} value={this.props.userId} required="required"></input>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
+                            </div>
+                            <div class="col-6">
+                                <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
+                            </div>
                         </div>
                     </form>
-                    <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
+
+                    <hr class="my-4"></hr>
+                    <div>
+                        <a href="#collapseExample" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Register User</a>
+                    </div>
+                    <div class="collapse" id="collapseExample">
+                        <PostCreateUserController></PostCreateUserController>
+                    </div>
+
                 </div>
             </div>
-
         </div>);
     }
 }

@@ -1,14 +1,14 @@
 package com.smbcgroup.training.atm;
 
-public class BankInfo {
+public class AccountInfo {
 	private String userId;
 	private String accountNumber;
 
-	public BankInfo() {
+	public AccountInfo() {
 		
 	}
 
-	public BankInfo(String userId, String accountNumber) {
+	public AccountInfo(String userId, String accountNumber) {
 		this.userId = userId;
 		this.accountNumber = accountNumber;
 	}

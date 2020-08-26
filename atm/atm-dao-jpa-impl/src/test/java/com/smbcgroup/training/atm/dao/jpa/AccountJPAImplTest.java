@@ -33,21 +33,21 @@ public class AccountJPAImplTest {
 		AccountEntity ac1 = new AccountEntity("123456", new BigDecimal("100"), jwong);
 		em.persist(ac1);
 
-		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1));
+		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1, jwong));
 
 		em.getTransaction().commit();
 		em.close();
 	}
 
 	@Test
-	public void testGetAccount_Success() throws AccountNotFoundException {
-		Account account = dao.getAccount("123456");
+	public void testGetAccount_Success() throws AccountNotFoundException, UserNotFoundException {
+		Account account = dao.getAccount("jwong", "123456");
 		assertEquals(new BigDecimal("100.0"), account.getBalance());
 	}
 
 	@Test(expected = AccountNotFoundException.class)
-	public void testGetAccount_AccountNotFound() throws AccountNotFoundException {
-		dao.getAccount("000000");
+	public void testGetAccount_AccountNotFound() throws AccountNotFoundException, UserNotFoundException {
+		dao.getAccount("jwong", "000000");
 	}
 
 	@Test
@@ -116,23 +116,23 @@ public class AccountJPAImplTest {
 	}
 
 	@Test
-	public void testGetTransactions_Success() throws AccountNotFoundException {
-		Transaction[] transactions = dao.getAccountTransactions("123456");
+	public void testGetTransactions_Success() throws AccountNotFoundException, UserNotFoundException {
+		Transaction[] transactions = dao.getAccountTransactions("jwong", "123456");
 		assertEquals(1, transactions.length);
 	}
 
 	@Test(expected = AccountNotFoundException.class)
-	public void testGetTransactions_AccountNotFound() throws AccountNotFoundException {
-		dao.getAccountTransactions("111222");
+	public void testGetTransactions_AccountNotFound() throws AccountNotFoundException, UserNotFoundException {
+		dao.getAccountTransactions("jwong", "111222");
 	}
 
 	@Test
-	public void testUpdateAccountTransactions_Success() throws AccountNotFoundException {
+	public void testUpdateAccountTransactions_Success() throws AccountNotFoundException, UserNotFoundException {
 		Transaction newTrans = new Transaction();
 		newTrans.setDate(new Date());
 		newTrans.setType("Deposit");
 		newTrans.setAmount(new BigDecimal("50"));
-		dao.updateAccountTransactions("123456", newTrans);
+		dao.updateAccountTransactions("jwong", "123456", newTrans);
 
 		EntityManager em = dao.emf.createEntityManager();
 		TypedQuery<TransactionEntity> query = em.createQuery(

@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.smbcgroup.training.atm.ATMServiceException.Type;
 import com.smbcgroup.training.atm.dao.AccountDAO;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.UserAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class ATMServiceTest {
@@ -37,7 +38,7 @@ public class ATMServiceTest {
 	@Test(expected = AccountNotFoundException.class)
 	public void testGetBalance_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
-		service.getAccount("123456");
+		service.getAccount("jwong", "123456");
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		assertSame(account, service.getAccount("123456"));
+		assertSame(account, service.getAccount("jwong", "123456"));
 	}
 
 	@Test
@@ -76,7 +77,7 @@ public class ATMServiceTest {
 	public void testDeposit_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
 		try {
-			service.deposit("123456", new BigDecimal("99.99"));
+			service.deposit("jwong", "123456", new BigDecimal("99.99"));
 			fail();
 		} catch (AccountNotFoundException e) {
 			assertAccountBalanceNotUpdated();
@@ -104,7 +105,7 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		service.deposit("123456", new BigDecimal("99.99"));
+		service.deposit("jwong", "123456", new BigDecimal("99.99"));
 		Account capturedAccount = mockDAO.spy_updateAccount();
 		assertEquals("123456", capturedAccount.getAccountNumber());
 		assertEquals(new BigDecimal("199.99"), capturedAccount.getBalance());
@@ -114,7 +115,7 @@ public class ATMServiceTest {
 	public void testWithdraw_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
 		try {
-			service.withdraw("123456", new BigDecimal("99.99"));
+			service.withdraw("jwong", "123456", new BigDecimal("99.99"));
 			fail();
 		} catch (AccountNotFoundException e) {
 			assertAccountBalanceNotUpdated();
@@ -157,7 +158,7 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		service.withdraw("123456", new BigDecimal("90"));
+		service.withdraw("jwong", "123456", new BigDecimal("90"));
 		Account capturedAccount = mockDAO.spy_updateAccount();
 		assertEquals("123456", capturedAccount.getAccountNumber());
 		assertEquals(new BigDecimal("10.00"), capturedAccount.getBalance());
@@ -171,7 +172,7 @@ public class ATMServiceTest {
 		transaction.setAmount(new BigDecimal("50.0"));
 		Transaction[] transactions = { transaction };
 		mockDAO.stub_getAccountTransactions(transactions);
-		assertArrayEquals(transactions, service.getAccountTransactions("123456"));
+		assertArrayEquals(transactions, service.getAccountTransactions("jwong", "123456"));
 	}
 	
 
@@ -204,7 +205,7 @@ public class ATMServiceTest {
 		private AccountNotFoundException getAccount_exception;
 
 		@Override
-		public Account getAccount(String accountNumber) throws AccountNotFoundException {
+		public Account getAccount(String userId, String accountNumber) throws AccountNotFoundException {
 			if (getAccount_exception != null)
 				throw getAccount_exception;
 			return getAccount_value;
@@ -262,7 +263,7 @@ public class ATMServiceTest {
 		private AccountNotFoundException getTransactions_exception;
 
 		@Override
-		public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+		public Transaction[] getAccountTransactions(String userId, String accountNumber) throws AccountNotFoundException {
 			if (getTransactions_exception != null)
 				throw getTransactions_exception;
 			return getTransactions_value;
@@ -280,14 +281,25 @@ public class ATMServiceTest {
 		private AccountNotFoundException updateAccountTransactions_exception;
 
 		@Override
-		public void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException {
-			updateAccountTransactions_capture = new Object[] { accountNumber, transaction };
+		public void updateAccountTransactions(String userId, String accountNumber, Transaction transaction) throws AccountNotFoundException {
+			updateAccountTransactions_capture = new Object[] { userId, accountNumber, transaction };
 		}
 		
 		public Object[] spy_updateAccountTransactions() {
 			return createAccount_capture;
 		}
+		
+		private Object[] createUser_capture;
 
+		@Override
+		public void createUser(String userId) {
+			createAccount_capture = new Object[] { userId };
+		}
+
+		public Object[] spy_createUser() {
+			return createUser_capture;
+		}
+		
 	}
 
 }
