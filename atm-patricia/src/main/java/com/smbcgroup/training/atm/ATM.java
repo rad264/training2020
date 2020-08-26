@@ -19,7 +19,7 @@ public class ATM {
 		createAccount, 
 		deposit, 
 		withdraw, 
-		transferBetweenAccounts,
+		transfer,
 		viewAccountsSummary, 
 		viewAccountActivity;
 	}
@@ -83,7 +83,7 @@ public class ATM {
 		case withdraw:
 			output.println("How much money do you want to withdraw?");
 			return true;
-		case transferBetweenAccounts:
+		case transfer:
 			output.println(
 					"Which account do you want to transfer to? (" 
 					+ (String.join(", ", AccountAccessor.getUserAccounts(loggedInUser))).replace(selectedAccount, "") + ")");
@@ -152,7 +152,7 @@ public class ATM {
 				output.println("Invalid input.");
 			}
 			break;
-		case transferBetweenAccounts:
+		case transfer:
 			if (selectedAccount.equals(input) ) {
 				output.println("Selected account cannot be your current account");
 			}
