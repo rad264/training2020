@@ -28,7 +28,13 @@ class LoginCard extends React.Component {
                                 <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
                             </div>
                             <div class="col-6">
-                                <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>
+                                <input
+                                    type="submit"
+                                    class="btn btn-smbc btn-lg btn-block login_btn"
+                                    disabled={this.props.isLoading}
+                                    onClick={!this.props.isLoading ? this.props.onClick : null}
+                                    value={this.props.isLoading ? 'Loading…' : "Login"}
+                                    ></input>
                             </div>
                         </div>
                     </form>
@@ -46,3 +52,5 @@ class LoginCard extends React.Component {
         </div>);
     }
 }
+
+// <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>

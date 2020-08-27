@@ -22,8 +22,9 @@ class LoginController extends React.Component {
         e.preventDefault();
         var _this = this;
         const userId = this.state.userId;
-        let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers});
+        let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers, isLoading:false});
         handleResponse = handleResponse.bind(this);
+        this.setState({isLoading: true});
         $.ajax({
             url: "/atm-api/users/" + userId,
             type: "GET",
@@ -45,6 +46,6 @@ class LoginController extends React.Component {
         });
     }
     render() {
-        return (<LoginCard userId={this.state.userId} onChange={this.onChange} onClick={this.getUser} statusCode={this.state.responseStatus}/>);
+        return (<LoginCard userId={this.state.userId} onChange={this.onChange} onClick={this.getUser} statusCode={this.state.responseStatus} isLoading={this.state.isLoading}/>);
     }
 }

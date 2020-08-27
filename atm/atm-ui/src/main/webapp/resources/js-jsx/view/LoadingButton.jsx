@@ -1,29 +1,14 @@
-function simulateNetworkRequest() {
-    return new Promise((resolve) => setTimeout(resolve, 2000));
-}
-
-function LoadingButton(props) {
-    const [isLoading, setLoading] = React.useState(false);
-
-    React.useEffect(() => {
-        if (isLoading) {
-            simulateNetworkRequest().then(() => {
-                setLoading(false);
-            });
-        }
-    }, [isLoading]);
-
-    const handleClick = () => {
-        setLoading(true);
-    }
-
+class LoadingButton extends React.Component {
+render() {
     return (
         <input
-        type="submit"
-        class="btn btn-smbc btn-lg btn-block login_btn"
-        disabled={isLoading}
-        onClick={!isLoading ? handleClick : null}
-        value={isLoading ? 'Loading…' : props.value}
-        ></input>
+            type="submit"
+            class="btn btn-smbc float-right"
+            disabled={this.props.isLoading}
+            onClick={!this.props.isLoading ? this.props.onClick : null}
+            value={this.props.isLoading ? 'Loading…' : this.props.value}
+            >
+        </input>
     );
+}
 }
