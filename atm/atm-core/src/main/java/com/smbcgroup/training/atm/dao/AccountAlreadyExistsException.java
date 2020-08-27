@@ -8,7 +8,7 @@ public class AccountAlreadyExistsException extends Exception {
 		super();
 	}
 	
-	public String toString() {
-		return "Account Already Exists.";
+	public AccountAlreadyExistsException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

@@ -17,7 +17,7 @@ import com.smbcgroup.training.atm.ATMService;
 import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
-import com.smbcgroup.training.atm.dao.InvalidAmountException;
+import com.smbcgroup.training.atm.dao.NegativeAmountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class APIControllerTest {
@@ -90,8 +90,8 @@ public class APIControllerTest {
 	public void postDeposit_Success() throws Exception {
 		APIController.service = new ATMService(null) {
 			@Override
-			public void deposit(BigDecimal amount)
-					throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+			public void deposit(String accountNumber, BigDecimal amount)
+					throws AccountNotFoundException, NegativeAmountException {
 				Account account = new Account();
 				account.setAccountNumber("123456");
 				account.setBalance(new BigDecimal("100.00"));

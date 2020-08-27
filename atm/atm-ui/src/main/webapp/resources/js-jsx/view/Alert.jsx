@@ -16,7 +16,10 @@ class Alert extends React.Component {
                 else if (this.props.action == "Create Account")
                     alert = <AlertFail error={"Account Already Exists."}/>;
                 else
-                    alert = <AlertFail error={"Invalid Amount."}/>;
+                    alert = <AlertFail error={"Negative Amount Invalid."}/>;
+                break;
+            case 403:
+                alert = <AlertFail error={"Insufficient Funds."}/>;
                 break;
             case 404:
                 if (this.props.action == "Login")

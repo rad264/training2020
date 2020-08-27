@@ -21,7 +21,8 @@ import com.smbcgroup.training.atm.Transfer;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
-import com.smbcgroup.training.atm.dao.InvalidAmountException;
+import com.smbcgroup.training.atm.dao.InsufficientFundsException;
+import com.smbcgroup.training.atm.dao.NegativeAmountException;
 import com.smbcgroup.training.atm.dao.UserAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 import com.smbcgroup.training.atm.dao.jpa.AccountJPAImpl;
@@ -65,7 +66,7 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch (InvalidAmountException e) {
+		} catch (NegativeAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -79,8 +80,10 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch (InvalidAmountException e) {
+		} catch (NegativeAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch (InsufficientFundsException e) {
+			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 	}
 
@@ -117,8 +120,10 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch (InvalidAmountException e) {
+		} catch (NegativeAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch (InsufficientFundsException e) {
+			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 	}
 

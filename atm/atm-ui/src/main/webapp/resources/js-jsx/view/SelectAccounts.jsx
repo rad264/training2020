@@ -35,7 +35,7 @@ class SelectAccounts extends React.Component {
 
     render() {
 
-        var accountNumbersOptions = [<option>Select Account</option>
+        var accountNumbersOptions = [<option selected disabled>Select Account</option>
             ];
         if (this.state.accountNumbers) {
             this.state.accountNumbers.forEach(function(n, i) {

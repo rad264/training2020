@@ -8,8 +8,8 @@ import com.smbcgroup.training.atm.dao.AccountDAO;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
-import com.smbcgroup.training.atm.dao.FailToCreateAccountException;
-import com.smbcgroup.training.atm.dao.InvalidAmountException;
+import com.smbcgroup.training.atm.dao.InsufficientFundsException;
+import com.smbcgroup.training.atm.dao.NegativeAmountException;
 import com.smbcgroup.training.atm.dao.UserAlreadyExistsException;
 
 public class ATMService {
@@ -74,7 +74,7 @@ public class ATMService {
 
 
 	public void deposit(String accountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException {
+			throws AccountNotFoundException, NegativeAmountException {
 		checkPositive(amount);
 		Account account = getAccount(accountNumber);
 		BigDecimal newBalance = account.getBalance().add(amount);
@@ -84,29 +84,29 @@ public class ATMService {
 	}
 	
 	public void withdraw(String accountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException {
+			throws AccountNotFoundException, NegativeAmountException, InsufficientFundsException {
 		checkPositive(amount);
 		Account account = getAccount(accountNumber);
 		if (account.getBalance().subtract(amount).compareTo(BigDecimal.TEN) < 0)
-			throw new InvalidAmountException();
+			throw new InsufficientFundsException();
 		BigDecimal newBalance = account.getBalance().subtract(amount);
 		account.setBalance(newBalance);
 		dao.updateAccount(account);
 		updateTransactions(accountNumber, "Withdraw", amount, newBalance);
 	}
 
-	private void checkPositive(BigDecimal amount) throws InvalidAmountException {
+	private void checkPositive(BigDecimal amount) throws NegativeAmountException {
 		if (amount.compareTo(BigDecimal.ZERO) <= 0)
-			throw new InvalidAmountException();
+			throw new NegativeAmountException();
 	}
 
 	public void transfer(Transfer transfer)
-			throws AccountNotFoundException, InvalidAmountException {
+			throws AccountNotFoundException, NegativeAmountException, InsufficientFundsException {
 		transfer(transfer.getFromAccountNumber(), transfer.getToAccountNumber(), transfer.getTransferAmount());
 	}
 
 	public void transfer(String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException {
+			throws AccountNotFoundException, NegativeAmountException, InsufficientFundsException {
 		withdraw(sourceAccountNumber, amount);
 		deposit(destinationAccountNumber, amount);
 	}
@@ -121,11 +121,11 @@ public class ATMService {
 		dao.updateAccountTransactions(accountNumber, transaction);
 	}
 
-	public BigDecimal toBigDecimal(String string) throws InvalidAmountException {
+	public BigDecimal toBigDecimal(String string) throws NegativeAmountException {
 		try {
 			return new BigDecimal(string);
 		} catch (NumberFormatException e) {
-			throw new InvalidAmountException();
+			throw new NegativeAmountException();
 		}
 	}
 }
