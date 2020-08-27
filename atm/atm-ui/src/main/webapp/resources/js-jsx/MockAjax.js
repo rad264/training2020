@@ -22,7 +22,7 @@ $.ajax = function (config) {
         }
     }
     for (var resourcePath in resources) {
-        var urlPattern = "^" + resourcePath.replace(/{.*}/, "[^/]*") + "$";
+        var urlPattern = "^" + resourcePath.replace(/{[^\}]*}/g, "[^/]*") + "$";
         if (new RegExp(urlPattern).exec(config.url)) {
             var operations = resources[resourcePath];
             if (operations[config.type]) {
