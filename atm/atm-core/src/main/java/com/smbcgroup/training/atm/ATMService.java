@@ -24,9 +24,8 @@ public class ATMService {
 		return dao.getUser(userId);
 	}
 
-	public Account getAccount(String userId, String accountNumber)
-			throws AccountNotFoundException, UserNotFoundException {
-		return dao.getAccount(userId, accountNumber);
+	public Account getAccount(String accountNumber) throws AccountNotFoundException {
+		return dao.getAccount(accountNumber);
 	}
 
 	public Account[] getAccounts(String userId) throws UserNotFoundException {
@@ -39,10 +38,6 @@ public class ATMService {
 		for (int i = 0; i < accounts.length; i++)
 			accountNumbers[i] = accounts[i].getAccountNumber();
 		return accountNumbers;
-	}
-
-	public void createAccount(AccountInfo accountInfo) throws AccountAlreadyExistsException, UserNotFoundException {
-		createAccount(accountInfo.getUserId(), accountInfo.getAccountNumber());
 	}
 
 	public void createAccount(String userId, String accountNumber)
@@ -61,50 +56,43 @@ public class ATMService {
 	}
 
 	public void createUser(String userId) throws UserAlreadyExistsException {
-		if (userAlreadyExists(userId))
-			throw new UserAlreadyExistsException();
-		dao.createUser(userId);
-	}
-
-	private Boolean userAlreadyExists(String userId) {
 		try {
-			getAccountNumbers(userId);
+			getUser(userId);
+			throw new UserAlreadyExistsException();
 		} catch (UserNotFoundException e) {
-			return false;
+			dao.createUser(userId);
 		}
-		return true;
 	}
 
-	public BigDecimal getAccountBalance(String userId, String accountNumber)
-			throws AccountNotFoundException, UserNotFoundException {
-		return getAccount(userId, accountNumber).getBalance();
+	public BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException {
+		return getAccount(accountNumber).getBalance();
 	}
 
-	public Transaction[] getAccountTransactions(String userId, String accountNumber)
-			throws AccountNotFoundException, UserNotFoundException {
-		return dao.getAccountTransactions(userId, accountNumber);
+	public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+		return dao.getAccountTransactions(accountNumber);
 	}
 
-	public void deposit(String userId, String accountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+
+	public void deposit(String accountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException {
 		checkPositive(amount);
-		Account account = getAccount(userId, accountNumber);
+		Account account = getAccount(accountNumber);
 		BigDecimal newBalance = account.getBalance().add(amount);
 		account.setBalance(newBalance);
 		dao.updateAccount(account);
-		updateTransactions(userId, accountNumber, "Deposit", amount, newBalance);
+		updateTransactions(accountNumber, "Deposit", amount, newBalance);
 	}
-
-	public void withdraw(String userId, String accountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
+	
+	public void withdraw(String accountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException {
 		checkPositive(amount);
-		Account account = getAccount(userId, accountNumber);
+		Account account = getAccount(accountNumber);
 		if (account.getBalance().subtract(amount).compareTo(BigDecimal.TEN) < 0)
 			throw new InvalidAmountException();
 		BigDecimal newBalance = account.getBalance().subtract(amount);
 		account.setBalance(newBalance);
 		dao.updateAccount(account);
-		updateTransactions(userId, accountNumber, "Withdraw", amount, newBalance);
+		updateTransactions(accountNumber, "Withdraw", amount, newBalance);
 	}
 
 	private void checkPositive(BigDecimal amount) throws InvalidAmountException {
@@ -112,25 +100,25 @@ public class ATMService {
 			throw new InvalidAmountException();
 	}
 
-	public void transfer(String userId, Transfer transfer)
-			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
-		transfer(userId, transfer.getFromAccountNumber(), transfer.getToAccountNumber(), transfer.getTransferAmount());
+	public void transfer(Transfer transfer)
+			throws AccountNotFoundException, InvalidAmountException {
+		transfer(transfer.getFromAccountNumber(), transfer.getToAccountNumber(), transfer.getTransferAmount());
 	}
 
-	public void transfer(String userId, String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
-			throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
-		withdraw(userId, sourceAccountNumber, amount);
-		deposit(userId, destinationAccountNumber, amount);
+	public void transfer(String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
+			throws AccountNotFoundException, InvalidAmountException {
+		withdraw(sourceAccountNumber, amount);
+		deposit(destinationAccountNumber, amount);
 	}
 
-	public void updateTransactions(String userId, String accountNumber, String type, BigDecimal amount,
-			BigDecimal balance) throws AccountNotFoundException, UserNotFoundException {
+	public void updateTransactions(String accountNumber, String type, BigDecimal amount, BigDecimal balance)
+			throws AccountNotFoundException {
 		Transaction transaction = new Transaction();
 		transaction.setDate(new Date());
 		transaction.setType(type);
 		transaction.setAmount(amount);
 		transaction.setBalance(balance);
-		dao.updateAccountTransactions(userId, accountNumber, transaction);
+		dao.updateAccountTransactions(accountNumber, transaction);
 	}
 
 	public BigDecimal toBigDecimal(String string) throws InvalidAmountException {
@@ -140,5 +128,4 @@ public class ATMService {
 			throw new InvalidAmountException();
 		}
 	}
-
 }

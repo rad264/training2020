@@ -62,7 +62,7 @@ public class APIControllerTest {
 	public void getAccount_NotFound() throws Exception {
 		APIController.service = new ATMService(null) {
 			@Override
-			public Account getAccount(String userId, String accountNumber) throws AccountNotFoundException {
+			public Account getAccount(String accountNumber) throws AccountNotFoundException {
 				throw new AccountNotFoundException();
 			}
 		};
@@ -74,7 +74,7 @@ public class APIControllerTest {
 	public void getAccount_Found() throws Exception {
 		APIController.service = new ATMService(null) {
 			@Override
-			public Account getAccount(String uesrId, String accountNumber) throws AccountNotFoundException {
+			public Account getAccount(String accountNumber) throws AccountNotFoundException {
 				Account account = new Account();
 				account.setAccountNumber("123456");
 				account.setBalance(new BigDecimal("100.00"));
@@ -90,7 +90,7 @@ public class APIControllerTest {
 	public void postDeposit_Success() throws Exception {
 		APIController.service = new ATMService(null) {
 			@Override
-			public void deposit(String userId, String accountNumber, BigDecimal amount)
+			public void deposit(BigDecimal amount)
 					throws AccountNotFoundException, InvalidAmountException, UserNotFoundException {
 				Account account = new Account();
 				account.setAccountNumber("123456");

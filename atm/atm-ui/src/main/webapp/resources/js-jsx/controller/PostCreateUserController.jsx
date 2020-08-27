@@ -21,7 +21,7 @@ class PostCreateUserController extends React.Component {
         }
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/users/create/",
+            url: "/atm-api/users/",
             type: "POST",
             contentType: "application/json",
             data: userId,

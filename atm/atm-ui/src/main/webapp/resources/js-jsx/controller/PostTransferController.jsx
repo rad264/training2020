@@ -30,7 +30,7 @@ class PostTransferController extends React.Component {
             return false;
         }
         $.ajax({
-            url: "/atm-api/users/" + userId + "/accounts/transfer",
+            url: "/atm-api/accounts/transfers/",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({fromAccountNumber: fromAccountNumber, toAccountNumber: toAccountNumber, transferAmount: transferAmount}),

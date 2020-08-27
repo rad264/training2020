@@ -11,7 +11,7 @@ class Alert extends React.Component {
                 alert = <AlertSuccess msg={this.props.action + " Success."}/>;
                 break;
             case 400:
-                if (this.props.action == "Create User")
+                if (this.props.action == "Register User")
                     alert = <AlertFail error={"User Already Exists."}/>;
                 else if (this.props.action == "Create Account")
                     alert = <AlertFail error={"Account Already Exists."}/>;

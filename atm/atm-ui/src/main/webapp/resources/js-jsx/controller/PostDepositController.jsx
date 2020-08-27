@@ -25,7 +25,7 @@ class PostDepositController extends React.Component {
             }
         handleResponse = handleResponse.bind(this);
         $.ajax({
-            url: "/atm-api/users/" + userId + "/accounts/" + accountNumber + "/deposit",
+            url: "/atm-api/accounts/" + accountNumber + "/deposits",
             type: "POST",
             contentType: "application/json",
             data: depositAmount,

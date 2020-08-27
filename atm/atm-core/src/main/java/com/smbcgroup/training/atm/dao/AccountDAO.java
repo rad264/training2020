@@ -8,16 +8,16 @@ public interface AccountDAO {
 
 	User getUser(String userId) throws UserNotFoundException;
 
-	Account getAccount(String userId, String accountNumber) throws AccountNotFoundException, UserNotFoundException; // user
+	Account getAccount(String accountNumber) throws AccountNotFoundException;
 
 	Account[] getAccounts(String userId) throws UserNotFoundException;
 
-	void updateAccount(Account account); // user
+	void updateAccount(Account account);
 
-	Transaction[] getAccountTransactions(String userId, String accountNumber) throws AccountNotFoundException, UserNotFoundException; // user
-
-	void updateAccountTransactions(String userId, String accountNumber, Transaction transaction) throws AccountNotFoundException, UserNotFoundException; // user
-
+	Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException;
+	
+	void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException;
+	
 	void createAccount(String userId, String accountNumber) throws UserNotFoundException;
 
 	void createUser(String userId);

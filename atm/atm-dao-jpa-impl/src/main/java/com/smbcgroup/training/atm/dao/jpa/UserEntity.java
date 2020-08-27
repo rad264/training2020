@@ -20,9 +20,6 @@ public class UserEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<AccountEntity> accounts;
-	
-	@OneToMany(mappedBy = "user")
-	private List<TransactionEntity> transactions;
 
 	public UserEntity() {
 
@@ -36,7 +33,6 @@ public class UserEntity {
 		User user = new User();
 		user.setUserId(userId);
 		user.setAccounts(accounts.stream().map(AccountEntity::getAccountNumber).toArray(String[]::new));
-		user.setTransactions(transactions.stream().map(TransactionEntity::toString).toArray(String[]::new));
 		return user;
 	}
 
@@ -54,14 +50,6 @@ public class UserEntity {
 
 	public void setAccounts(List<AccountEntity> accounts) {
 		this.accounts = accounts;
-	}
-
-	public List<TransactionEntity> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<TransactionEntity> transactions) {
-		this.transactions = transactions;
 	}
 
 }

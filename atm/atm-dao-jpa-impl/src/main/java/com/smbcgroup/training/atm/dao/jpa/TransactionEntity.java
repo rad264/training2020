@@ -18,8 +18,7 @@ import com.smbcgroup.training.atm.Transaction;
 @Table(name = "Transactions")
 public class TransactionEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "tid")
 	private Integer tid;
 
@@ -31,7 +30,7 @@ public class TransactionEntity {
 
 	@Column(name = "amount")
 	private BigDecimal amount;
-
+	
 	@Column(name = "balance")
 	private BigDecimal balance;
 
@@ -39,22 +38,16 @@ public class TransactionEntity {
 	@JoinColumn(name = "account_number")
 	private AccountEntity account;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private UserEntity user;
-
 	public TransactionEntity() {
 
 	}
 
-	public TransactionEntity(Date date, String type, BigDecimal amount, BigDecimal balance, AccountEntity account,
-			UserEntity user) {
+	public TransactionEntity(Date date, String type, BigDecimal amount, BigDecimal balance, AccountEntity account) {
 		this.date = date;
 		this.type = type;
 		this.amount = amount;
 		this.balance = balance;
 		this.account = account;
-		this.user = user;
 	}
 
 	public Transaction convertToTransaction() {
@@ -65,7 +58,7 @@ public class TransactionEntity {
 		transaction.setAmount(amount);
 		return transaction;
 	}
-
+	
 	public Integer getTid() {
 		return tid;
 	}
@@ -93,7 +86,7 @@ public class TransactionEntity {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-
+	
 	public BigDecimal getBalance() {
 		return balance;
 	}
@@ -108,14 +101,6 @@ public class TransactionEntity {
 
 	public void setAccount(AccountEntity account) {
 		this.account = account;
-	}
-
-	public UserEntity getUser() {
-		return user;
-	}
-
-	public void setUser(UserEntity user) {
-		this.user = user;
 	}
 
 	public String toString() {

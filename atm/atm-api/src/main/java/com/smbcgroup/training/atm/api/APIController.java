@@ -47,55 +47,48 @@ public class APIController {
 	}
 
 	@ApiOperation("Get account")
-	@RequestMapping(value = "/users/{userId}/accounts/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> getAccount(@PathVariable("userId") String userId,
-			@PathVariable("accountNumber") String accountNumber) {
+	@RequestMapping(value = "/accounts/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Account> getAccount(@PathVariable("accountNumber") String accountNumber) {
 		try {
-			return new ResponseEntity<Account>(service.getAccount(userId, accountNumber), HttpStatus.OK);
+			return new ResponseEntity<Account>(service.getAccount(accountNumber), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
-		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@ApiOperation("Deposit")
-	@RequestMapping(value = "/users/{userId}/accounts/{accountNumber}/deposit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> deposit(@PathVariable("userId") String userId,
-			@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal depositAmount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/deposits", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber,
+			@RequestBody BigDecimal depositAmount) {
 		try {
-			service.deposit(userId, accountNumber, depositAmount);
+			service.deposit(accountNumber, depositAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@ApiOperation("Withdraw")
-	@RequestMapping(value = "/users/{userId}/accounts/{accountNumber}/withdraw", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> withdraw(@PathVariable("userId") String userId,
-			@PathVariable("accountNumber") String accountNumber, @RequestBody BigDecimal withdrawAmount) {
+	@RequestMapping(value = "/accounts/{accountNumber}/withdraws", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber,
+			@RequestBody BigDecimal withdrawAmount) {
 		try {
-			service.withdraw(userId, accountNumber, withdrawAmount);
+			service.withdraw(accountNumber, withdrawAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@ApiOperation("Create account")
-	@RequestMapping(value = "/users/{userId}/accounts/create", method = RequestMethod.POST)
-	public ResponseEntity<Void> createAccount(@PathVariable("userId") String userId, @RequestBody String accountNumber) {
+	@RequestMapping(value = "/accounts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> createAccount(@RequestBody AccountInfo accountInfo) {
 		try {
-			service.createAccount(userId, accountNumber);
+			service.createAccount(accountInfo.getUserId(), accountInfo.getAccountNumber());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -103,10 +96,10 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@ApiOperation("Create user")
-	@RequestMapping(value = "/users/create", method = RequestMethod.POST)
-	public ResponseEntity<Void> createUser(@RequestBody String userId) {
+	
+	@ApiOperation("Create User")
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	public ResponseEntity<Void> createAccount(@RequestBody String userId) {
 		try {
 			service.createUser(userId);
 			return new ResponseEntity<Void>(HttpStatus.OK);
@@ -115,18 +108,17 @@ public class APIController {
 		}
 	}
 
+
 	@ApiOperation("Transfer")
-	@RequestMapping(value = "/users/{userId}/accounts/transfer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> accountTransfer(@PathVariable("userId") String userId, @RequestBody Transfer transfer) {
+	@RequestMapping(value = "/accounts/transfers", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> accountTransfer(@RequestBody Transfer transfer) {
 		try {
-			service.transfer(userId, transfer);
+			service.transfer(transfer);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (InvalidAmountException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -137,17 +129,14 @@ public class APIController {
 			return new ResponseEntity<Account[]>(service.getAccounts(userId), HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Account[]>(HttpStatus.NOT_FOUND);
-		} 
+		}
 	}
 
 	@ApiOperation("Get account transactions")
-	@RequestMapping(value = "/users/{userId}/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Transaction[]> getAccountTransactions(@PathVariable("userId") String userId, @PathVariable("accountNumber") String accountNumber) {
+	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Transaction[]> getAccountTransactions(@PathVariable("accountNumber") String accountNumber) {
 		try {
-			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(userId, accountNumber),
-					HttpStatus.OK);
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<Transaction[]>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(accountNumber), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Transaction[]>(HttpStatus.NOT_FOUND);
 		}
