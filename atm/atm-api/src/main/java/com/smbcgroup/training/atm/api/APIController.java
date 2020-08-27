@@ -137,7 +137,7 @@ public class APIController {
 			return new ResponseEntity<Account[]>(service.getAccounts(userId), HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Account[]>(HttpStatus.NOT_FOUND);
-		}
+		} 
 	}
 
 	@ApiOperation("Get account transactions")
@@ -146,7 +146,9 @@ public class APIController {
 		try {
 			return new ResponseEntity<Transaction[]>(service.getAccountTransactions(userId, accountNumber),
 					HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<Transaction[]>(HttpStatus.NOT_FOUND);
+		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Transaction[]>(HttpStatus.NOT_FOUND);
 		}
 	}

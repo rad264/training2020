@@ -67,7 +67,9 @@ class TransactionsTable extends React.Component {
         return false;
     }
     render() {
-        return (< div > <table ref = "main" / > < /div>);
-            }
+        return (<div>
+            <table ref="main" class="table table-hover"></table>
+        </div>);
+    }
 
-        }
+}

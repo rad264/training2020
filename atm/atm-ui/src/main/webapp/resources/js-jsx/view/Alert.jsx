@@ -10,8 +10,19 @@ class Alert extends React.Component {
             case 200:
                 alert = <AlertSuccess msg={this.props.action + " Success."}/>;
                 break;
+            case 400:
+                if (this.props.action == "Create User")
+                    alert = <AlertFail error={"User Already Exists."}/>;
+                else if (this.props.action == "Create Account")
+                    alert = <AlertFail error={"Account Already Exists."}/>;
+                else
+                    alert = <AlertFail error={"Invalid Amount."}/>;
+                break;
             case 404:
-                alert = <AlertFail error={"Account Not Found."}/>;
+                if (this.props.action == "Login")
+                    alert = <AlertFail error={"User Not Found."}/>;
+                else
+                    alert = <AlertFail error={"Account Not Found."}/>;
                 break;
             case "Same Account":
                 alert = <AlertFail error={"Same Account Selected."}/>;
