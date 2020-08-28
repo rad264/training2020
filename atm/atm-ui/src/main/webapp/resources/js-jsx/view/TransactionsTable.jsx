@@ -8,7 +8,9 @@ const columns = [
         title: "Date",
         data: 'date',
         width: "25%",
-        render: function(data) {
+        render: function(data, type, row) {
+            if (type == "sort" || type == 'type')
+                return data;
             var date = new Date(parseInt(data));
             return date.toLocaleDateString(undefined, options);
         }

@@ -2,11 +2,11 @@ class SelectAccountTypes extends React.Component {
 
     render() {
         var accountTypes = [
-            'Checkings',
-            'Savings',
+            'Checking',
+            'Saving',
             'Money Market',
-            'Certificates of Deposit',
-            'Retirement'
+            'Certificate of Deposit',
+            'Individual Retirement'
         ]
 
         var accountTypeOptions = [<option selected disabled>Select Account Type</option>

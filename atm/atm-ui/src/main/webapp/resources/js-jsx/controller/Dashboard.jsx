@@ -31,6 +31,8 @@ class Dashboard extends React.Component {
 
                     <GetAccountsController userId={this.state.userId} updateSelectedAccount={this.updateSelectedAccount}/>
 
+                    <div class="card-header smbc-color-primary border-success mt-5">Create Account</div>
+                    <PostCreateAccountController userId={this.state.userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
                 </div>
                 <div class="col-8">
                     <h3>&nbsp;</h3>
@@ -44,10 +46,8 @@ class Dashboard extends React.Component {
             content = <div class="container pt-5">
                 <div class="row">
                     <div class="col-12">
-                        <div class="">
-                            <div class="card-header smbc-color-primary border-success">Create Account</div>
-                            <PostCreateAccountController userId={this.state.userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
-                        </div>
+                        <div class="card-header smbc-color-primary border-success">Create Account</div>
+                        <PostCreateAccountController userId={this.state.userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
                     </div>
                 </div>
             </div>;

@@ -18,6 +18,15 @@
     min-height: 100vh;
 }
 
+.bg-opacity {
+    background-color: rgb(38, 40, 42, 0.5);
+    color: white;
+}
+
+.registerHere {
+    color: var(--green2);
+}
+
 .smbc-logo {
     background-color: var(--green1);
 }

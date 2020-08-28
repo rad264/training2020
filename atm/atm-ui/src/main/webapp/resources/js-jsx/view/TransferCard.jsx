@@ -1,12 +1,53 @@
 class TransferCard extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedType: 'internal'
+        };
+        this.setActiveType = this.setActiveType.bind(this);
+    }
+    isActive(type) {
+        return this.state.selectedType === type;
+    }
+
+    setActiveType(e) {
+        this.setState({selectedType: e.target.value});
+    }
+
     render() {
+
+        var toAccountInput;
+        if (this.state.selectedType == "internal")
+            toAccountInput = <SelectAccounts userId={this.props.userId} onChange={this.props.onChange} accountNumber={this.props.toAccountNumber} label={"To"} nameAlt={"toAccountNumber"}></SelectAccounts>
+        else
+            toAccountInput = <div class="form-group row">
+                <label for="accountNumber" class="col-5 col-form-label">To Account Number</label>
+                <div class="col-7">
+                    <input type="text" class="form-control" name="toAccountNumber" onChange={this.props.onChange} value={this.props.toAccountNumber} required="required"></input>
+                </div>
+            </div>
 
         return (<div class="card mb-3">
             <div class="card-body text-success">
                 <form autocomplete="off">
+                    <div class="form-group row">
+                        <label for="transferType" class="col-5 col-form-label">Transfer Type</label>
+
+                        <div class="col-7 input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="internal" value="internal" checked={this.isActive("internal")} onChange={this.setActiveType}></input>
+                                <label class="form-check-label" for="internalTransfer">Internal</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="external" value="external" checked={this.isActive("external")} onChange={this.setActiveType}></input>
+                                <label class="form-check-label" for="external">External</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <SelectAccounts userId={this.props.userId} onChange={this.props.onChange} accountNumber={this.props.fromAccountNumber} label={"From"} nameAlt={"fromAccountNumber"}></SelectAccounts>
-                    <SelectAccounts userId={this.props.userId} onChange={this.props.onChange} accountNumber={this.props.toAccountNumber} label={"To"} nameAlt={"toAccountNumber"}></SelectAccounts>
+                    {toAccountInput}
                     <div class="form-group row">
                         <label for="transferAmount" class="col-5 col-form-label">Amount</label>
 
@@ -29,5 +70,4 @@ class TransferCard extends React.Component {
             </div>
         </div>);
     }
-
 }

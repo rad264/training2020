@@ -2,8 +2,8 @@ class CreateUserCard extends React.Component {
 
     render() {
 
-        return (<div class="card mb-3">
-            <div class="card-body text-success">
+        return (<div class="card mb-3 bg-transparent">
+            <div class="card-body">
 
                 <form autocomplete="off">
                     <div class="form-group input-group-lg row">

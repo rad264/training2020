@@ -6,7 +6,7 @@ class LoginCard extends React.Component {
 
             <div class="container pt-5 loginCard">
 
-                <div class="jumbotron">
+                <div class="jumbotron bg-opacity">
 
                     <h1 class="text-center">Login</h1>
                     <hr class="my-4"></hr>
@@ -41,8 +41,8 @@ class LoginCard extends React.Component {
 
                     <hr class="my-4"></hr>
                     <div class="text-center">
-                        <span>Not Registered?</span>&nbsp;
-                        <a href="#collapseExample" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Register Here</a>
+                        <span>Not a user?</span>&nbsp;
+                        <a href="#collapseExample" class="registerHere" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Register Here</a>
                     </div>
                     <div class="collapse" id="collapseExample">
                         <PostCreateUserController></PostCreateUserController>
