@@ -18,8 +18,10 @@ class AccountGroup extends React.Component {
 
     render() {
 
+        const {statusCode, accounts} = this.props;
+
         let alert;
-        switch (this.props.statusCode) {
+        switch (statusCode) {
             case(null):
                 alert = null;
                 break;
@@ -34,16 +36,15 @@ class AccountGroup extends React.Component {
                 break;
         }
 
-        const AccGroup = this;
+        const _this = this;
 
-        this.accounts = this.props.accounts;
         var accountCards = [];
         var totalBalance = 0;
 
-        if (this.accounts) {
+        if (accounts) {
 
-            this.accounts.forEach(function(e, i) {
-                accountCards.push(<Account key={i} accountNumber={e.accountNumber} accountType={e.accountType} balance={e.balance} isActive={AccGroup.isActive(i)} onActiveCard={AccGroup.setActiveCard.bind(AccGroup, i)} onClick={() => AccGroup.props.updateSelectedAccount(e.accountNumber)}/>);
+            accounts.forEach(function(e, i) {
+                accountCards.push(<Account key={i} accountNumber={e.accountNumber} accountType={e.accountType} balance={e.balance} isActive={_this.isActive(i)} onActiveCard={_this.setActiveCard.bind(_this, i)} onClick={() => _this.props.updateSelectedAccount(e.accountNumber)}/>);
                 totalBalance += e.balance;
             })
         }

@@ -2,15 +2,17 @@ class TransactionsCard extends React.Component {
 
     render() {
 
+        const {statusCode, transactions, responseStatus} = this.props;
+
         let alert;
-        let transactions;
-        switch (this.props.statusCode) {
+        let table;
+        switch (statusCode) {
             case(null):
                 alert = null;
                 break;
             case 200:
                 alert = null;
-                transactions = <TransactionsTable transactions={this.props.transactions} statusCode={this.props.responseStatus}></TransactionsTable>
+                table = <TransactionsTable transactions={transactions} statusCode={responseStatus}></TransactionsTable>
                 break;
             case 404:
                 alert = <AlertFail error={"Account Not Found."}/>;
@@ -24,7 +26,7 @@ class TransactionsCard extends React.Component {
             <div class="card-header smbc-color-primary border-success">Transactions</div>
             <div class="card-body">
 
-                {transactions}
+                {table}
                 {alert}
 
             </div>

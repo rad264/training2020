@@ -1,6 +1,7 @@
 class AccountActions extends React.Component {
 
     render() {
+        const {userId, updateDashboard} = this.props;
         return (<div>
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -12,16 +13,16 @@ class AccountActions extends React.Component {
             </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-deposit" role="tabpanel" aria-labelledby="nav-deposit-tab">
-                    <PostDepositController userId={this.props.userId} updateDashboard={this.props.updateDashboard}/>
+                    <PostDepositController userId={userId} updateDashboard={updateDashboard}/>
                 </div>
                 <div class="tab-pane fade" id="nav-withdraw" role="tabpanel" aria-labelledby="nav-withdraw-tab">
-                    <PostWithdrawController userId={this.props.userId} updateDashboard={this.props.updateDashboard}/>
+                    <PostWithdrawController userId={userId} updateDashboard={updateDashboard}/>
                 </div>
                 <div class="tab-pane fade" id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab">
-                    <PostTransferController userId={this.props.userId} updateDashboard={this.props.updateDashboard}/>
+                    <PostTransferController userId={userId} updateDashboard={updateDashboard}/>
                 </div>
                 <div class="tab-pane fade" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
-                    <PostCreateAccountController userId={this.props.userId} updateDashboard={this.props.updateDashboard}/>
+                    <PostCreateAccountController userId={userId} updateDashboard={updateDashboard}/>
                 </div>
             </div>
         </div>);

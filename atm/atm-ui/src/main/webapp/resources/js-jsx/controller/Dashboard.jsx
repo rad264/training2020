@@ -24,21 +24,22 @@ class Dashboard extends React.Component {
     }
 
     render() {
+        const {userId, accountNumber} = this.state;
         var content = <div class="container pt-5">
             <div class="row">
                 <div class="col-4">
                     <h3>Accounts</h3>
 
-                    <GetAccountsController userId={this.state.userId} updateSelectedAccount={this.updateSelectedAccount}/>
+                    <GetAccountsController userId={userId} updateSelectedAccount={this.updateSelectedAccount}/>
 
                     <div class="card-header smbc-color-primary border-success mt-5">Create Account</div>
-                    <PostCreateAccountController userId={this.state.userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
+                    <PostCreateAccountController userId={userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
                 </div>
                 <div class="col-8">
                     <h3>&nbsp;</h3>
-                    <GetSummaryController userId={this.state.userId} accountNumber={this.state.accountNumber}/>
-                    <AccountActions userId={this.state.userId} accountNumber={this.state.accountNumber} updateDashboard={this.updateDashboard}/>
-                    <GetTransactionsController userId={this.state.userId} accountNumber={this.state.accountNumber}/>
+                    <GetSummaryController userId={userId} accountNumber={accountNumber}/>
+                    <AccountActions userId={userId} accountNumber={accountNumber} updateDashboard={this.updateDashboard}/>
+                    <GetTransactionsController userId={userId} accountNumber={accountNumber}/>
                 </div>
             </div>
         </div>;
@@ -47,13 +48,13 @@ class Dashboard extends React.Component {
                 <div class="row">
                     <div class="col-12">
                         <div class="card-header smbc-color-primary border-success">Create Account</div>
-                        <PostCreateAccountController userId={this.state.userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
+                        <PostCreateAccountController userId={userId} updateDashboard={this.updateDashboard} updateSelectedAccount={this.updateSelectedAccount}/>
                     </div>
                 </div>
             </div>;
 
         return (<div class="app-bg">
-            <NavBarDashboard userId={this.state.userId} location={this.props.location}/> {content}
+            <NavBarDashboard userId={userId} location={this.props.location}/> {content}
             <footer class="footer text-center">
                 <div class="container">
                     <span>© James Wong 2020</span>

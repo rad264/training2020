@@ -2,6 +2,8 @@ class LoginCard extends React.Component {
 
     render() {
 
+        const {onChange, userId, statusCode, isLoading, onClick} = this.props;
+
         return (<div class="bg-login">
 
             <div class="container pt-5 loginCard">
@@ -20,18 +22,18 @@ class LoginCard extends React.Component {
                                         <i class="fas fa-user"></i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="username" name="userId" onChange={this.props.onChange} value={this.props.userId} required="required"></input>
+                                <input type="text" class="form-control" placeholder="username" name="userId" onChange={onChange} value={userId} required="required"></input>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-6">
-                                <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
+                                <Alert statusCode={statusCode} action={"Login"}></Alert>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-smbc btn-lg btn-block" disabled={this.props.isLoading} onClick={!this.props.isLoading
-                                        ? this.props.onClick
+                                <button type="submit" class="btn btn-smbc btn-lg btn-block" disabled={isLoading} onClick={!isLoading
+                                        ? onClick
                                         : null}>
-                                        {this.props.isLoading
+                                        {isLoading
                                         ? <span><span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>&nbsp;&nbsp;<span>Loading...</span></span>
                                         : 'Login'}
                                     </button>

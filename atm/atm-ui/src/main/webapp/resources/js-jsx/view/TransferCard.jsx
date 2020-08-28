@@ -17,14 +17,16 @@ class TransferCard extends React.Component {
 
     render() {
 
+        const {userId, onChange, toAccountNumber, fromAccountNumber, transferAmount, statusCode, onClick} = this.props;
+
         var toAccountInput;
         if (this.state.selectedType == "internal")
-            toAccountInput = <SelectAccounts userId={this.props.userId} onChange={this.props.onChange} accountNumber={this.props.toAccountNumber} label={"To"} nameAlt={"toAccountNumber"}></SelectAccounts>
+            toAccountInput = <SelectAccounts userId={userId} onChange={onChange} accountNumber={toAccountNumber} label={"To"} nameAlt={"toAccountNumber"}></SelectAccounts>
         else
             toAccountInput = <div class="form-group row">
                 <label for="accountNumber" class="col-5 col-form-label">To Account Number</label>
                 <div class="col-7">
-                    <input type="text" class="form-control" name="toAccountNumber" onChange={this.props.onChange} value={this.props.toAccountNumber} required="required"></input>
+                    <input type="text" class="form-control" name="toAccountNumber" onChange={onChange} value={toAccountNumber} required="required"></input>
                 </div>
             </div>
 
@@ -46,7 +48,7 @@ class TransferCard extends React.Component {
                         </div>
                     </div>
 
-                    <SelectAccounts userId={this.props.userId} onChange={this.props.onChange} accountNumber={this.props.fromAccountNumber} label={"From"} nameAlt={"fromAccountNumber"}></SelectAccounts>
+                    <SelectAccounts userId={userId} onChange={onChange} accountNumber={fromAccountNumber} label={"From"} nameAlt={"fromAccountNumber"}></SelectAccounts>
                     {toAccountInput}
                     <div class="form-group row">
                         <label for="transferAmount" class="col-5 col-form-label">Amount</label>
@@ -55,15 +57,15 @@ class TransferCard extends React.Component {
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control" id="transferAmount" name="transferAmount" onChange={this.props.onChange} value={this.props.transferAmount} required="required"></input>
+                            <input type="number" class="form-control" id="transferAmount" name="transferAmount" onChange={onChange} value={transferAmount} required="required"></input>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <Alert statusCode={this.props.statusCode} action={"Transfer"}></Alert>
+                            <Alert statusCode={statusCode} action={"Transfer"}></Alert>
                         </div>
                         <div class="col-4">
-                            <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={this.props.onClick}>Transfer</button>
+                            <button type="submit" class="btn btn-smbc mb-2 float-right" onClick={onClick}>Transfer</button>
                         </div>
                     </div>
                 </form>

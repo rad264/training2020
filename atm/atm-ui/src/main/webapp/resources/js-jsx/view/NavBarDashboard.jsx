@@ -1,6 +1,9 @@
 class NavBarDashboard extends React.Component {
 
     render() {
+
+        const {location, userId} = this.props;
+
         return (<div>
             <header class="App-header">
                 <nav class="navbar navbar-expand-lg navbar-dark smbc-color-navbar">
@@ -16,7 +19,7 @@ class NavBarDashboard extends React.Component {
                             <li class="nav-item active">
                                 <a class="nav-link" href="/#/dashboard" onClick={() => {
                                     event.preventDefault();
-                                    hashHistory.push(this.props.location)
+                                    hashHistory.push(location)
                                     }}>Dashboard</a>
                             </li>
                         </ul>
@@ -24,7 +27,7 @@ class NavBarDashboard extends React.Component {
                             <li class="dropdown">
                                 <a href='#' class="dropdown-toggle smbc-color-primary" data-toggle="dropdown">
                                     <i class="fa fa-fw fa-user"></i>
-                                    <strong>{this.props.userId}</strong>
+                                    <strong>{userId}</strong>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>

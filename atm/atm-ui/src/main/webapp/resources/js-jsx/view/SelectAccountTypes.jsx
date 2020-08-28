@@ -1,6 +1,9 @@
 class SelectAccountTypes extends React.Component {
 
     render() {
+
+        const {label, nameAlt, onChange, accountType} = this.props;
+
         var accountTypes = [
             'Checking',
             'Saving',
@@ -17,9 +20,9 @@ class SelectAccountTypes extends React.Component {
         })
 
         return (<div class="form-group row">
-            <label for="accountType" class="col-5 col-form-label">{this.props.label} Account Type</label>
+            <label for="accountType" class="col-5 col-form-label">{label} Account Type</label>
             <div class="col-7">
-                <select class="form-control" name={this.props.nameAlt ? this.props.nameAlt : "accountType"} onChange={this.props.onChange} value={this.props.accountType}>
+                <select class="form-control" name={nameAlt ? nameAlt : "accountType"} onChange={onChange} value={accountType}>
                     {accountTypeOptions}
                 </select>
             </div>

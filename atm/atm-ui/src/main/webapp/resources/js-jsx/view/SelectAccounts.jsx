@@ -35,6 +35,8 @@ class SelectAccounts extends React.Component {
 
     render() {
 
+        const {label, nameAlt, onChange, accountNumber} = this.props;
+
         var accountNumbersOptions = [<option selected disabled>Select Account</option>
             ];
         if (this.state.accountNumbers) {
@@ -44,9 +46,9 @@ class SelectAccounts extends React.Component {
         }
 
         return (<div class="form-group row">
-            <label for="accountNumber" class="col-5 col-form-label">{this.props.label} Account Number</label>
+            <label for="accountNumber" class="col-5 col-form-label">{label} Account Number</label>
             <div class="col-7">
-                <select class="form-control" name={this.props.nameAlt ? this.props.nameAlt : "accountNumber"} onChange={this.props.onChange} value={this.props.accountNumber}>
+                <select class="form-control" name={nameAlt ? nameAlt : "accountNumber"} onChange={onChange} value={accountNumber}>
                     {accountNumbersOptions}
                 </select>
             </div>
