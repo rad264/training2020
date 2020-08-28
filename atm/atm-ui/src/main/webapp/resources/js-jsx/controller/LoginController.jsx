@@ -31,12 +31,11 @@ class LoginController extends React.Component {
             contentType: "application/json",
             success: function(response) {
                 handleResponse(200, response.accounts);
-                var nextPath = '/dashboard';
                 hashHistory.push({
-                    pathname: nextPath,
+                    pathname: '/dashboard',
                     state: {
                         userId: userId,
-                        initialAccountNumber: response.accounts[0]
+                        initialAccountNumber: response.accounts.length ? response.accounts[0] : null
                     }
                 });
             },

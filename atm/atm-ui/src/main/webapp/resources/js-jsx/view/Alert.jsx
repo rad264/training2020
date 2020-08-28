@@ -27,6 +27,8 @@ class Alert extends React.Component {
                 else
                     alert = <AlertFail error={"Account Not Found."}/>;
                 break;
+            case 409:
+                alert = <AlertFail error={"Create Account Failed."}/>;
             case "Same Account":
                 alert = <AlertFail error={"Same Account Selected."}/>;
                 break;

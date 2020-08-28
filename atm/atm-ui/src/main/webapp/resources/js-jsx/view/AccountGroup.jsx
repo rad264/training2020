@@ -43,7 +43,7 @@ class AccountGroup extends React.Component {
         if (this.accounts) {
 
             this.accounts.forEach(function(e, i) {
-                accountCards.push(<Account key={i} accountNumber={e.accountNumber} balance={e.balance} isActive={AccGroup.isActive(i)} onActiveCard={AccGroup.setActiveCard.bind(AccGroup, i)} onClick={() => AccGroup.props.updateSelectedAccount(e.accountNumber)}/>);
+                accountCards.push(<Account key={i} accountNumber={e.accountNumber} accountType={e.accountType} balance={e.balance} isActive={AccGroup.isActive(i)} onActiveCard={AccGroup.setActiveCard.bind(AccGroup, i)} onClick={() => AccGroup.props.updateSelectedAccount(e.accountNumber)}/>);
                 totalBalance += e.balance;
             })
         }

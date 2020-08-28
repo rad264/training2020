@@ -28,20 +28,21 @@ class LoginCard extends React.Component {
                                 <Alert statusCode={this.props.statusCode} action={"Login"}></Alert>
                             </div>
                             <div class="col-6">
-                                <input
-                                    type="submit"
-                                    class="btn btn-smbc btn-lg btn-block login_btn"
-                                    disabled={this.props.isLoading}
-                                    onClick={!this.props.isLoading ? this.props.onClick : null}
-                                    value={this.props.isLoading ? 'Loading…' : "Login"}
-                                    ></input>
+                                <button type="submit" class="btn btn-smbc btn-lg btn-block" disabled={this.props.isLoading} onClick={!this.props.isLoading
+                                        ? this.props.onClick
+                                        : null}>
+                                        {this.props.isLoading
+                                        ? <span><span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>&nbsp;&nbsp;<span>Loading...</span></span>
+                                        : 'Login'}
+                                    </button>
                             </div>
                         </div>
                     </form>
 
                     <hr class="my-4"></hr>
-                    <div>
-                        <a href="#collapseExample" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Register User</a>
+                    <div class="text-center">
+                        <span>Not Registered?</span>&nbsp;
+                        <a href="#collapseExample" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Register Here</a>
                     </div>
                     <div class="collapse" id="collapseExample">
                         <PostCreateUserController></PostCreateUserController>
@@ -52,5 +53,3 @@ class LoginCard extends React.Component {
         </div>);
     }
 }
-
-// <input type="submit" value="Login" class="btn btn-smbc btn-lg btn-block login_btn" onClick={this.props.onClick}></input>

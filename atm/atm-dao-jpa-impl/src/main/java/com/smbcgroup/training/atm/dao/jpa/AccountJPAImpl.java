@@ -13,6 +13,7 @@ import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountDAO;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.FailedToCreateAccountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class AccountJPAImpl implements AccountDAO {
@@ -52,6 +53,7 @@ public class AccountJPAImpl implements AccountDAO {
 		try {
 			AccountEntity entity = new AccountEntity();
 			entity.setAccountNumber(account.getAccountNumber());
+			entity.setAccountType(account.getAccountType());
 			entity.setBalance(account.getBalance());
 			em.merge(entity);
 			em.getTransaction().commit();
@@ -80,12 +82,25 @@ public class AccountJPAImpl implements AccountDAO {
 	}
 
 	@Override
-	public void createAccount(String userId, String accountNumber) throws UserNotFoundException {
+	public Account createAccount(String userId, String accountType)
+			throws UserNotFoundException, FailedToCreateAccountException {
+
+		String newAccountNumber = AccountGenerator.generateAccountNumber();
+		while (true) {
+			try {
+				getAccount(newAccountNumber);
+				newAccountNumber = AccountGenerator.generateAccountNumber();
+			} catch (AccountNotFoundException e) {
+				break;
+			}
+		}
+
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		try {
 			AccountEntity entity = new AccountEntity();
-			entity.setAccountNumber(accountNumber);
+			entity.setAccountNumber(newAccountNumber);
+			entity.setAccountType(accountType);
 			entity.setBalance(new BigDecimal("0.0"));
 			UserEntity userEntity = em.find(UserEntity.class, userId);
 			if (userEntity == null) {
@@ -94,11 +109,16 @@ public class AccountJPAImpl implements AccountDAO {
 			entity.setUser(userEntity);
 			em.merge(entity);
 			em.getTransaction().commit();
+			try {
+				return getAccount(newAccountNumber);
+			} catch (AccountNotFoundException e) {
+				throw new FailedToCreateAccountException();
+			}
 		} finally {
 			em.close();
 		}
 	}
-	
+
 	@Override
 	public void createUser(String userId) {
 		EntityManager em = emf.createEntityManager();
@@ -115,6 +135,7 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public Transaction[] getAccountTransactions(String accountNumber) throws AccountNotFoundException {
+		getAccount(accountNumber);
 		EntityManager em = emf.createEntityManager();
 		try {
 			TypedQuery<TransactionEntity> query = em.createQuery(
@@ -122,8 +143,6 @@ public class AccountJPAImpl implements AccountDAO {
 					TransactionEntity.class);
 			query.setParameter("accountNumber", accountNumber);
 			List<TransactionEntity> transactionEntities = query.getResultList();
-			if (transactionEntities == null || transactionEntities.size() == 0)
-				throw new AccountNotFoundException();
 			Transaction[] transactions = new Transaction[transactionEntities.size()];
 			for (int i = 0; i < transactionEntities.size(); i++)
 				transactions[i] = transactionEntities.get(i).convertToTransaction();
@@ -134,7 +153,8 @@ public class AccountJPAImpl implements AccountDAO {
 	}
 
 	@Override
-	public void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException {
+	public void updateAccountTransactions(String accountNumber, Transaction transaction)
+			throws AccountNotFoundException {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		try {
@@ -152,7 +172,7 @@ public class AccountJPAImpl implements AccountDAO {
 		} finally {
 			em.close();
 		}
-		
+
 	}
-	
+
 }

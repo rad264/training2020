@@ -6,6 +6,7 @@ import java.util.Date;
 import com.smbcgroup.training.atm.dao.AccountDAO;
 //import com.smbcgroup.training.atm.dao.txtFile.AccountDAOTxtFileImpl;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.FailedToCreateAccountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.InsufficientFundsException;
@@ -40,19 +41,9 @@ public class ATMService {
 		return accountNumbers;
 	}
 
-	public void createAccount(String userId, String accountNumber)
-			throws AccountAlreadyExistsException, UserNotFoundException {
-		if (accountAlreadyExists(userId, accountNumber))
-			throw new AccountAlreadyExistsException();
-		dao.createAccount(userId, accountNumber);
-	}
-
-	private Boolean accountAlreadyExists(String userId, String accountNumber) throws UserNotFoundException {
-		for (String userAccount : getAccountNumbers(userId)) {
-			if (userAccount.equals(accountNumber))
-				return true;
-		}
-		return false;
+	public Account createAccount(String userId, String accountType)
+			throws UserNotFoundException, FailedToCreateAccountException {
+		return dao.createAccount(userId, accountType);
 	}
 
 	public void createUser(String userId) throws UserAlreadyExistsException {

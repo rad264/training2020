@@ -2,15 +2,15 @@ package com.smbcgroup.training.atm;
 
 public class AccountInfo {
 	private String userId;
-	private String accountNumber;
+	private String accountType;
 
 	public AccountInfo() {
 		
 	}
 
-	public AccountInfo(String userId, String accountNumber) {
+	public AccountInfo(String userId, String accountType) {
 		this.userId = userId;
-		this.accountNumber = accountNumber;
+		this.accountType = accountType;
 	}
 
 	public String getUserId() {
@@ -21,11 +21,12 @@ public class AccountInfo {
 		this.userId = userId;
 	}
 	
-	public String getAccountNumber() {
-		return accountNumber;
+	public String getAccountType() {
+		return accountType;
 	}
 	
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
+
 }

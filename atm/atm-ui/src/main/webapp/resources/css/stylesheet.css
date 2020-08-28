@@ -1,11 +1,11 @@
 :root {
     --green1: #1c6434;
     --green2: #acd62b;
-    --grey1: #FAF6F3;
-    --grey2: #EEEAE3;
-    --grey3: #ebebeb;
-    --grey4: #f0f1f1;
-    --black1: #27282c;
+    /* --green1: #014831;
+    --green2: #c5d700; */
+    --inactive-grey: #FAF6F3;
+    --black1: #26282a;
+    --dashboard-grey: #f0f1f1;
 }
 
 .boldType {
@@ -58,11 +58,11 @@ a:hover {
 }
 
 .app-bg {
-    background-color: var(--grey4);
+    background-color: var(--dashboard-grey);
 }
 
 .inactive-bg {
-    background-color: var(--grey1);
+    background-color: var(--inactive-grey);
 }
 
 .nav-tabs {

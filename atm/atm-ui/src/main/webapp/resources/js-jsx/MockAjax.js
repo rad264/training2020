@@ -1,6 +1,7 @@
 var userAccounts = {
     "jwong": [{
             "accountNumber": "123456",
+            "accountType": "Checkings",
             "balance": 100.00,
             "transactions": [
                 "Date: Wed Aug 05 14:55:26 EDT 2020; Type: Deposit; Amount: 100.0;"
@@ -8,6 +9,7 @@ var userAccounts = {
         },
         {
             "accountNumber": "111222",
+            "accountType": "Savings",
             "balance": 150.00,
             "transactions": [
                 "Date: Wed Aug 05 14:55:26 EDT 2020; Type: Deposit; Amount: 100.0;"
@@ -20,37 +22,43 @@ var userAccounts = {
 };
 var userAccountsNumbers = {
     "jwong": ["123456", "111222"],
-    "jsmith": ["123123", "010101"],
+    "jsmith": [],
 };
 var accountBalances = {
     "123456": 100.00,
     "111222": 150.00,
 };
+var accountTypes = {
+    "123456": "Checkings",
+    "111222": "Savings",
+}
 var accountTransactions = {
     "123456": [{
-        "date": 1596653726310,
-        "type": "Deposit",
-        "amount": 150,
-        "balance": 150.00
-    },
-    {
-        "date": 1596653726310,
-        "type": "Withdraw",
-        "amount": 50.00,
-        "balance": 100.00,
-    }, ],
+            "date": 1596653726310,
+            "type": "Deposit",
+            "amount": 150,
+            "balance": 150.00
+        },
+        {
+            "date": 1596653726310,
+            "type": "Withdraw",
+            "amount": 50.00,
+            "balance": 100.00,
+        },
+    ],
     "111222": [{
-        "date": 1596653726310,
-        "type": "Deposit",
-        "amount": 550,
-        "balance": 550.00
-    },
-    {
-        "date": 1596653726310,
-        "type": "Withdraw",
-        "amount": 400,
-        "balance": 150.00
-    }],
+            "date": 1596653726310,
+            "type": "Deposit",
+            "amount": 550,
+            "balance": 550.00
+        },
+        {
+            "date": 1596653726310,
+            "type": "Withdraw",
+            "amount": 400,
+            "balance": 150.00
+        }
+    ],
 };
 $.ajax = function(config) {
     var resources = {
@@ -87,9 +95,9 @@ $.ajax = function(config) {
         "/atm-api/accounts/": {
             "POST": function(params, data) {
                 var d = JSON.parse(data);
-                if (!(d.accountNumber in accountBalances))
+                if (d.accountType)
                     success({
-                        "createdAccountNumber": d.accountNumber
+                        "createdAccountType": d.accountType
                     });
                 else
                     error(400);
@@ -98,8 +106,10 @@ $.ajax = function(config) {
         "/atm-api/accounts/{accountNumber}": {
             "GET": function(params) {
                 var balance = accountBalances[params.accountNumber];
-                if (balance)
+                var accountType = accountTypes[params.accountNumber];
+                if (balance && accountType)
                     success({
+                        "accountType": accountType,
                         "balance": balance
                     });
                 else

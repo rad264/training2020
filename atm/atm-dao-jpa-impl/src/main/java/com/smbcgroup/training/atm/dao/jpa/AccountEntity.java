@@ -20,6 +20,9 @@ public class AccountEntity {
 	@Id
 	@Column(name = "account_number")
 	private String accountNumber;
+	
+	@Column(name = "account_type")
+	private String accountType;
 
 	@Column(name = "balance")
 	private BigDecimal balance;
@@ -35,8 +38,9 @@ public class AccountEntity {
 
 	}
 
-	public AccountEntity(String accountNumber, BigDecimal balance, UserEntity user) {
+	public AccountEntity(String accountNumber, String accountType, BigDecimal balance, UserEntity user) {
 		this.accountNumber = accountNumber;
+		this.accountType = accountType;
 		this.balance = balance;
 		this.user = user;
 	}
@@ -44,6 +48,7 @@ public class AccountEntity {
 	public Account convertToAccount() {
 		Account account = new Account();
 		account.setAccountNumber(accountNumber);
+		account.setAccountType(accountType);
 		account.setBalance(balance);
 		account.setTransactions(transactions.stream().map(TransactionEntity::toString).toArray(String[]::new));
 		return account;
@@ -55,6 +60,14 @@ public class AccountEntity {
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+	
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	public BigDecimal getBalance() {

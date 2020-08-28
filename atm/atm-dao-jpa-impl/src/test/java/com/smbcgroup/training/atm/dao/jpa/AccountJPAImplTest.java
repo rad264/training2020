@@ -16,6 +16,7 @@ import com.smbcgroup.training.atm.Account;
 import com.smbcgroup.training.atm.Transaction;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.FailedToCreateAccountException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class AccountJPAImplTest {
@@ -30,7 +31,7 @@ public class AccountJPAImplTest {
 		UserEntity jwong = new UserEntity("jwong");
 		em.persist(jwong);
 
-		AccountEntity ac1 = new AccountEntity("123456", new BigDecimal("100"), jwong);
+		AccountEntity ac1 = new AccountEntity("123456", "Checkings", new BigDecimal("100"), jwong);
 		em.persist(ac1);
 
 		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1));
@@ -103,15 +104,12 @@ public class AccountJPAImplTest {
 	}
 
 	@Test
-	public void testCreateAccount_Success() throws UserNotFoundException {
-		dao.createAccount("jwong", "111222");
+	public void testCreateAccount_Success() throws UserNotFoundException, FailedToCreateAccountException {
+		dao.createAccount("jwong", "Credit Card");
 
 		EntityManager em = dao.emf.createEntityManager();
-		AccountEntity createdAccount = em.find(AccountEntity.class, "111222");
-
-		assertEquals("111222", createdAccount.getAccountNumber());
-		assertEquals(new BigDecimal("0.0"), createdAccount.getBalance());
-		assertEquals("jwong", createdAccount.getUser().getUserId());
+		UserEntity updatedUserEntity = em.find(UserEntity.class, "jwong");
+		assertEquals(2, updatedUserEntity.getAccounts().size());
 		em.close();
 	}
 
@@ -132,6 +130,7 @@ public class AccountJPAImplTest {
 		newTrans.setDate(new Date());
 		newTrans.setType("Deposit");
 		newTrans.setAmount(new BigDecimal("50"));
+		newTrans.setBalance(new BigDecimal("50"));
 		dao.updateAccountTransactions("123456", newTrans);
 
 		EntityManager em = dao.emf.createEntityManager();

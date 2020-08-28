@@ -247,26 +247,26 @@ public class ATMServiceTest {
 			getAccounts_exception = exception;
 		}
 
-		private Object[] createAccount_capture;
+		private Account createAccount_value;
 
 		@Override
-		public void createAccount(String userId, String accountNumber) {
-			createAccount_capture = new Object[] { userId, accountNumber };
-		}
-
-		public Object[] spy_createAccount() {
-			return createAccount_capture;
+		public Account createAccount(String userId, String type) {
+			return createAccount_value;
 		}
 		
-		private Object[] createUser_capture;
+		
+		public void stub_createAccount(Account account) {
+			createAccount_value = account;
+		}
+		private String createUser_capture;
 		
 		@Override
 		public void createUser(String userId) {
-			// TODO Auto-generated method stub
+			createUser_capture = userId;
 			
 		}
 		
-		public Object[] spy_createUser() {
+		public String spy_createUser() {
 			return createUser_capture;
 		}
 		
@@ -297,7 +297,7 @@ public class ATMServiceTest {
 		}
 		
 		public Object[] spy_updateAccountTransactions() {
-			return createAccount_capture;
+			return updateAccountTransactions_capture;
 		}
 
 	}

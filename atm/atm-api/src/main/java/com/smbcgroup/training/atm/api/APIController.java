@@ -21,6 +21,7 @@ import com.smbcgroup.training.atm.Transfer;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountAlreadyExistsException;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.FailedToCreateAccountException;
 import com.smbcgroup.training.atm.dao.InsufficientFundsException;
 import com.smbcgroup.training.atm.dao.NegativeAmountException;
 import com.smbcgroup.training.atm.dao.UserAlreadyExistsException;
@@ -89,14 +90,13 @@ public class APIController {
 
 	@ApiOperation("Create account")
 	@RequestMapping(value = "/accounts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> createAccount(@RequestBody AccountInfo accountInfo) {
+	public ResponseEntity<Account> createAccount(@RequestBody AccountInfo accountInfo) {
 		try {
-			service.createAccount(accountInfo.getUserId(), accountInfo.getAccountNumber());
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Account>(service.createAccount(accountInfo.getUserId(), accountInfo.getAccountType()), HttpStatus.OK);
 		} catch (UserNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} catch (AccountAlreadyExistsException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+		} catch (FailedToCreateAccountException e) {
+			return new ResponseEntity<Account>(HttpStatus.CONFLICT);
 		}
 	}
 	

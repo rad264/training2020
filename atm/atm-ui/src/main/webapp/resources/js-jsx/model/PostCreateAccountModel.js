@@ -1,5 +1,5 @@
-function PostCreateAccountModel(accountNumber) {
-    this.accountNumber = accountNumber;
+function PostCreateAccountModel(accountType) {
+    this.accountType = accountType;
     this.responseStatus = null;
-    this.createdAccountNumber = null;
+    this.createdAccountType = null;
 }

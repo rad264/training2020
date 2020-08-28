@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Account {
 
 	private String accountNumber;
+	private String accountType;
 	private BigDecimal balance;
 	private String[] transactions;
 
@@ -30,6 +31,14 @@ public class Account {
 
 	public void setTransactions(String[] transactions) {
 		this.transactions = transactions;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+	
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 }

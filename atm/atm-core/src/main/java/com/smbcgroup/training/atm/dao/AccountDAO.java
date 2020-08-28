@@ -18,7 +18,7 @@ public interface AccountDAO {
 	
 	void updateAccountTransactions(String accountNumber, Transaction transaction) throws AccountNotFoundException;
 	
-	void createAccount(String userId, String accountNumber) throws UserNotFoundException;
+	Account createAccount(String userId, String accountType) throws UserNotFoundException, FailedToCreateAccountException;
 
 	void createUser(String userId);
 

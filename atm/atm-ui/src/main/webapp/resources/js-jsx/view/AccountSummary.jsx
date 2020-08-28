@@ -21,10 +21,13 @@ class AccountSummary extends React.Component {
         return (<div class="card border-success mb-3">
             <div class="smbc-color-primary card-header border-success"></div>
             <div class="card-body text-success">
-                <h2 class="card-title smbc-color1">{this.props.accountNumber}</h2>
+                <h1 class="card-title smbc-color1">{this.props.accountType}</h1>
+                    <div class="d-flex justify-content-between">
+                        <h2 class="card-title smbc-color2">{this.props.accountNumber}</h2>
+                        <h1 class="display-4">${Number.parseFloat(this.props.balance).toFixed(2)}</h1>
+                    </div>
                 <div class="float-right">
-                    <h1 class="card-text">${this.props.balance}</h1>
-                    <p class="card-subtitle text-muted ml-4">Available Balance</p>
+                    <p class="card-subtitle text-muted">Available Balance</p>
                 </div>
             </div>
             {alert}

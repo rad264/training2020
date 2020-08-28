@@ -12,13 +12,14 @@ class PostCreateAccountController extends React.Component {
         });
     }
     postCreateAccount(e) {
-        if (!this.state.accountNumber)
+        if (!this.state.accountType)
             return false;
         e.preventDefault();
+        let _this = this;
         const userId = this.props.userId;
-        const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, createdAccountNumber) => {
-            this.setState({responseStatus: status, createdAccountNumber: createdAccountNumber});
+        const accountType = this.state.accountType;
+        let handleResponse = (status, createdAccountType) => {
+            this.setState({responseStatus: status, createdAccountType: createdAccountType});
             if (status == 200)
                 this.props.updateDashboard();
             }
@@ -27,13 +28,15 @@ class PostCreateAccountController extends React.Component {
             url: "/atm-api/accounts/",
             type: "POST",
             contentType: "application/json",
-            data: accountNumber,
+            data: accountType,
             data: JSON.stringify({
                 userId: userId,
-                accountNumber: accountNumber
+                accountType: accountType
             }),
             success: function(response) {
-                handleResponse(200, response.createdAccountNumber);
+                handleResponse(200, response.createdAccountType);
+                if (response.accountNumber)
+                    _this.props.updateSelectedAccount(response.accountNumber)
             },
             error: function(xhr, status, error) {
                 handleResponse(xhr.status);
@@ -41,6 +44,6 @@ class PostCreateAccountController extends React.Component {
         });
     }
     render() {
-        return (<CreateAccountCard accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postCreateAccount} statusCode={this.state.responseStatus}/>);
+        return (<CreateAccountCard accountType={this.state.accountType} onChange={this.onChange} onClick={this.postCreateAccount} statusCode={this.state.responseStatus}/>);
     }
 }
