@@ -1,17 +1,15 @@
 class PostWithdrawController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new PostWithdrawModel();
-        this.onChange = this.onChange.bind(this);
-        this.postWithdraw = this.postWithdraw.bind(this);
-    }
-    onChange(event) {
+
+    state = new PostWithdrawModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    postWithdraw(e) {
+
+    postWithdraw = (e) => {
         if (!this.state.accountNumber || !this.state.withdrawAmount)
             return false;
         e.preventDefault();
@@ -20,8 +18,9 @@ class PostWithdrawController extends React.Component {
         const withdrawAmount = this.state.withdrawAmount;
         let handleResponse = (status, balance) => {
             this.setState({responseStatus: status, balance: balance});
-            if (status == 200) this.props.updateDashboard();
-        }
+            if (status == 200)
+                this.props.updateDashboard();
+            }
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber + "/withdraws",
@@ -36,6 +35,7 @@ class PostWithdrawController extends React.Component {
             }
         });
     }
+
     render() {
         return (<WithdrawCard userId={this.props.userId} accountNumber={this.state.accountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} withdrawAmount={this.state.withdrawAmount}/>);
     }

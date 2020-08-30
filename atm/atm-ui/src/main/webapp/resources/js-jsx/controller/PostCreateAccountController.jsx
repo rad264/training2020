@@ -1,17 +1,14 @@
 class PostCreateAccountController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new PostCreateAccountModel();
-        this.onChange = this.onChange.bind(this);
-        this.postCreateAccount = this.postCreateAccount.bind(this);
-    }
-    onChange(event) {
+
+    state = new PostCreateAccountModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    postCreateAccount(e) {
+    postCreateAccount = (e) => {
         if (!this.state.accountType)
             return false;
         e.preventDefault();
@@ -29,10 +26,7 @@ class PostCreateAccountController extends React.Component {
             type: "POST",
             contentType: "application/json",
             data: accountType,
-            data: JSON.stringify({
-                userId: userId,
-                accountType: accountType
-            }),
+            data: JSON.stringify({userId: userId, accountType: accountType}),
             success: function(response) {
                 handleResponse(200, response.createdAccountType);
                 if (response.accountNumber)

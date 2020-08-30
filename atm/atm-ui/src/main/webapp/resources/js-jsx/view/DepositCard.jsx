@@ -1,7 +1,14 @@
 class DepositCard extends React.Component {
 
     render() {
-        const {userId, onChange, accountNumber, depositAmount, statusCode, onClick} = this.props;
+        const {
+            userId,
+            onChange,
+            accountNumber,
+            depositAmount,
+            statusCode,
+            onClick
+        } = this.props;
 
         return (<div class="card mb-3">
             <div class="card-body text-success">

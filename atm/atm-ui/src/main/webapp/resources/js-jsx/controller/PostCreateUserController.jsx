@@ -1,17 +1,14 @@
 class PostCreateUserController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new PostCreateUserModel();
-        this.onChange = this.onChange.bind(this);
-        this.postCreateUser = this.postCreateUser.bind(this);
-    }
-    onChange(event) {
+
+    state = new PostCreateUserModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    postCreateUser(e) {
+    postCreateUser = (e) => {
         if (!this.state.userId)
             return false;
         e.preventDefault();

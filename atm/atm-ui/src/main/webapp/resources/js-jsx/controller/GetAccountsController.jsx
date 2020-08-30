@@ -1,9 +1,6 @@
 class GetAccountsController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new GetAccountsModel(props.userId);
-        this.getAccounts = this.getAccounts.bind(this);
-    }
+
+    state = new GetAccountsModel(this.props.userId);
 
     componentDidMount() {
         this.getAccounts();
@@ -15,7 +12,7 @@ class GetAccountsController extends React.Component {
         });
     }
 
-    getAccounts() {
+    getAccounts = () => {
         const userId = this.state.userId;
         let handleResponse = (status, accounts) => this.setState({responseStatus: status, accounts: accounts});
         handleResponse = handleResponse.bind(this);
@@ -32,9 +29,6 @@ class GetAccountsController extends React.Component {
         });
     }
     render() {
-        return (
-            <AccountGroup statusCode={this.state.responseStatus} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>
-
-        );
+        return (<AccountGroup statusCode={this.state.responseStatus} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>);
     }
 }

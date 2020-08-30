@@ -2,7 +2,6 @@ class GetSummaryController extends React.Component {
     constructor(props) {
         super(props);
         this.state = new GetSummaryModel(props.accountNumber);
-        this.getSummary = this.getSummary.bind(this);
     }
 
     componentDidMount() {
@@ -15,10 +14,18 @@ class GetSummaryController extends React.Component {
         });
     }
 
-    getSummary() {
+    getSummary = () => {
         const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, response) => this.setState({responseStatus: status, accountType: response ? response.accountType : "", balance: response ? Number.parseFloat(response.balance).toFixed(2) : (0).toFixed(2)});
+        let handleResponse = (status, response) => this.setState({
+            responseStatus: status,
+            accountType: response
+                ? response.accountType
+                : "",
+            balance: response
+                ? Number.parseFloat(response.balance).toFixed(2)
+                : (0).toFixed(2)
+        });
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber,

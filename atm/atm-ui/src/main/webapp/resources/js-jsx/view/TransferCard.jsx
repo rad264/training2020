@@ -1,23 +1,28 @@
 class TransferCard extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedType: 'internal'
-        };
-        this.setActiveType = this.setActiveType.bind(this);
-    }
+    state = {
+        selectedType: 'internal'
+    };
+
     isActive(type) {
         return this.state.selectedType === type;
     }
 
-    setActiveType(e) {
+    setActiveType = (e) => {
         this.setState({selectedType: e.target.value});
     }
 
     render() {
 
-        const {userId, onChange, toAccountNumber, fromAccountNumber, transferAmount, statusCode, onClick} = this.props;
+        const {
+            userId,
+            onChange,
+            toAccountNumber,
+            fromAccountNumber,
+            transferAmount,
+            statusCode,
+            onClick
+        } = this.props;
 
         var toAccountInput;
         if (this.state.selectedType == "internal")

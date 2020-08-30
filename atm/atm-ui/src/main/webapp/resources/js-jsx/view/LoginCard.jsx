@@ -33,10 +33,14 @@ class LoginCard extends React.Component {
                                 <button type="submit" class="btn btn-smbc btn-lg btn-block" disabled={isLoading} onClick={!isLoading
                                         ? onClick
                                         : null}>
-                                        {isLoading
-                                        ? <span><span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>&nbsp;&nbsp;<span>Loading...</span></span>
-                                        : 'Login'}
-                                    </button>
+                                    {
+                                        isLoading
+                                            ? <span>
+                                                    <span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>&nbsp;&nbsp;<span>Loading...</span>
+                                                </span>
+                                            : 'Login'
+                                    }
+                                </button>
                             </div>
                         </div>
                     </form>

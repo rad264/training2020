@@ -2,7 +2,6 @@ class GetTransactionsController extends React.Component {
     constructor(props) {
         super(props);
         this.state = new GetTransactionsModel(props.accountNumber);
-        this.getTransactions = this.getTransactions.bind(this);
     }
 
     componentDidMount() {
@@ -15,7 +14,7 @@ class GetTransactionsController extends React.Component {
         });
     }
 
-    getTransactions() {
+    getTransactions = () => {
         const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
         let handleResponse = (status, transactions) => this.setState({responseStatus: status, transactions: transactions});
@@ -33,8 +32,6 @@ class GetTransactionsController extends React.Component {
         });
     }
     render() {
-        return (
-            <TransactionsCard transactions={this.state.transactions} statusCode={this.state.responseStatus}/>
-        );
+        return (<TransactionsCard transactions={this.state.transactions} statusCode={this.state.responseStatus}/>);
     }
 }

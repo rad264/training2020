@@ -4,15 +4,9 @@ class SelectAccountTypes extends React.Component {
 
         const {label, nameAlt, onChange, accountType} = this.props;
 
-        var accountTypes = [
-            'Checking',
-            'Saving',
-            'Money Market',
-            'Certificate of Deposit',
-            'Individual Retirement'
-        ]
+        var accountTypes = ['Checking', 'Saving', 'Money Market', 'Certificate of Deposit', 'Individual Retirement']
 
-        var accountTypeOptions = [<option selected disabled>Select Account Type</option>
+        var accountTypeOptions = [<option selected="selected" disabled="disabled">Select Account Type</option>
             ];
 
         accountTypes.forEach(function(n, i) {
@@ -20,9 +14,12 @@ class SelectAccountTypes extends React.Component {
         })
 
         return (<div class="form-group row">
-            <label for="accountType" class="col-5 col-form-label">{label} Account Type</label>
+            <label for="accountType" class="col-5 col-form-label">{label}
+                Account Type</label>
             <div class="col-7">
-                <select class="form-control" name={nameAlt ? nameAlt : "accountType"} onChange={onChange} value={accountType}>
+                <select class="form-control" name={nameAlt
+                        ? nameAlt
+                        : "accountType"} onChange={onChange} value={accountType}>
                     {accountTypeOptions}
                 </select>
             </div>

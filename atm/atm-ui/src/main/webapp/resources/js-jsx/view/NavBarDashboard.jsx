@@ -9,7 +9,7 @@ class NavBarDashboard extends React.Component {
                 <nav class="navbar navbar-expand-lg navbar-dark smbc-color-navbar">
                     <a class="navbar-brand" href="#">
                         <img src="resources/images/logo_group.png" alt=""></img>
-                        </a>
+                    </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -18,8 +18,8 @@ class NavBarDashboard extends React.Component {
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
                                 <a class="nav-link" href="/#/dashboard" onClick={() => {
-                                    event.preventDefault();
-                                    hashHistory.push(location)
+                                        event.preventDefault();
+                                        hashHistory.push(location)
                                     }}>Dashboard</a>
                             </li>
                         </ul>

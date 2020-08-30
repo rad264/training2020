@@ -1,10 +1,6 @@
 class SelectAccounts extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = new GetAccountNumbersModel(props.userId);
-        this.getAccountNumbers = this.getAccountNumbers.bind(this);
-    }
+    state = new GetAccountNumbersModel(this.props.userId);
 
     componentDidMount() {
         this.getAccountNumbers();
@@ -16,7 +12,7 @@ class SelectAccounts extends React.Component {
         });
     }
 
-    getAccountNumbers() {
+    getAccountNumbers = () => {
         const userId = this.state.userId;
         let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers});
         handleResponse = handleResponse.bind(this);
@@ -37,7 +33,7 @@ class SelectAccounts extends React.Component {
 
         const {label, nameAlt, onChange, accountNumber} = this.props;
 
-        var accountNumbersOptions = [<option selected disabled>Select Account</option>
+        var accountNumbersOptions = [<option selected="selected" disabled="disabled">Select Account</option>
             ];
         if (this.state.accountNumbers) {
             this.state.accountNumbers.forEach(function(n, i) {
@@ -46,9 +42,12 @@ class SelectAccounts extends React.Component {
         }
 
         return (<div class="form-group row">
-            <label for="accountNumber" class="col-5 col-form-label">{label} Account Number</label>
+            <label for="accountNumber" class="col-5 col-form-label">{label}
+                Account Number</label>
             <div class="col-7">
-                <select class="form-control" name={nameAlt ? nameAlt : "accountNumber"} onChange={onChange} value={accountNumber}>
+                <select class="form-control" name={nameAlt
+                        ? nameAlt
+                        : "accountNumber"} onChange={onChange} value={accountNumber}>
                     {accountNumbersOptions}
                 </select>
             </div>

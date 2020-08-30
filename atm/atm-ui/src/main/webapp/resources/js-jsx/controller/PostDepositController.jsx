@@ -1,17 +1,15 @@
 class PostDepositController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new PostDepositModel();
-        this.onChange = this.onChange.bind(this);
-        this.postDeposit = this.postDeposit.bind(this);
-    }
-    onChange(event) {
+
+    state = new PostDepositModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    postDeposit(e) {
+
+    postDeposit = (e) => {
         if (!this.state.accountNumber || !this.state.depositAmount)
             return false;
         e.preventDefault();

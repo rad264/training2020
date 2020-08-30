@@ -1,28 +1,23 @@
 class LoginController extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = new GetUserModel();
-        this.onChange = this.onChange.bind(this);
-        this.getUser = this.getUser.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-    onChange(event) {
+    state = new GetUserModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    onSubmit() {
+    onSubmit = () => {
         this.props.onUserIdChange(this.state.userId);
     }
-    getUser(e) {
+    getUser = (e) => {
         if (!this.state.userId)
             return false;
         e.preventDefault();
         var _this = this;
         const userId = this.state.userId;
-        let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers, isLoading:false});
+        let handleResponse = (status, accountNumbers) => this.setState({responseStatus: status, accountNumbers: accountNumbers, isLoading: false});
         handleResponse = handleResponse.bind(this);
         this.setState({isLoading: true});
         $.ajax({
@@ -35,7 +30,9 @@ class LoginController extends React.Component {
                     pathname: '/dashboard',
                     state: {
                         userId: userId,
-                        initialAccountNumber: response.accounts.length ? response.accounts[0] : null
+                        initialAccountNumber: response.accounts.length
+                            ? response.accounts[0]
+                            : null
                     }
                 });
             },

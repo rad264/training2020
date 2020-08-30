@@ -1,17 +1,15 @@
 class PostTransferController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new PostTransferModel();
-        this.onChange = this.onChange.bind(this);
-        this.postWithdraw = this.postTransfer.bind(this);
-    }
-    onChange(event) {
+
+    state = new PostTransferModel();
+
+    onChange = (e) => {
         this.setState({
             ...this.state,
-            [event.target.name]: event.target.value
+            [e.target.name]: e.target.value
         });
     }
-    postTransfer(e) {
+
+    postTransfer = (e) => {
         if (!this.state.fromAccountNumber || !this.state.toAccountNumber || !this.state.transferAmount)
             return false;
         e.preventDefault();
@@ -42,6 +40,7 @@ class PostTransferController extends React.Component {
             }
         });
     }
+
     render() {
         return (<TransferCard userId={this.props.userId} toAccountNumber={this.state.toAccountNumber} fromAccountNumber={this.state.fromAccountNumber} onChange={this.onChange} onClick={this.postWithdraw} statusCode={this.state.responseStatus} transferAmount={this.state.transferAmount}/>);
     }

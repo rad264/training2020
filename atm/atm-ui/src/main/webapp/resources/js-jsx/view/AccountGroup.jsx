@@ -1,28 +1,22 @@
 class AccountGroup extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedAccount: 0
-        }
-        this.setActiveCard = this.setActiveCard.bind(this);
-    }
+    state = {
+        selectedAccount: 0
+    };
 
     isActive(id) {
         return this.state.selectedAccount === id;
     }
 
-    setActiveCard(selectedAccount) {
+    setActiveCard = (selectedAccount) => {
         this.setState({selectedAccount});
-    }
+    };
 
     render() {
-
         const {statusCode, accounts} = this.props;
 
         let alert;
         switch (statusCode) {
-            case(null):
+            case null:
                 alert = null;
                 break;
             case 200:
@@ -42,11 +36,9 @@ class AccountGroup extends React.Component {
         var totalBalance = 0;
 
         if (accounts) {
+            accountCards = accounts.map((account, i) => (<Account key={i} accountNumber={account.accountNumber} accountType={account.accountType} balance={account.balance} isActive={_this.isActive(i)} onActiveCard={_this.setActiveCard.bind(_this, i)} onClick={() => _this.props.updateSelectedAccount(account.accountNumber)}></Account>));
 
-            accounts.forEach(function(e, i) {
-                accountCards.push(<Account key={i} accountNumber={e.accountNumber} accountType={e.accountType} balance={e.balance} isActive={_this.isActive(i)} onActiveCard={_this.setActiveCard.bind(_this, i)} onClick={() => _this.props.updateSelectedAccount(e.accountNumber)}/>);
-                totalBalance += e.balance;
-            })
+            totalBalance = accounts.reduce((a, b) => a + b.balance, 0);
         }
 
         totalBalance = totalBalance.toFixed(2);
