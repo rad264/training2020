@@ -49,8 +49,7 @@ class SelectAccounts extends React.Component {
         return (
             <div class="form-group row">
                 <label for="accountNumber" class="col-5 col-form-label">
-                    {label}
-                    Account Number
+                    {label} Account Number
                 </label>
                 <div class="col-7">
                     <select

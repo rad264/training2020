@@ -96,10 +96,23 @@ public class ATMService {
 		transfer(transfer.getFromAccountNumber(), transfer.getToAccountNumber(), transfer.getTransferAmount());
 	}
 
-	public void transfer(String sourceAccountNumber, String destinationAccountNumber, BigDecimal amount)
+	public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount)
 			throws AccountNotFoundException, NegativeAmountException, InsufficientFundsException {
-		withdraw(sourceAccountNumber, amount);
-		deposit(destinationAccountNumber, amount);
+		checkPositive(amount);
+		
+		Account fromAccount = getAccount(fromAccountNumber);
+		if (fromAccount.getBalance().subtract(amount).compareTo(BigDecimal.TEN) < 0)
+			throw new InsufficientFundsException();
+		BigDecimal newFromBalance = fromAccount.getBalance().subtract(amount);
+		fromAccount.setBalance(newFromBalance);
+		dao.updateAccount(fromAccount);
+		updateTransactions(fromAccountNumber, "Transfer", amount, newFromBalance);
+		
+		Account toAccount = getAccount(toAccountNumber);
+		BigDecimal newToBalance = toAccount.getBalance().add(amount);
+		toAccount.setBalance(newToBalance);
+		dao.updateAccount(toAccount);
+		updateTransactions(toAccountNumber, "Transfer", amount, newToBalance);
 	}
 
 	public void updateTransactions(String accountNumber, String type, BigDecimal amount, BigDecimal balance)
