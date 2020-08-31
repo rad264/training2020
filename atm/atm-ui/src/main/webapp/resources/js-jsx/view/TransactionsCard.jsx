@@ -2,28 +2,14 @@ class TransactionsCard extends React.Component {
     render() {
         const { statusCode, transactions, responseStatus } = this.props;
 
-        let alert;
-        let table;
-        switch (statusCode) {
-            case null:
-                alert = null;
-                break;
-            case 200:
-                alert = null;
-                table = (
-                    <TransactionsTable
-                        transactions={transactions}
-                        statusCode={responseStatus}
-                    ></TransactionsTable>
-                );
-                break;
-            case 404:
-                alert = <AlertFail error={"Account Not Found."} />;
-                break;
-            default:
-                alert = <AlertFail error={"Unexpected Error."} />;
-                break;
-        }
+        let table = null;
+        if (statusCode == 200)
+            table = (
+                <TransactionsTable
+                    transactions={transactions}
+                    statusCode={responseStatus}
+                ></TransactionsTable>
+            );
 
         return (
             <div class="card mb-3">
@@ -32,7 +18,7 @@ class TransactionsCard extends React.Component {
                 </div>
                 <div class="card-body">
                     {table}
-                    {alert}
+                    <Alert statusCode={statusCode} action={"Transactions"}></Alert>
                 </div>
             </div>
         );

@@ -13,23 +13,6 @@ class AccountGroup extends React.Component {
 
     render() {
         const { statusCode, accounts } = this.props;
-
-        let alert;
-        switch (statusCode) {
-            case null:
-                alert = null;
-                break;
-            case 200:
-                alert = null;
-                break;
-            case 404:
-                alert = <AlertFail error={"User Not Found."} />;
-                break;
-            default:
-                alert = <AlertFail error={"Unexpected Error."} />;
-                break;
-        }
-
         const _this = this;
 
         var accountCards = [];
@@ -62,7 +45,7 @@ class AccountGroup extends React.Component {
                     <h5>Total Balance:</h5>
                     <h5 class="smbc-color1">${totalBalance}</h5>
                 </div>
-                {alert}
+                <Alert statusCode={statusCode} action="Account Group"></Alert>
             </div>
         );
     }

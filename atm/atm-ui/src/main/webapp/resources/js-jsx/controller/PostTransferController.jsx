@@ -54,7 +54,7 @@ class PostTransferController extends React.Component {
                 toAccountNumber={this.state.toAccountNumber}
                 fromAccountNumber={this.state.fromAccountNumber}
                 onChange={this.onChange}
-                onClick={this.postWithdraw}
+                onClick={this.postTransfer}
                 statusCode={this.state.responseStatus}
                 transferAmount={this.state.transferAmount}
             />

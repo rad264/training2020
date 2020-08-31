@@ -127,7 +127,7 @@ class TransferCard extends React.Component {
                                     name="transferAmount"
                                     onChange={onChange}
                                     value={transferAmount}
-                                    required="required"
+                                    required
                                 ></input>
                             </div>
                         </div>
