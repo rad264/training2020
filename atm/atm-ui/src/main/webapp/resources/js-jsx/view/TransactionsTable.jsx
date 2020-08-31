@@ -1,48 +1,49 @@
 const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+    year: "numeric",
+    month: "long",
+    day: "numeric",
 };
 const columns = [
     {
         title: "Date",
-        data: 'date',
+        data: "date",
         width: "25%",
-        render: function(data, type, row) {
-            if (type == "sort" || type == 'type')
-                return data;
+        render: function (data, type, row) {
+            if (type == "sort" || type == "type") return data;
             var date = new Date(parseInt(data));
             return date.toLocaleDateString(undefined, options);
-        }
-    }, {
+        },
+    },
+    {
         title: "Type",
-        data: 'type',
+        data: "type",
         width: "29%",
-        className: 'boldType'
-    }, {
+        className: "boldType",
+    },
+    {
         title: "Amount",
-        data: 'amount',
+        data: "amount",
         width: "23%",
-        className: 'dt-right',
-        render: function(data, type, row, meta) {
+        className: "dt-right",
+        render: function (data, type, row, meta) {
             return (
-                row.type == "Deposit"
-                ? "+"
-                : "-") + Number.parseFloat(data).toFixed(2);
-        }
-    }, {
+                (row.type == "Deposit" ? "+" : "-") +
+                Number.parseFloat(data).toFixed(2)
+            );
+        },
+    },
+    {
         title: "Balance",
-        data: 'balance',
+        data: "balance",
         width: "23%",
-        className: 'dt-right',
-        render: function(data) {
+        className: "dt-right",
+        render: function (data) {
             return Number.parseFloat(data).toFixed(2);
-        }
-    }
+        },
+    },
 ];
 
 class TransactionsTable extends React.Component {
-
     reloadTableData(transactions) {
         const table = $(this.refs.main).DataTable();
         table.clear();
@@ -55,9 +56,7 @@ class TransactionsTable extends React.Component {
             data: this.props.transactions,
             columns,
             className: "datatables-width",
-            order: [
-                [0, "desc"]
-            ]
+            order: [[0, "desc"]],
         });
     }
 
@@ -69,9 +68,10 @@ class TransactionsTable extends React.Component {
         return false;
     }
     render() {
-        return (<div>
-            <table ref="main" class="table table-hover"></table>
-        </div>);
+        return (
+            <div>
+                <table ref="main" class="table table-hover"></table>
+            </div>
+        );
     }
-
 }

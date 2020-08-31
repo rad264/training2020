@@ -10,18 +10,20 @@ const Switch = ReactRouter.Switch;
 
 class App extends React.Component {
     state = {
-        userId: ""
+        userId: "",
     };
 
     onUserIdChange = (userId) => {
-        this.setState({userId: userId});
+        this.setState({ userId: userId });
     };
 
     render() {
-        return (<Router history={hashHistory}>
-            <Route exact="exact" path="/" component={Login}></Route>
-            <Route path="/dashboard" component={Dashboard}></Route>
-        </Router>);
+        return (
+            <Router history={hashHistory}>
+                <Route exact="exact" path="/" component={Login}></Route>
+                <Route path="/dashboard" component={Dashboard}></Route>
+            </Router>
+        );
     }
 }
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));

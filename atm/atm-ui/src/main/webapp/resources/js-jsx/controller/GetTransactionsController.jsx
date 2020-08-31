@@ -17,21 +17,30 @@ class GetTransactionsController extends React.Component {
     getTransactions = () => {
         const userId = this.props.userId;
         const accountNumber = this.state.accountNumber;
-        let handleResponse = (status, transactions) => this.setState({responseStatus: status, transactions: transactions});
+        let handleResponse = (status, transactions) =>
+            this.setState({
+                responseStatus: status,
+                transactions: transactions,
+            });
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/accounts/" + accountNumber + "/transactions",
             type: "GET",
             contentType: "application/json",
-            success: function(response) {
+            success: function (response) {
                 handleResponse(200, response.reverse());
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 handleResponse(xhr.status);
-            }
+            },
         });
-    }
+    };
     render() {
-        return (<TransactionsCard transactions={this.state.transactions} statusCode={this.state.responseStatus}/>);
+        return (
+            <TransactionsCard
+                transactions={this.state.transactions}
+                statusCode={this.state.responseStatus}
+            />
+        );
     }
 }

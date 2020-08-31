@@ -1,5 +1,4 @@
 class GetAccountsController extends React.Component {
-
     state = new GetAccountsModel(this.props.userId);
 
     componentDidMount() {
@@ -14,21 +13,28 @@ class GetAccountsController extends React.Component {
 
     getAccounts = () => {
         const userId = this.state.userId;
-        let handleResponse = (status, accounts) => this.setState({responseStatus: status, accounts: accounts});
+        let handleResponse = (status, accounts) =>
+            this.setState({ responseStatus: status, accounts: accounts });
         handleResponse = handleResponse.bind(this);
         $.ajax({
             url: "/atm-api/users/" + userId + "/accounts",
             type: "GET",
             contentType: "application/json",
-            success: function(response) {
+            success: function (response) {
                 handleResponse(200, response);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 handleResponse(xhr.status);
-            }
+            },
         });
-    }
+    };
     render() {
-        return (<AccountGroup statusCode={this.state.responseStatus} accounts={this.state.accounts} updateSelectedAccount={this.props.updateSelectedAccount}/>);
+        return (
+            <AccountGroup
+                statusCode={this.state.responseStatus}
+                accounts={this.state.accounts}
+                updateSelectedAccount={this.props.updateSelectedAccount}
+            />
+        );
     }
 }

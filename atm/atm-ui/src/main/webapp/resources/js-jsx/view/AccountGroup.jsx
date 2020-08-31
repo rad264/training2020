@@ -1,6 +1,6 @@
 class AccountGroup extends React.Component {
     state = {
-        selectedAccount: 0
+        selectedAccount: 0,
     };
 
     isActive(id) {
@@ -8,11 +8,11 @@ class AccountGroup extends React.Component {
     }
 
     setActiveCard = (selectedAccount) => {
-        this.setState({selectedAccount});
+        this.setState({ selectedAccount });
     };
 
     render() {
-        const {statusCode, accounts} = this.props;
+        const { statusCode, accounts } = this.props;
 
         let alert;
         switch (statusCode) {
@@ -23,10 +23,10 @@ class AccountGroup extends React.Component {
                 alert = null;
                 break;
             case 404:
-                alert = <AlertFail error={"User Not Found."}/>;
+                alert = <AlertFail error={"User Not Found."} />;
                 break;
             default:
-                alert = <AlertFail error={"Unexpected Error."}/>;
+                alert = <AlertFail error={"Unexpected Error."} />;
                 break;
         }
 
@@ -36,20 +36,34 @@ class AccountGroup extends React.Component {
         var totalBalance = 0;
 
         if (accounts) {
-            accountCards = accounts.map((account, i) => (<Account key={i} accountNumber={account.accountNumber} accountType={account.accountType} balance={account.balance} isActive={_this.isActive(i)} onActiveCard={_this.setActiveCard.bind(_this, i)} onClick={() => _this.props.updateSelectedAccount(account.accountNumber)}></Account>));
+            accountCards = accounts.map((account, i) => (
+                <Account
+                    key={i}
+                    accountNumber={account.accountNumber}
+                    accountType={account.accountType}
+                    balance={account.balance}
+                    isActive={_this.isActive(i)}
+                    onActiveCard={_this.setActiveCard.bind(_this, i)}
+                    onClick={() =>
+                        _this.props.updateSelectedAccount(account.accountNumber)
+                    }
+                ></Account>
+            ));
 
             totalBalance = accounts.reduce((a, b) => a + b.balance, 0);
         }
 
         totalBalance = totalBalance.toFixed(2);
 
-        return (<div>
-            {accountCards}
-            <div class="d-flex justify-content-between">
-                <h5>Total Balance:</h5>
-                <h5 class="smbc-color1">${totalBalance}</h5>
+        return (
+            <div>
+                {accountCards}
+                <div class="d-flex justify-content-between">
+                    <h5>Total Balance:</h5>
+                    <h5 class="smbc-color1">${totalBalance}</h5>
+                </div>
+                {alert}
             </div>
-            {alert}
-        </div>);
+        );
     }
 }
