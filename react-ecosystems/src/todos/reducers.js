@@ -29,14 +29,14 @@ export const todos = (state = [], action) => {
             return state.concat(todo);
         }
         case REMOVE_TODO: {
-            const { text } = payload;
-            return state.filter((todo) => todo.text !== text);
+            const { todo: todoToRemove } = payload;
+            return state.filter((todo) => todo.id !== todoToRemove.id);
         }
         case MARK_TODO_AS_COMPLETED: {
-            const { text } = payload;
+            const { todo: updatedTodo } = payload;
             return state.map((todo) => {
-                if (todo.text === text) {
-                    return { ...todo, isCompleted: true };
+                if (todo.id === updatedTodo.id) {
+                    return updatedTodo;
                 }
                 return todo;
             });
