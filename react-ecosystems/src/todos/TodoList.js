@@ -1,20 +1,34 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import NewTodoForm from "./NewTodoForm";
 import TodoListItem from "./TodoListItem";
-import { loadTodos, removeTodoRequest, markTodoAsCompletedRequest } from './thunks';
-import { displayAlert } from "./thunks";
-import "./TodoList.css";
+import {
+    getTodosLoading,
+    getCompletedTodos,
+    getIncompleteTodos,
+} from "./selectors";
+import {
+    loadTodos,
+    removeTodoRequest,
+    markTodoAsCompletedRequest,
+    displayAlert,
+} from "./thunks";
+
+const ListWrapper = styled.div`
+    max-width: 700px;
+    margin: auto;
+`;
 
 const TodoList = ({
-    todos = [],
+    completedTodos,
+    incompleteTodos,
     onRemovePressed,
     onCompletedPressed,
     onDisplayAlertClicked,
     isLoading,
-    startLoadingTodos
+    startLoadingTodos,
 }) => {
-
     useEffect(() => {
         startLoadingTodos();
     }, []);
@@ -22,9 +36,10 @@ const TodoList = ({
     const loadingMessage = <div>Loading todos...</div>;
 
     const content = (
-        <div className="list-wrapper">
+        <ListWrapper>
             <NewTodoForm />
-            {todos.map((todo, i) => (
+            <h3>Incomplete:</h3>
+            {incompleteTodos.map((todo, i) => (
                 <TodoListItem
                     key={i}
                     todo={todo}
@@ -32,14 +47,24 @@ const TodoList = ({
                     onCompletedPressed={onCompletedPressed}
                 />
             ))}
-        </div>
+            <h3>Complete:</h3>
+            {completedTodos.map((todo, i) => (
+                <TodoListItem
+                    key={i}
+                    todo={todo}
+                    onRemovePressed={onRemovePressed}
+                    onCompletedPressed={onCompletedPressed}
+                />
+            ))}
+        </ListWrapper>
     );
     return isLoading ? loadingMessage : content;
 };
 
 const mapStateToProps = (state) => ({
-    isLoading: state.isLoading,
-    todos: state.todos,
+    isLoading: getTodosLoading(state),
+    completedTodos: getCompletedTodos(state),
+    incompleteTodos: getIncompleteTodos(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
