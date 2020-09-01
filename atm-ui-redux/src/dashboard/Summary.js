@@ -4,9 +4,8 @@ import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 
 import { getActiveAccount } from "./state/selectors";
-import { selectActiveAccount } from "./state/actions";
 
-const SummaryCard = ({ statusCode, account }) => {
+const Summary = ({ statusCode, account }) => {
 
     const noActiveAccount = (
         <Card.Body>
@@ -33,4 +32,4 @@ const mapStateToProps = (state) => ({
     account: getActiveAccount(state),
 });
 
-export default connect(mapStateToProps)(SummaryCard);
+export default connect(mapStateToProps)(Summary);

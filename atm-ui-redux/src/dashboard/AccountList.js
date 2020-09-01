@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountCard from "./AccountCard";
 
-import { getActiveAccount } from "./state/selectors";
+import { getActiveAccount, getAccounts } from "./state/selectors";
 import { selectActiveAccount } from "./state/actions";
+import { loadAccounts, loadTransactions } from "./state/thunks";
 
-const AccountList = ({ statusCode, accounts, onAccountSelect }) => {
+const AccountList = ({ statusCode, accounts, startLoadingAccounts, onAccountSelect }) => {
+    useEffect(() => {
+        startLoadingAccounts();
+    }, []);
     return (
         <div>
             {accounts.map((account, i) => (
@@ -28,10 +32,15 @@ const AccountList = ({ statusCode, accounts, onAccountSelect }) => {
 
 const mapStateToProps = (state) => ({
     activeAccount: getActiveAccount(state),
+    accounts: getAccounts(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onAccountSelect: (account) => dispatch(selectActiveAccount(account)),
+    startLoadingAccounts: () => dispatch(loadAccounts("jwong")),
+    onAccountSelect: (account) => {
+        dispatch(selectActiveAccount(account))
+        dispatch(loadTransactions(account.accountNumber))
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountList);
