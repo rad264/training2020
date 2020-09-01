@@ -6,6 +6,7 @@ import {
     LOAD_TRANSACTIONS_FAILURE,
     LOAD_TRANSACTIONS_IN_PROGRESS,
     SELECT_ACTIVE_ACCOUNT,
+    POST_DEPOSIT,
 } from "./actions";
 
 const initialStateAccount = { isLoading: false, data: null };
@@ -18,7 +19,20 @@ export const activeAccount = (state = initialStateAccount, action) => {
                 ...state,
                 isLoading: false,
                 data: account,
-            }
+            };
+        // case POST_DEPOSIT:
+        //     const { account: updatedAccount } = payload;
+        //     return {
+        //         ...state,
+        //         data: state.data.map((account) => {
+        //             if (
+        //                 account.accountNumber === updatedAccount.accountNumber
+        //             ) {
+        //                 return updatedAccount;
+        //             }
+        //             return account;
+        //         }),
+        //     };
         default:
             return state;
     }
@@ -45,6 +59,19 @@ export const accounts = (state = initialStateAccounts, action) => {
             return {
                 ...state,
                 isLoading: false,
+            };
+        case POST_DEPOSIT:
+            const { account: updatedAccount } = payload;
+            return {
+                ...state,
+                data: state.data.map((account) => {
+                    if (
+                        account.accountNumber === updatedAccount.accountNumber
+                    ) {
+                        return updatedAccount;
+                    }
+                    return account;
+                }),
             };
         default:
             return state;

@@ -5,6 +5,7 @@ import {
     loadTransactionsSuccess,
     loadTransactionsFailure,
     loadTransactionsInProgress,
+    postDeposit,
 } from "./actions";
 
 const url = "http://localhost:8080/atm-api/";
@@ -40,6 +41,25 @@ export const loadTransactions = (accountNumber) => async (
         dispatch(loadTransactionsSuccess(transactions));
     } catch (e) {
         dispatch(loadTransactionsFailure());
+        dispatch(displayAlert(e));
+    }
+};
+
+export const postDepositRequest = (data) => async (dispatch) => {
+    try {
+        const { accountNumber, depositAmount } = data;
+        const body = depositAmount;
+        const response = await fetch(url + `accounts/${accountNumber}/deposits`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body,
+        });
+        const res = await response;
+        dispatch(loadAccounts("jwong"));
+        // dispatch(postDeposit(data));
+    } catch (e) {
         dispatch(displayAlert(e));
     }
 };
