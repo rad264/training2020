@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 
-const AccountCard = ({ statusCode, account }) => {
+const AccountCard = ({ statusCode, account, onAccountSelect }) => {
     return (
-        <Card>
+        <Card onClick={() => onAccountSelect(account)}>
             <Card.Body>
                 <Card.Title>{account.accountType}</Card.Title>
                 <h3>{account.accountNumber}</h3>

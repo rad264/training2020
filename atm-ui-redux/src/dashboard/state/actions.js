@@ -1,19 +1,3 @@
-export const LOAD_ACCOUNT_SUCCESS = "LOAD_ACCOUNT_SUCCESS";
-export const loadAccountSuccess = (account) => ({
-    type: LOAD_ACCOUNT_SUCCESS,
-    payload: { account },
-});
-
-export const LOAD_ACCOUNT_FAILURE = "LOAD_ACCOUNT_FAILURE";
-export const loadAccountFailure = () => ({
-    type: LOAD_ACCOUNT_FAILURE,
-});
-
-export const LOAD_ACCOUNT_IN_PROGRESS = "LOAD_ACCOUNT_IN_PROGRESS";
-export const loadAccountInProgress = () => ({
-    type: LOAD_ACCOUNT_IN_PROGRESS,
-});
-
 export const LOAD_ACCOUNTS_SUCCESS = "LOAD_ACCOUNTS_SUCCESS";
 export const loadAccountsSuccess = (accounts) => ({
     type: LOAD_ACCOUNTS_SUCCESS,
@@ -44,4 +28,10 @@ export const loadTransactionsFailure = () => ({
 export const LOAD_TRANSACTIONS_IN_PROGRESS = "LOAD_TRANSACTIONS_IN_PROGRESS";
 export const loadTransactionsInProgress = () => ({
     type: LOAD_TRANSACTIONS_IN_PROGRESS,
+});
+
+export const SELECT_ACTIVE_ACCOUNT = "SELECT_ACTIVE_ACCOUNT";
+export const selectActiveAccount = (account) => ({
+    type: SELECT_ACTIVE_ACCOUNT,
+    payload: { account },
 });

@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-export const getAccount = (state) => state.account.data;
-export const getAccountLoading = (state) => state.account.isLoading;
+export const getActiveAccount = (state) => state.activeAccount.data;
+export const getActiveAccountLoading = (state) => state.activeAccount.isLoading;
 
 export const getAccounts = (state) => state.accounts.data;
 export const getAccountsLoading = (state) => state.accounts.isLoading;

@@ -8,24 +8,20 @@ import Transactions from "./Transactions";
 import { Container, Row, Col } from "react-bootstrap";
 
 import {
-    getAccountLoading,
-    getAccount,
+    getAccountsLoading,
     getAccounts,
     getTransactions,
 } from "./state/selectors";
-import { loadAccount, loadAccounts, loadTransactions } from "./state/thunks";
+import { loadAccounts, loadTransactions } from "./state/thunks";
 
 const Dashboard = ({
     isLoading,
-    account,
     accounts,
     transactions,
-    startLoadingAccount,
     startLoadingAccounts,
     startLoadingTransactions,
 }) => {
     useEffect(() => {
-        startLoadingAccount();
         startLoadingAccounts();
         startLoadingTransactions();
     }, []);
@@ -39,7 +35,7 @@ const Dashboard = ({
                     <AccountList accounts={accounts}></AccountList>
                 </Col>
                 <Col md={8}>
-                    <SummaryCard account={account} />
+                    <SummaryCard />
                     <AccountActions />
                     <Transactions transactions={transactions} />
                 </Col>
@@ -50,16 +46,14 @@ const Dashboard = ({
 };
 
 const mapStateToProps = (state) => ({
-    isLoading: getAccountLoading(state),
-    account: getAccount(state),
+    isLoading: getAccountsLoading(state),
     accounts: getAccounts(state),
     transactions: getTransactions(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startLoadingAccount: () => dispatch(loadAccount("123456")),
     startLoadingAccounts: () => dispatch(loadAccounts("jwong")),
-    startLoadingTransactions: () => dispatch(loadTransactions("123456")),
+    startLoadingTransactions: () => dispatch(loadTransactions("123456"))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

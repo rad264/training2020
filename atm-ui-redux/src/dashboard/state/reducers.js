@@ -1,37 +1,24 @@
 import {
-    LOAD_ACCOUNT_SUCCESS,
-    LOAD_ACCOUNT_FAILURE,
-    LOAD_ACCOUNT_IN_PROGRESS,
     LOAD_ACCOUNTS_SUCCESS,
     LOAD_ACCOUNTS_FAILURE,
     LOAD_ACCOUNTS_IN_PROGRESS,
     LOAD_TRANSACTIONS_SUCCESS,
     LOAD_TRANSACTIONS_FAILURE,
     LOAD_TRANSACTIONS_IN_PROGRESS,
+    SELECT_ACTIVE_ACCOUNT,
 } from "./actions";
 
-const initialStateAccount = { isLoading: false, data: {} };
-export const account = (state = initialStateAccount, action) => {
+const initialStateAccount = { isLoading: false, data: null };
+export const activeAccount = (state = initialStateAccount, action) => {
     const { type, payload } = action;
     switch (type) {
-        case LOAD_ACCOUNT_SUCCESS: {
+        case SELECT_ACTIVE_ACCOUNT:
             const { account } = payload;
             return {
                 ...state,
                 isLoading: false,
                 data: account,
-            };
-        }
-        case LOAD_ACCOUNT_IN_PROGRESS:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case LOAD_ACCOUNT_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-            };
+            }
         default:
             return state;
     }

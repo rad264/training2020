@@ -1,7 +1,4 @@
 import {
-    loadAccountSuccess,
-    loadAccountFailure,
-    loadAccountInProgress,
     loadAccountsSuccess,
     loadAccountsFailure,
     loadAccountsInProgress,
@@ -11,21 +8,6 @@ import {
 } from "./actions";
 
 const url = "http://localhost:8080/atm-api/";
-
-export const loadAccount = (accountNumber) => async (dispatch, getState) => {
-    try {
-        dispatch(loadAccountInProgress());
-        const response = await fetch(url + `accounts/${accountNumber}`, {
-            method: "get",
-        });
-        const account = await response.json();
-
-        dispatch(loadAccountSuccess(account));
-    } catch (e) {
-        dispatch(loadAccountFailure());
-        dispatch(displayAlert(e));
-    }
-};
 
 export const loadAccounts = (userId) => async (dispatch, getState) => {
     try {

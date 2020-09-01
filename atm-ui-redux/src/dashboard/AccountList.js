@@ -1,12 +1,20 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountCard from "./AccountCard";
 
-const AccountList = ({ statusCode, accounts }) => {
+import { getActiveAccount } from "./state/selectors";
+import { selectActiveAccount } from "./state/actions";
+
+const AccountList = ({ statusCode, accounts, onAccountSelect }) => {
     return (
         <div>
             {accounts.map((account, i) => (
-                <AccountCard key={i} account={account} />
+                <AccountCard
+                    key={i}
+                    account={account}
+                    onAccountSelect={onAccountSelect}
+                />
             ))}
             <div>
                 <h5>Total Balance: </h5>
@@ -18,4 +26,12 @@ const AccountList = ({ statusCode, accounts }) => {
     );
 };
 
-export default AccountList;
+const mapStateToProps = (state) => ({
+    activeAccount: getActiveAccount(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onAccountSelect: (account) => dispatch(selectActiveAccount(account)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountList);
