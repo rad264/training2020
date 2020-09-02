@@ -44,6 +44,10 @@ export const activeAccount = (state = initialStateAccount, action) => {
                         ? updatedAccount
                         : state.data,
             };
+        case CREATE_ACCOUNT: {
+            const { account } = payload;
+            return { ...state, data: account };
+        }
         default:
             return state;
     }

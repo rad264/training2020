@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Row, Col } from "react-bootstrap";
 
-const AccountTypeSelect = ({ label, onChange, accountType }) => {
+const AccountTypeSelect = ({ onChange, accountType }) => {
     const accountTypes = [
         "Checking",
         "Saving",
@@ -14,7 +14,7 @@ const AccountTypeSelect = ({ label, onChange, accountType }) => {
     return (
         <Form.Group as={Row}>
             <Form.Label column md={5}>
-                {label} Account Type
+                Account Type
             </Form.Label>
             <Col md={7}>
                 <Form.Control

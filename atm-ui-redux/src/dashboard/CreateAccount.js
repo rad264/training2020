@@ -4,11 +4,12 @@ import styled from "styled-components";
 import AccountTypeSelect from "./AccountTypeSelect";
 import { Card, Form, Button } from "react-bootstrap";
 
+import { getUserId } from "./state/selectors";
 import { postCreateAccountRequest } from "./state/thunks";
 
-const CreateAccount = ({ statusCode, postCreateAccount }) => {
+const CreateAccount = ({ statusCode, userId, postCreateAccount }) => {
     const [data, setState] = useState({
-        userId: "jwong",
+        userId: userId,
         accountType: "",
     });
 
@@ -43,7 +44,7 @@ const CreateAccount = ({ statusCode, postCreateAccount }) => {
                 >
                     <AccountTypeSelect
                         onChange={updateField}
-                        accountNumber={data.accountType}
+                        accountType={data.accountType}
                     />
                     <Button variant="primary" type="submit">
                         Create
@@ -54,7 +55,9 @@ const CreateAccount = ({ statusCode, postCreateAccount }) => {
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    userId: getUserId(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     postCreateAccount: (data) => dispatch(postCreateAccountRequest(data)),
