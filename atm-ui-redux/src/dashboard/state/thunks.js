@@ -16,7 +16,8 @@ export const loadAccounts = (userId) => async (dispatch, getState) => {
         dispatch(loadAccountsInProgress());
         const response = await fetch(url + `/users/${userId}/accounts`, {
             method: "get",
-        });
+        }).then(handleResponse);
+
         const accounts = await response.json();
         dispatch(loadAccountsSuccess(accounts));
     } catch (e) {
@@ -36,7 +37,8 @@ export const loadTransactions = (accountNumber) => async (
             {
                 method: "get",
             }
-        );
+        ).then(handleResponse);
+
         const transactions = await response.json();
         dispatch(loadTransactionsSuccess(transactions));
     } catch (e) {
@@ -58,7 +60,7 @@ export const postDepositRequest = (data) => async (dispatch) => {
                 method: "post",
                 body,
             }
-        );
+        ).then(handleResponse);
         const account = await response.json();
         dispatch(updateAccount(account));
         dispatch(loadTransactions(account.accountNumber));
@@ -80,7 +82,7 @@ export const postWithdrawRequest = (data) => async (dispatch) => {
                 method: "post",
                 body,
             }
-        );
+        ).then(handleResponse);
         const account = await response.json();
         dispatch(updateAccount(account));
         dispatch(loadTransactions(account.accountNumber));
@@ -98,7 +100,7 @@ export const postTransferRequest = (data) => async (dispatch) => {
             },
             method: "post",
             body,
-        });
+        }).then(handleResponse);
         const accounts = await response.json();
         dispatch(updateAccount(accounts[0]));
         dispatch(loadTransactions(accounts[0].accountNumber));
@@ -118,12 +120,17 @@ export const postCreateAccountRequest = (data) => async (dispatch) => {
             },
             method: "post",
             body,
-        });
+        }).then(handleResponse);
         const account = await response.json();
         dispatch(createAccount(account));
     } catch (e) {
         dispatch(displayAlert(e));
     }
+};
+
+export const handleResponse = (response) => {
+    if (!response.ok) throw Error(response.status);
+    return response;
 };
 
 export const displayAlert = (text) => () => {

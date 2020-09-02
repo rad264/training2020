@@ -3,6 +3,8 @@ import {
     loadUserSuccess,
     loadUserFailure,
     loadUserInProgress,
+    createUserSuccess,
+    createUserFailure,
 } from "./actions";
 
 const url = "http://localhost:8080/atm-api";
@@ -12,14 +14,14 @@ export const loadUser = (userId) => async (dispatch, getState) => {
         dispatch(loadUserInProgress());
         const response = await fetch(url + `/users/${userId}`, {
             method: "get",
-        });
+        }).then(handleResponse);
+
         const user = await response.json();
 
         dispatch(loadUserSuccess(user.userId));
         dispatch(push("/dashboard"));
     } catch (e) {
-        dispatch(loadUserFailure());
-        dispatch(displayAlert(e));
+        dispatch(loadUserFailure(e.message));
     }
 };
 
@@ -32,13 +34,16 @@ export const postCreateUserRequest = (userId) => async (dispatch) => {
             },
             method: "post",
             body,
-        });
-        console.log("Create User Success");
-        // const user = await response.json();
-        // dispatch(createAccount(account));
+        }).then(handleResponse);
+        dispatch(createUserSuccess(userId));
     } catch (e) {
-        dispatch(displayAlert(e));
+        dispatch(createUserFailure(e.message));
     }
+};
+
+export const handleResponse = (response) => {
+    if (!response.ok) throw Error(response.status);
+    return response;
 };
 
 export const displayAlert = (text) => () => {

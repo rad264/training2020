@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
+import { Card, Form, Button, InputGroup, Alert } from "react-bootstrap";
 
+import { getRegisterError, getRegisterMessage } from "./state/selectors";
 import { postCreateUserRequest } from "./state/thunks";
 
-const CreateUser = ({ statusCode, postCreateUser }) => {
+const CreateUser = ({ error, message, postCreateUser }) => {
     const [newUserId, setNewUserId] = useState("");
     const [validated, setValidated] = useState(false);
 
@@ -53,6 +54,11 @@ const CreateUser = ({ statusCode, postCreateUser }) => {
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
+                    {error ? (
+                        <Alert variant="danger">{message}</Alert>
+                    ) : message ? (
+                        <Alert variant="success">{message}</Alert>
+                    ) : null}
                     <Button variant="primary" type="submit">
                         Register
                     </Button>
@@ -62,7 +68,10 @@ const CreateUser = ({ statusCode, postCreateUser }) => {
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    error: getRegisterError(state),
+    message: getRegisterMessage(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     postCreateUser: (data) => dispatch(postCreateUserRequest(data)),

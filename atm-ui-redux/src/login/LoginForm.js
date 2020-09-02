@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
+import { Card, Form, Button, InputGroup, Alert } from "react-bootstrap";
 
-import { getUser } from "./state/selectors";
+import { getLoginError, getLoginMessage } from "./state/selectors";
 import { loadUser } from "./state/thunks";
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin, error, message }) => {
     const [userId, setUserId] = useState("");
     const [validated, setValidated] = useState(false);
 
@@ -54,6 +54,7 @@ const LoginForm = ({ onLogin }) => {
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
+                    {error ? <Alert variant="danger">{message}</Alert> : null}
                     <Button variant="primary" type="submit">
                         Login
                     </Button>
@@ -63,7 +64,10 @@ const LoginForm = ({ onLogin }) => {
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    error: getLoginError(state),
+    message: getLoginMessage(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onLogin: (userId) => dispatch(loadUser(userId)),
