@@ -4,12 +4,12 @@ import styled from "styled-components";
 import AccountNumberSelect from "./AccountNumberSelect";
 import { Card, Form, Row, Col, Button, InputGroup } from "react-bootstrap";
 
-import { postDepositRequest } from "./state/thunks";
+import { postWithdrawRequest } from "./state/thunks";
 
-const Deposit = ({ statusCode, postDeposit }) => {
+const Withdraw = ({ statusCode, postWithdraw }) => {
     const [data, setState] = useState({
         accountNumber: "",
-        depositAmount: "",
+        withdrawAmount: "",
     });
 
     const [validated, setValidated] = useState(false);
@@ -22,9 +22,9 @@ const Deposit = ({ statusCode, postDeposit }) => {
         } else {
             setState({
                 ...data,
-                depositAmount: Number.parseFloat(data.depositAmount),
+                withdrawAmount: Number.parseFloat(data.withdrawAmount),
             });
-            postDeposit(data);
+            postWithdraw(data);
         }
         setValidated(true);
     };
@@ -49,7 +49,7 @@ const Deposit = ({ statusCode, postDeposit }) => {
                         onChange={updateField}
                         accountNumber={data.accountNumber}
                     />
-                    <Form.Group as={Row} controlId="depositAmount">
+                    <Form.Group as={Row} controlId="withdrawAmount">
                         <Form.Label column md={5}>
                             Amount
                         </Form.Label>
@@ -61,9 +61,9 @@ const Deposit = ({ statusCode, postDeposit }) => {
                                 <Form.Control
                                     required
                                     type="number"
-                                    placeholder="Deposit Amount"
-                                    name="depositAmount"
-                                    value={data.depositAmount}
+                                    placeholder="Withdraw Amount"
+                                    name="withdrawAmount"
+                                    value={data.withdrawAmount}
                                     onChange={updateField}
                                 />
                                 <Form.Control.Feedback type="invalid">
@@ -73,7 +73,7 @@ const Deposit = ({ statusCode, postDeposit }) => {
                         </Col>
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                        Deposit
+                        Withdraw
                     </Button>
                 </Form>
             </Card.Body>
@@ -84,7 +84,7 @@ const Deposit = ({ statusCode, postDeposit }) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-    postDeposit: (data) => dispatch(postDepositRequest(data)),
+    postWithdraw: (data) => dispatch(postWithdrawRequest(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Deposit);
+export default connect(mapStateToProps, mapDispatchToProps)(Withdraw);

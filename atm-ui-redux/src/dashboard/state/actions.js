@@ -36,8 +36,8 @@ export const selectActiveAccount = (account) => ({
     payload: { account },
 });
 
-export const POST_DEPOSIT = "POST_DEPOSIT";
-export const postDeposit = (account) => ({
-    type: POST_DEPOSIT,
+export const UPDATE_ACCOUNT = "UPDATE_ACCOUNT";
+export const updateAccount = (account) => ({
+    type: UPDATE_ACCOUNT,
     payload: { account },
 });

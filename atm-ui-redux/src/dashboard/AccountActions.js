@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Deposit from "./Deposit"
+import Withdraw from "./Withdraw"
 import { Tabs, Tab } from "react-bootstrap";
 
 
@@ -11,7 +12,7 @@ const AccountActions = ({ statusCode }) => {
                 <Deposit/>
             </Tab>
             <Tab eventKey="withdraw" title="Withdraw">
-                
+                <Withdraw/>
             </Tab>
             <Tab eventKey="transfer" title="Transfer">
                 

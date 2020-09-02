@@ -5,7 +5,7 @@ import {
     loadTransactionsSuccess,
     loadTransactionsFailure,
     loadTransactionsInProgress,
-    postDeposit,
+    updateAccount,
 } from "./actions";
 
 const url = "http://localhost:8080/atm-api/";
@@ -49,20 +49,46 @@ export const postDepositRequest = (data) => async (dispatch) => {
     try {
         const { accountNumber, depositAmount } = data;
         const body = depositAmount;
-        const response = await fetch(url + `accounts/${accountNumber}/deposits`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method: "post",
-            body,
-        });
-        const res = await response;
-        dispatch(loadAccounts("jwong"));
-        // dispatch(postDeposit(data));
+        const response = await fetch(
+            url + `accounts/${accountNumber}/deposits`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "post",
+                body,
+            }
+        );
+        const account = await response.json();
+        dispatch(updateAccount(account));
+        dispatch(loadTransactions(account.accountNumber));
     } catch (e) {
         dispatch(displayAlert(e));
     }
 };
+
+export const postWithdrawRequest = (data) => async (dispatch) => {
+    try {
+        const { accountNumber, withdrawAmount } = data;
+        const body = withdrawAmount;
+        const response = await fetch(
+            url + `accounts/${accountNumber}/withdraws`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "post",
+                body,
+            }
+        );
+        const account = await response.json();
+        dispatch(updateAccount(account));
+        dispatch(loadTransactions(account.accountNumber));
+    } catch (e) {
+        dispatch(displayAlert(e));
+    }
+};
+
 
 export const displayAlert = (text) => () => {
     alert(text);
