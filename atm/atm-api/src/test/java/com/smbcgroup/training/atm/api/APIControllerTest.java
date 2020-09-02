@@ -85,23 +85,4 @@ public class APIControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(100.0)));
 	}
-
-	@Test
-	public void postDeposit_Success() throws Exception {
-		APIController.service = new ATMService(null) {
-			@Override
-			public Account deposit(String accountNumber, BigDecimal amount)
-					throws AccountNotFoundException, NegativeAmountException {
-				Account account = new Account();
-				account.setAccountNumber("123456");
-				account.setBalance(new BigDecimal("100.00"));
-				account.setBalance((new BigDecimal("50.00")).add(account.getBalance()));
-				return account;
-			}
-		};
-		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(150.0)));
-	}
-
 }

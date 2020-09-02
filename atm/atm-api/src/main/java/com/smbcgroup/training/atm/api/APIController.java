@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(tags = "ATM API")
 public class APIController {
 
@@ -93,14 +93,15 @@ public class APIController {
 	@RequestMapping(value = "/accounts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Account> createAccount(@RequestBody AccountInfo accountInfo) {
 		try {
-			return new ResponseEntity<Account>(service.createAccount(accountInfo.getUserId(), accountInfo.getAccountType()), HttpStatus.OK);
+			return new ResponseEntity<Account>(
+					service.createAccount(accountInfo.getUserId(), accountInfo.getAccountType()), HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		} catch (FailedToCreateAccountException e) {
 			return new ResponseEntity<Account>(HttpStatus.CONFLICT);
 		}
 	}
-	
+
 	@ApiOperation("Create User")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public ResponseEntity<Void> createAccount(@RequestBody String userId) {
@@ -111,7 +112,6 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
 
 	@ApiOperation("Transfer")
 	@RequestMapping(value = "/accounts/transfers", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

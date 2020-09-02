@@ -20,8 +20,10 @@ public class InitDB {
 		AccountEntity ac2 = new AccountEntity("111222", "Savings", new BigDecimal("150"), jwong);
 		em.persist(ac2);
 		
-		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1));
-		em.persist(new TransactionEntity(new Date(), "Deposit", new BigDecimal("150"), new BigDecimal("150"), ac2));
+		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+		
+		em.persist(new TransactionEntity(new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)), "Deposit", new BigDecimal("100"), new BigDecimal("100"), ac1));
+		em.persist(new TransactionEntity(new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)), "Deposit", new BigDecimal("150"), new BigDecimal("150"), ac2));
 
 		em.getTransaction().commit();
 		em.close();
