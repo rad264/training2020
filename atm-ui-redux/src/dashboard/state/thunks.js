@@ -6,7 +6,18 @@ import {
     loadTransactionsFailure,
     loadTransactionsInProgress,
     updateAccount,
-    createAccount,
+    createAccountSuccess,
+    createAccountFailure,
+    createAccountInProgress,
+    depositSuccess,
+    depositFailure,
+    depositInProgress,
+    withdrawSuccess,
+    withdrawFailure,
+    withdrawInProgress,
+    transferSuccess,
+    transferFailure,
+    transferInProgress,
 } from "./actions";
 
 const url = "http://localhost:8080/atm-api";
@@ -48,6 +59,7 @@ export const loadTransactions = (accountNumber) => async (
 };
 
 export const postDepositRequest = (data) => async (dispatch) => {
+    dispatch(depositInProgress());
     try {
         const { accountNumber, depositAmount } = data;
         const body = depositAmount;
@@ -62,14 +74,16 @@ export const postDepositRequest = (data) => async (dispatch) => {
             }
         ).then(handleResponse);
         const account = await response.json();
+        dispatch(depositSuccess(account));
         dispatch(updateAccount(account));
         dispatch(loadTransactions(account.accountNumber));
     } catch (e) {
-        dispatch(displayAlert(e));
+        dispatch(depositFailure(e.message));
     }
 };
 
 export const postWithdrawRequest = (data) => async (dispatch) => {
+    dispatch(withdrawInProgress());
     try {
         const { accountNumber, withdrawAmount } = data;
         const body = withdrawAmount;
@@ -84,14 +98,16 @@ export const postWithdrawRequest = (data) => async (dispatch) => {
             }
         ).then(handleResponse);
         const account = await response.json();
+        dispatch(withdrawSuccess(account));
         dispatch(updateAccount(account));
         dispatch(loadTransactions(account.accountNumber));
     } catch (e) {
-        dispatch(displayAlert(e));
+        dispatch(withdrawFailure(e.message));
     }
 };
 
 export const postTransferRequest = (data) => async (dispatch) => {
+    dispatch(transferInProgress());
     try {
         const body = JSON.stringify(data);
         const response = await fetch(url + "/accounts/transfers", {
@@ -102,16 +118,18 @@ export const postTransferRequest = (data) => async (dispatch) => {
             body,
         }).then(handleResponse);
         const accounts = await response.json();
+        dispatch(transferSuccess(accounts));
         dispatch(updateAccount(accounts[0]));
         dispatch(loadTransactions(accounts[0].accountNumber));
         dispatch(updateAccount(accounts[1]));
         dispatch(loadTransactions(accounts[1].accountNumber));
     } catch (e) {
-        dispatch(displayAlert(e));
+        dispatch(transferFailure(e.message));
     }
 };
 
 export const postCreateAccountRequest = (data) => async (dispatch) => {
+    dispatch(createAccountInProgress());
     try {
         const body = JSON.stringify(data);
         const response = await fetch(url + "/accounts", {
@@ -122,9 +140,9 @@ export const postCreateAccountRequest = (data) => async (dispatch) => {
             body,
         }).then(handleResponse);
         const account = await response.json();
-        dispatch(createAccount(account));
+        dispatch(createAccountSuccess(account));
     } catch (e) {
-        dispatch(displayAlert(e));
+        dispatch(createAccountFailure(e.message));
     }
 };
 

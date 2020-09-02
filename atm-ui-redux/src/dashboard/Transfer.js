@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountNumberSelect from "./AccountNumberSelect";
 import AmountInput from "./AmountInput";
-import { Card, Form, Button } from "react-bootstrap";
+import Error from "../common/Error";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 
+import { getTransferError, getTransferMessage } from "./state/selectors";
 import { postTransferRequest } from "./state/thunks";
 
-const Transfer = ({ statusCode, postTransfer }) => {
+const Transfer = ({ postTransfer, error, message }) => {
     const [data, setState] = useState({
         fromAccountNumber: "",
         toAccountNumber: "",
@@ -60,16 +62,26 @@ const Transfer = ({ statusCode, postTransfer }) => {
                         action={"transfer"}
                         amount={data.transferAmount}
                     />
-                    <Button variant="primary" type="submit">
-                        Transfer
-                    </Button>
+                    <Form.Group as={Row}>
+                        <Col md={8}>
+                            <Error error={error} message={message} />
+                        </Col>
+                        <Col md={4}>
+                            <Button variant="primary" type="submit">
+                                Transfer
+                            </Button>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Card.Body>
         </Card>
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    error: getTransferError(state),
+    message: getTransferMessage(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     postTransfer: (data) => dispatch(postTransferRequest(data)),

@@ -4,6 +4,7 @@ import {
     loadUserFailure,
     loadUserInProgress,
     createUserSuccess,
+    createUserInProgress,
     createUserFailure,
 } from "./actions";
 
@@ -27,6 +28,7 @@ export const loadUser = (userId) => async (dispatch, getState) => {
 
 export const postCreateUserRequest = (userId) => async (dispatch) => {
     try {
+        dispatch(createUserInProgress());
         const body = userId;
         const response = await fetch(url + "/users", {
             headers: {

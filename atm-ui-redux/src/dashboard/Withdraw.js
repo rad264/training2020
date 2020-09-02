@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountNumberSelect from "./AccountNumberSelect";
 import AmountInput from "./AmountInput";
-import { Card, Form, Button } from "react-bootstrap";
+import Error from "../common/Error";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 
+import { getWithdrawError, getWithdrawMessage } from "./state/selectors";
 import { postWithdrawRequest } from "./state/thunks";
 
-const Withdraw = ({ statusCode, postWithdraw }) => {
+const Withdraw = ({ postWithdraw, error, message }) => {
     const [data, setState] = useState({
         accountNumber: "",
         withdrawAmount: "",
@@ -51,16 +53,26 @@ const Withdraw = ({ statusCode, postWithdraw }) => {
                         action={"withdraw"}
                         amount={data.withdrawAmount}
                     />
-                    <Button variant="primary" type="submit">
-                        Withdraw
-                    </Button>
+                    <Form.Group as={Row}>
+                        <Col md={8}>
+                            <Error error={error} message={message} />
+                        </Col>
+                        <Col md={4}>
+                            <Button variant="primary" type="submit">
+                                Withdraw
+                            </Button>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Card.Body>
         </Card>
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    error: getWithdrawError(state),
+    message: getWithdrawMessage(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     postWithdraw: (data) => dispatch(postWithdrawRequest(data)),

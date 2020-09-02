@@ -8,6 +8,10 @@ import {
     activeAccount,
     accounts,
     transactions,
+    deposit,
+    withdraw,
+    transfer,
+    createAccount,
 } from "./dashboard/state/reducers";
 import { login, register } from "./login/state/reducers";
 import {
@@ -19,6 +23,10 @@ const reducers = {
     activeAccount,
     accounts,
     transactions,
+    deposit,
+    withdraw,
+    transfer,
+    createAccount,
     login,
     register,
 };

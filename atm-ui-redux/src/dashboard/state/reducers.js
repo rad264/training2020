@@ -7,7 +7,18 @@ import {
     LOAD_TRANSACTIONS_IN_PROGRESS,
     SELECT_ACTIVE_ACCOUNT,
     UPDATE_ACCOUNT,
-    CREATE_ACCOUNT,
+    CREATE_ACCOUNT_SUCCESS,
+    CREATE_ACCOUNT_FAILURE,
+    CREATE_ACCOUNT_IN_PROGRESS,
+    DEPOSIT_IN_PROGRESS,
+    DEPOSIT_SUCCESS,
+    DEPOSIT_FAILURE,
+    WITHDRAW_SUCCESS,
+    WITHDRAW_IN_PROGRESS,
+    WITHDRAW_FAILURE,
+    TRANSFER_SUCCESS,
+    TRANSFER_IN_PROGRESS,
+    TRANSFER_FAILURE,
 } from "./actions";
 
 const initAccount = {
@@ -44,7 +55,7 @@ export const activeAccount = (state = initialStateAccount, action) => {
                         ? updatedAccount
                         : state.data,
             };
-        case CREATE_ACCOUNT: {
+        case CREATE_ACCOUNT_SUCCESS: {
             const { account } = payload;
             return { ...state, data: account };
         }
@@ -88,7 +99,7 @@ export const accounts = (state = initialStateAccounts, action) => {
                     return account;
                 }),
             };
-        case CREATE_ACCOUNT: {
+        case CREATE_ACCOUNT_SUCCESS: {
             const { account } = payload;
             return { ...state, data: state.data.concat(account) };
         }
@@ -118,6 +129,169 @@ export const transactions = (state = initialStateTransactions, action) => {
             return {
                 ...state,
                 isLoading: false,
+            };
+        default:
+            return state;
+    }
+};
+
+const initialStateAction = {
+    isLoading: false,
+    error: false,
+    message: null,
+};
+export const deposit = (state = initialStateAction, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case DEPOSIT_SUCCESS: {
+            const { account } = payload;
+            return {
+                ...state,
+                isLoading: false,
+                error: false,
+                message: `Deposit for "${account.accountNumber}" Success.`,
+            };
+        }
+        case DEPOSIT_IN_PROGRESS:
+            return {
+                ...state,
+                isLoading: true,
+                error: false,
+                message: null,
+            };
+        case DEPOSIT_FAILURE:
+            const { error } = payload;
+            let errorMessage;
+            switch (error) {
+                case "400":
+                    errorMessage = "Negative Amount Invalid.";
+                    break;
+                default:
+                    errorMessage = "Unexpected error.";
+            }
+            return {
+                ...state,
+                isLoading: false,
+                error: true,
+                message: errorMessage,
+            };
+        default:
+            return state;
+    }
+};
+export const withdraw = (state = initialStateAction, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case WITHDRAW_SUCCESS: {
+            const { account } = payload;
+            return {
+                ...state,
+                isLoading: false,
+                error: false,
+                message: `Withdraw for "${account.accountNumber}" Success.`,
+            };
+        }
+        case WITHDRAW_IN_PROGRESS:
+            return {
+                ...state,
+                isLoading: true,
+                error: false,
+                message: null,
+            };
+        case WITHDRAW_FAILURE:
+            const { error } = payload;
+            let errorMessage;
+            switch (error) {
+                case "400":
+                    errorMessage = "Negative Amount Invalid.";
+                    break;
+                case "403":
+                    errorMessage = "Insufficient Funds.";
+                    break;
+                default:
+                    errorMessage = "Unexpected error.";
+            }
+            return {
+                ...state,
+                isLoading: false,
+                error: true,
+                message: errorMessage,
+            };
+        default:
+            return state;
+    }
+};
+export const transfer = (state = initialStateAction, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case TRANSFER_SUCCESS: {
+            const { accounts } = payload;
+            return {
+                ...state,
+                isLoading: false,
+                error: false,
+                message: `Transfer from "${accounts[0].accountNumber}" to "${accounts[1].accountNumber}" Success.`,
+            };
+        }
+        case TRANSFER_IN_PROGRESS:
+            return {
+                ...state,
+                isLoading: true,
+                error: false,
+                message: null,
+            };
+        case TRANSFER_FAILURE:
+            const { error } = payload;
+            let errorMessage;
+            switch (error) {
+                case "400":
+                    errorMessage = "Negative Amount Invalid.";
+                    break;
+                case "403":
+                    errorMessage = "Insufficient Funds.";
+                    break;
+                default:
+                    errorMessage = "Unexpected error.";
+            }
+            return {
+                ...state,
+                isLoading: false,
+                error: true,
+                message: errorMessage,
+            };
+        default:
+            return state;
+    }
+};
+export const createAccount = (state = initialStateAction, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case CREATE_ACCOUNT_SUCCESS: {
+            const { account } = payload;
+            return {
+                ...state,
+                isLoading: false,
+                error: false,
+                message: `${account.accountType} Account "${account.accountNumber}" Create Success.`,
+            };
+        }
+        case CREATE_ACCOUNT_IN_PROGRESS:
+            return {
+                ...state,
+                isLoading: true,
+                error: false,
+                message: null,
+            };
+        case CREATE_ACCOUNT_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: true,
+                message: "Create Account Failed.",
             };
         default:
             return state;

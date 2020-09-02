@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountNumberSelect from "./AccountNumberSelect";
 import AmountInput from "./AmountInput";
-import { Card, Form, Button } from "react-bootstrap";
+import Error from "../common/Error";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 
+import { getDepositError, getDepositMessage } from "./state/selectors";
 import { postDepositRequest } from "./state/thunks";
 
-const Deposit = ({ statusCode, postDeposit }) => {
+const Deposit = ({ postDeposit, error, message }) => {
     const [data, setState] = useState({
         accountNumber: "",
         depositAmount: "",
@@ -51,16 +53,26 @@ const Deposit = ({ statusCode, postDeposit }) => {
                         action={"deposit"}
                         amount={data.depositAmount}
                     />
-                    <Button variant="primary" type="submit">
-                        Deposit
-                    </Button>
+                    <Form.Group as={Row}>
+                        <Col md={8}>
+                            <Error error={error} message={message} />
+                        </Col>
+                        <Col md={4}>
+                            <Button variant="primary" type="submit">
+                                Deposit
+                            </Button>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Card.Body>
         </Card>
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    error: getDepositError(state),
+    message: getDepositMessage(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     postDeposit: (data) => dispatch(postDepositRequest(data)),

@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountTypeSelect from "./AccountTypeSelect";
-import { Card, Form, Button } from "react-bootstrap";
+import Error from "../common/Error";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 
-import { getUserId } from "./state/selectors";
+import {
+    getUserId,
+    getCreateAccountError,
+    getCreateAccountMessage,
+} from "./state/selectors";
 import { postCreateAccountRequest } from "./state/thunks";
 
-const CreateAccount = ({ statusCode, userId, postCreateAccount }) => {
+const CreateAccount = ({ userId, postCreateAccount, error, message }) => {
     const [data, setState] = useState({
         userId: userId,
         accountType: "",
@@ -46,9 +51,16 @@ const CreateAccount = ({ statusCode, userId, postCreateAccount }) => {
                         onChange={updateField}
                         accountType={data.accountType}
                     />
-                    <Button variant="primary" type="submit">
-                        Create
-                    </Button>
+                    <Form.Group as={Row}>
+                        <Col md={8}>
+                            <Error error={error} message={message} />
+                        </Col>
+                        <Col md={4}>
+                            <Button variant="primary" type="submit">
+                                Create
+                            </Button>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Card.Body>
         </Card>
@@ -57,6 +69,8 @@ const CreateAccount = ({ statusCode, userId, postCreateAccount }) => {
 
 const mapStateToProps = (state) => ({
     userId: getUserId(state),
+    error: getCreateAccountError(state),
+    message: getCreateAccountMessage(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
