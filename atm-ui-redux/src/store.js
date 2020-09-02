@@ -22,7 +22,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({...reducers, routing: routerReducer});
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const configureStore = (history = {}) => 
-    createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk, reduxRouterMiddleware(history))));
+    // createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk, reduxRouterMiddleware(history))));
+    createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, reduxRouterMiddleware(history))));

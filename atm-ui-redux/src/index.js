@@ -9,14 +9,14 @@ import { browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 
 const store = configureStore(browserHistory);
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        {/* <PersistGate loading={<div>Loading...</div>} persistor={persistor}> */}
             <App history={history} />
-        </PersistGate>
+        {/* </PersistGate> */}
     </Provider>,
     document.getElementById("root")
 );
