@@ -90,12 +90,13 @@ public class APIControllerTest {
 	public void postDeposit_Success() throws Exception {
 		APIController.service = new ATMService(null) {
 			@Override
-			public void deposit(String accountNumber, BigDecimal amount)
+			public Account deposit(String accountNumber, BigDecimal amount)
 					throws AccountNotFoundException, NegativeAmountException {
 				Account account = new Account();
 				account.setAccountNumber("123456");
 				account.setBalance(new BigDecimal("100.00"));
 				account.setBalance((new BigDecimal("50.00")).add(account.getBalance()));
+				return account;
 			}
 		};
 		mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))

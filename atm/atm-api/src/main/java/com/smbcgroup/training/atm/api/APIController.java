@@ -1,6 +1,7 @@
 package com.smbcgroup.training.atm.api;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -61,32 +62,30 @@ public class APIController {
 	}
 
 	@ApiOperation("Deposit")
-	@RequestMapping(value = "/accounts/{accountNumber}/deposits", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> deposit(@PathVariable("accountNumber") String accountNumber,
+	@RequestMapping(value = "/accounts/{accountNumber}/deposits", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Account> deposit(@PathVariable("accountNumber") String accountNumber,
 			@RequestBody BigDecimal depositAmount) {
 		try {
-			service.deposit(accountNumber, depositAmount);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Account>(service.deposit(accountNumber, depositAmount), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		} catch (NegativeAmountException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@ApiOperation("Withdraw")
-	@RequestMapping(value = "/accounts/{accountNumber}/withdraws", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> withdraw(@PathVariable("accountNumber") String accountNumber,
+	@RequestMapping(value = "/accounts/{accountNumber}/withdraws", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Account> withdraw(@PathVariable("accountNumber") String accountNumber,
 			@RequestBody BigDecimal withdrawAmount) {
 		try {
-			service.withdraw(accountNumber, withdrawAmount);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<Account>(service.withdraw(accountNumber, withdrawAmount), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
 		} catch (NegativeAmountException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
 		} catch (InsufficientFundsException e) {
-			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Account>(HttpStatus.FORBIDDEN);
 		}
 	}
 
@@ -116,16 +115,15 @@ public class APIController {
 
 	@ApiOperation("Transfer")
 	@RequestMapping(value = "/accounts/transfers", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> accountTransfer(@RequestBody Transfer transfer) {
+	public ResponseEntity<List<Account>> accountTransfer(@RequestBody Transfer transfer) {
 		try {
-			service.transfer(transfer);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<List<Account>>(service.transfer(transfer), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<Account>>(HttpStatus.NOT_FOUND);
 		} catch (NegativeAmountException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<Account>>(HttpStatus.BAD_REQUEST);
 		} catch (InsufficientFundsException e) {
-			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<List<Account>>(HttpStatus.FORBIDDEN);
 		}
 	}
 

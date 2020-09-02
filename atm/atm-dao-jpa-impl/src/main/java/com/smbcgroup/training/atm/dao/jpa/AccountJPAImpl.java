@@ -64,14 +64,13 @@ public class AccountJPAImpl implements AccountDAO {
 
 	@Override
 	public Account[] getAccounts(String userId) throws UserNotFoundException {
+		getUser(userId);
 		EntityManager em = emf.createEntityManager();
 		try {
 			TypedQuery<AccountEntity> query = em
 					.createQuery("SELECT a FROM AccountEntity a WHERE a.user.userId = :userId", AccountEntity.class);
 			query.setParameter("userId", userId);
 			List<AccountEntity> accountEntities = query.getResultList();
-			if (accountEntities == null || accountEntities.size() == 0)
-				throw new UserNotFoundException();
 			Account[] accounts = new Account[accountEntities.size()];
 			for (int i = 0; i < accountEntities.size(); i++)
 				accounts[i] = accountEntities.get(i).convertToAccount();
