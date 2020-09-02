@@ -23,6 +23,24 @@ export const loadUser = (userId) => async (dispatch, getState) => {
     }
 };
 
+export const postCreateUserRequest = (userId) => async (dispatch) => {
+    try {
+        const body = userId;
+        const response = await fetch(url + "/users", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body,
+        });
+        console.log("Create User Success");
+        // const user = await response.json();
+        // dispatch(createAccount(account));
+    } catch (e) {
+        dispatch(displayAlert(e));
+    }
+};
+
 export const displayAlert = (text) => () => {
     alert(text);
 };

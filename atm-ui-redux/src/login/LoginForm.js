@@ -39,9 +39,7 @@ const LoginForm = ({ onLogin }) => {
 
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>
-                                    U
-                                </InputGroup.Text>
+                                <InputGroup.Text>U</InputGroup.Text>
                             </InputGroup.Prepend>
                             <Form.Control
                                 required

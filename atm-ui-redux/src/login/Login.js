@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import NavigationBar from "./NavigationBar";
-import LoginForm from "./LoginForm"
-import CreateUser from "./CreateUser"
+import LoginForm from "./LoginForm";
+import CreateUser from "./CreateUser";
 import { Container, Jumbotron } from "react-bootstrap";
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
                     <LoginForm />
 
                     <hr></hr>
-                    
+                    <CreateUser />
                 </Jumbotron>
             </Container>
         </div>
