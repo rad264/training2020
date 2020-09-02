@@ -89,6 +89,26 @@ export const postWithdrawRequest = (data) => async (dispatch) => {
     }
 };
 
+export const postTransferRequest = (data) => async (dispatch) => {
+    try {
+        const body = JSON.stringify(data);
+        console.log(body);
+        const response = await fetch(url + "accounts/transfers", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body,
+        });
+        const accounts = await response.json();
+        dispatch(updateAccount(accounts[0]));
+        dispatch(loadTransactions(accounts[0].accountNumber));
+        dispatch(updateAccount(accounts[1]));
+        dispatch(loadTransactions(accounts[1].accountNumber));
+    } catch (e) {
+        dispatch(displayAlert(e));
+    }
+};
 
 export const displayAlert = (text) => () => {
     alert(text);

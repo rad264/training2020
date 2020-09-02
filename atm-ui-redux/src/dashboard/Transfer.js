@@ -5,12 +5,13 @@ import AccountNumberSelect from "./AccountNumberSelect";
 import AmountInput from "./AmountInput";
 import { Card, Form, Button } from "react-bootstrap";
 
-import { postWithdrawRequest } from "./state/thunks";
+import { postTransferRequest } from "./state/thunks";
 
-const Withdraw = ({ statusCode, postWithdraw }) => {
+const Transfer = ({ statusCode, postTransfer }) => {
     const [data, setState] = useState({
-        accountNumber: "",
-        withdrawAmount: "",
+        fromAccountNumber: "",
+        toAccountNumber: "",
+        transferAmount: "",
     });
 
     const [validated, setValidated] = useState(false);
@@ -21,7 +22,7 @@ const Withdraw = ({ statusCode, postWithdraw }) => {
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
-            postWithdraw(data);
+            postTransfer(data);
         }
         setValidated(true);
     };
@@ -43,16 +44,24 @@ const Withdraw = ({ statusCode, postWithdraw }) => {
                     autoComplete="off"
                 >
                     <AccountNumberSelect
+                        label={"From "}
                         onChange={updateField}
-                        accountNumber={data.accountNumber}
+                        nameAlt={"fromAccountNumber"}
+                        accountNumber={data.fromAccountNumber}
+                    />
+                    <AccountNumberSelect
+                        label={"To "}
+                        onChange={updateField}
+                        nameAlt={"toAccountNumber"}
+                        accountNumber={data.toAccountNumber}
                     />
                     <AmountInput
                         onChange={updateField}
-                        action={"withdraw"}
-                        amount={data.withdrawAmount}
+                        action={"transfer"}
+                        amount={data.transferAmount}
                     />
                     <Button variant="primary" type="submit">
-                        Withdraw
+                        Transfer
                     </Button>
                 </Form>
             </Card.Body>
@@ -63,7 +72,7 @@ const Withdraw = ({ statusCode, postWithdraw }) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-    postWithdraw: (data) => dispatch(postWithdrawRequest(data)),
+    postTransfer: (data) => dispatch(postTransferRequest(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Withdraw);
+export default connect(mapStateToProps, mapDispatchToProps)(Transfer);

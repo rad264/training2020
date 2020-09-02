@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountNumberSelect from "./AccountNumberSelect";
-import { Card, Form, Row, Col, Button, InputGroup } from "react-bootstrap";
+import AmountInput from "./AmountInput";
+import { Card, Form, Button } from "react-bootstrap";
 
 import { postDepositRequest } from "./state/thunks";
 
@@ -20,10 +21,6 @@ const Deposit = ({ statusCode, postDeposit }) => {
         if (form.checkValidity() === false) {
             e.stopPropagation();
         } else {
-            setState({
-                ...data,
-                depositAmount: Number.parseFloat(data.depositAmount),
-            });
             postDeposit(data);
         }
         setValidated(true);
@@ -49,29 +46,11 @@ const Deposit = ({ statusCode, postDeposit }) => {
                         onChange={updateField}
                         accountNumber={data.accountNumber}
                     />
-                    <Form.Group as={Row} controlId="depositAmount">
-                        <Form.Label column md={5}>
-                            Amount
-                        </Form.Label>
-                        <Col md={7}>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text>$</InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <Form.Control
-                                    required
-                                    type="number"
-                                    placeholder="Deposit Amount"
-                                    name="depositAmount"
-                                    value={data.depositAmount}
-                                    onChange={updateField}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Please enter valid amount.
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Col>
-                    </Form.Group>
+                    <AmountInput
+                        onChange={updateField}
+                        action={"deposit"}
+                        amount={data.depositAmount}
+                    />
                     <Button variant="primary" type="submit">
                         Deposit
                     </Button>
