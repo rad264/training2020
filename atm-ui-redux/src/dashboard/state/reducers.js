@@ -10,10 +10,24 @@ import {
     CREATE_ACCOUNT,
 } from "./actions";
 
-const initialStateAccount = { isLoading: false, data: null };
+const initAccount = {
+    accountNumber: "Select An Account",
+    accountType: "",
+    balance: 0,
+};
+
+const initialStateAccount = { isLoading: false, data: initAccount };
 export const activeAccount = (state = initialStateAccount, action) => {
     const { type, payload } = action;
     switch (type) {
+        case LOAD_ACCOUNTS_SUCCESS: {
+            const { accounts } = payload;
+            return {
+                ...state,
+                isLoading: false,
+                data: accounts ? accounts[0] : state.data,
+            };
+        }
         case SELECT_ACTIVE_ACCOUNT:
             const { account } = payload;
             return {

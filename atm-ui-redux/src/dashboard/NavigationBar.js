@@ -1,4 +1,5 @@
 import React from "react";
+import { goBack } from "react-router-redux";
 import styled from "styled-components";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
@@ -17,7 +18,10 @@ const NavigationBar = () => {
                 <Nav className="mr-auto">
                     <Nav.Link href="#dashboard">Dashboard</Nav.Link>
                     <NavDropdown title="Account" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#login">
+                        <NavDropdown.Item
+                            href="/"
+                            onClick={goBack}
+                        >
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>

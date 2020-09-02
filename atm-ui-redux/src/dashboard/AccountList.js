@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import AccountCard from "./AccountCard";
 
-import { getActiveAccount, getAccounts } from "./state/selectors";
+import { getUserId, getActiveAccount, getAccounts } from "./state/selectors";
 import { selectActiveAccount } from "./state/actions";
 import { loadAccounts, loadTransactions } from "./state/thunks";
 
-const AccountList = ({ statusCode, accounts, startLoadingAccounts, onAccountSelect }) => {
+const AccountList = ({ statusCode, userId, accounts, startLoadingAccounts, onAccountSelect }) => {
     useEffect(() => {
-        startLoadingAccounts();
+        startLoadingAccounts(userId);
     }, []);
     return (
         <div>
@@ -31,12 +31,13 @@ const AccountList = ({ statusCode, accounts, startLoadingAccounts, onAccountSele
 };
 
 const mapStateToProps = (state) => ({
+    userId: getUserId(state),
     activeAccount: getActiveAccount(state),
     accounts: getAccounts(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startLoadingAccounts: () => dispatch(loadAccounts("jwong")),
+    startLoadingAccounts: (userId) => dispatch(loadAccounts(userId)),
     onAccountSelect: (account) => {
         dispatch(selectActiveAccount(account))
         dispatch(loadTransactions(account.accountNumber))

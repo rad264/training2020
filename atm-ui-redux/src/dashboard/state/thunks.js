@@ -18,7 +18,6 @@ export const loadAccounts = (userId) => async (dispatch, getState) => {
             method: "get",
         });
         const accounts = await response.json();
-
         dispatch(loadAccountsSuccess(accounts));
     } catch (e) {
         dispatch(loadAccountsFailure());

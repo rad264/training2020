@@ -5,11 +5,14 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { activeAccount, accounts, transactions } from "./dashboard/state/reducers";
+import { loggedInUser } from "./login/state/reducers";
+import { routerReducer, routerMiddleware as reduxRouterMiddleware } from 'react-router-redux'
 
 const reducers = {
     activeAccount,
     accounts,
     transactions,
+    loggedInUser
 };
 
 const persistConfig = {
@@ -18,8 +21,8 @@ const persistConfig = {
     stateReconciler: autoMergeLevel2,
 };
 
-const rootReducer = combineReducers(reducers);
+const rootReducer = combineReducers({...reducers, routing: routerReducer});
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const configureStore = () =>
-    createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const configureStore = (history = {}) => 
+    createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk, reduxRouterMiddleware(history))));
