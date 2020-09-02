@@ -7,6 +7,7 @@ import {
     LOAD_TRANSACTIONS_IN_PROGRESS,
     SELECT_ACTIVE_ACCOUNT,
     UPDATE_ACCOUNT,
+    CREATE_ACCOUNT,
 } from "./actions";
 
 const initialStateAccount = { isLoading: false, data: null };
@@ -69,6 +70,10 @@ export const accounts = (state = initialStateAccounts, action) => {
                     return account;
                 }),
             };
+        case CREATE_ACCOUNT: {
+            const { account } = payload;
+            return { ...state, data: state.data.concat(account) };
+        }
         default:
             return state;
     }

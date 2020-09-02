@@ -6,14 +6,15 @@ import {
     loadTransactionsFailure,
     loadTransactionsInProgress,
     updateAccount,
+    createAccount,
 } from "./actions";
 
-const url = "http://localhost:8080/atm-api/";
+const url = "http://localhost:8080/atm-api";
 
 export const loadAccounts = (userId) => async (dispatch, getState) => {
     try {
         dispatch(loadAccountsInProgress());
-        const response = await fetch(url + `users/${userId}/accounts`, {
+        const response = await fetch(url + `/users/${userId}/accounts`, {
             method: "get",
         });
         const accounts = await response.json();
@@ -32,7 +33,7 @@ export const loadTransactions = (accountNumber) => async (
     try {
         dispatch(loadTransactionsInProgress());
         const response = await fetch(
-            url + `accounts/${accountNumber}/transactions`,
+            url + `/accounts/${accountNumber}/transactions`,
             {
                 method: "get",
             }
@@ -50,7 +51,7 @@ export const postDepositRequest = (data) => async (dispatch) => {
         const { accountNumber, depositAmount } = data;
         const body = depositAmount;
         const response = await fetch(
-            url + `accounts/${accountNumber}/deposits`,
+            url + `/accounts/${accountNumber}/deposits`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -72,7 +73,7 @@ export const postWithdrawRequest = (data) => async (dispatch) => {
         const { accountNumber, withdrawAmount } = data;
         const body = withdrawAmount;
         const response = await fetch(
-            url + `accounts/${accountNumber}/withdraws`,
+            url + `/accounts/${accountNumber}/withdraws`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -92,8 +93,7 @@ export const postWithdrawRequest = (data) => async (dispatch) => {
 export const postTransferRequest = (data) => async (dispatch) => {
     try {
         const body = JSON.stringify(data);
-        console.log(body);
-        const response = await fetch(url + "accounts/transfers", {
+        const response = await fetch(url + "/accounts/transfers", {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -105,6 +105,23 @@ export const postTransferRequest = (data) => async (dispatch) => {
         dispatch(loadTransactions(accounts[0].accountNumber));
         dispatch(updateAccount(accounts[1]));
         dispatch(loadTransactions(accounts[1].accountNumber));
+    } catch (e) {
+        dispatch(displayAlert(e));
+    }
+};
+
+export const postCreateAccountRequest = (data) => async (dispatch) => {
+    try {
+        const body = JSON.stringify(data);
+        const response = await fetch(url + "/accounts", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body,
+        });
+        const account = await response.json();
+        dispatch(createAccount(account));
     } catch (e) {
         dispatch(displayAlert(e));
     }

@@ -41,3 +41,9 @@ export const updateAccount = (account) => ({
     type: UPDATE_ACCOUNT,
     payload: { account },
 });
+
+export const CREATE_ACCOUNT = "CREATE_ACCOUNT";
+export const createAccount = (account) => ({
+    type: CREATE_ACCOUNT,
+    payload: { account },
+});
