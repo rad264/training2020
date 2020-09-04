@@ -18,13 +18,17 @@ import com.smbcgroup.training.atm.Transaction;
 @Table(name = "Transactions")
 public class TransactionEntity {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@Column(name = "tid")
+//	private Integer tid;
+	
+	@Id
 	@Column(name = "tid")
-	private Integer tid;
+	private String tid;
 
 	@Column(name = "date")
 	private Date date;
-
+	
 	@Column(name = "type")
 	private String type;
 
@@ -43,6 +47,7 @@ public class TransactionEntity {
 	}
 
 	public TransactionEntity(Date date, String type, BigDecimal amount, BigDecimal balance, AccountEntity account) {
+		this.tid = account.getAccountNumber() + date.hashCode();
 		this.date = date;
 		this.type = type;
 		this.amount = amount;
@@ -59,8 +64,16 @@ public class TransactionEntity {
 		return transaction;
 	}
 	
-	public Integer getTid() {
+//	public Integer getTid() {
+//		return tid;
+//	}
+	
+	public String getTid() {
 		return tid;
+	}
+	
+	public void setTid(String tid) {
+		this.tid = tid;
 	}
 
 	public Date getDate() {

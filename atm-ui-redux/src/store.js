@@ -23,7 +23,7 @@ const reducers = {
     activeAccount,
     accounts,
     transactions,
-    deposit,
+    deposit, 
     withdraw,
     transfer,
     createAccount,

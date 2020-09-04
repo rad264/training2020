@@ -94,8 +94,8 @@ public class AccountJPAImplTest {
 	@Test
 	public void testGetAccounts_Success() throws UserNotFoundException {
 		Account[] accounts = dao.getAccounts("jwong");
-//		assertEquals("123456", accounts[0].getAccountNumber());
-//		assertEquals(new BigDecimal("100.0"), accounts[0].getBalance());
+		assertEquals("123456", accounts[0].getAccountNumber());
+		assertEquals(new BigDecimal("100.0"), accounts[0].getBalance());
 	}
 
 	@Test(expected = UserNotFoundException.class)
@@ -130,9 +130,9 @@ public class AccountJPAImplTest {
 		newTrans.setDate(new Date());
 		newTrans.setType("Deposit");
 		newTrans.setAmount(new BigDecimal("50"));
-		newTrans.setBalance(new BigDecimal("50"));
+		newTrans.setBalance(new BigDecimal("150"));
 		dao.updateAccountTransactions("123456", newTrans);
-		
+
 		EntityManager em = dao.emf.createEntityManager();
 		TypedQuery<TransactionEntity> query = em.createQuery(
 				"SELECT t FROM TransactionEntity t WHERE t.account.accountNumber = :accountNumber",
