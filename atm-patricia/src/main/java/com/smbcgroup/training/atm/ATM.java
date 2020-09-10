@@ -12,18 +12,6 @@ public class ATM {
 		new ATM(System.in, System.out).beginSession();
 	}
 
-	private static enum Action {
-		login, 
-		changeAccount, 
-		checkBalance, 
-		createAccount, 
-		deposit, 
-		withdraw, 
-		transfer,
-		viewAccountsSummary, 
-		viewAccountActivity;
-	}
-
 	private BufferedReader inputReader;
 	private PrintStream output;
 	private String loggedInUser;
