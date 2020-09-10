@@ -63,7 +63,7 @@ public class ATM {
 			return true;
 		case changeAccount:
 			output.println(
-					"Enter account number: (" + String.join(", ", AccountAccessor.getUserAccounts(loggedInUser)) + ")");
+					"Enter account number: (" + String.join(", ", AccountService.getUserAccounts(loggedInUser)) + ")");
 			return true;
 		case deposit:
 			output.println("How much money do you want to deposit?");
@@ -71,10 +71,10 @@ public class ATM {
 		case withdraw:
 			output.println("How much money do you want to withdraw?");
 			return true;
-		case transfer:
+		case transferBetweenAccounts:
 			output.println(
 					"Which account do you want to transfer to? (" 
-					+ (String.join(", ", AccountAccessor.getUserAccounts(loggedInUser))).replace(selectedAccount, "") + ")");
+					+ (String.join(", ", AccountService.getUserAccounts(loggedInUser))).replace(selectedAccount, "") + ")");
 			return true;
 		default:
 			return false;
@@ -93,108 +93,75 @@ public class ATM {
 		}
 		switch (selectedAction) {
 		case login:
-			try {
-				AccountAccessor.getUserAccounts(input);
-				loggedInUser = input;
-				return Action.changeAccount;
-			} catch (Exception e) {
-				throw new ATMException("Invalid user ID.");
-			}
+			loggedInUser = AccountService.login(input);
+			if (loggedInUser == null) throw new ATMException("Invalid user ID.");
+			return Action.changeAccount;
 		case changeAccount:
-			if (!input.matches("^\\d{6}$"))
-				throw new ATMException("Invalid account number.");
-			for (String userAccount : AccountAccessor.getUserAccounts(loggedInUser)) {
-				if (userAccount.equals(input)) {
-					selectedAccount = input;
-					return null;
-				}
-			}
-			throw new ATMException("Account number not found.");
+			selectedAccount = AccountService.changeAccount(input, loggedInUser);
+			if (selectedAccount == "invalid") throw new ATMException("Invalid input");
+			if (selectedAccount == "not found") throw new ATMException("Account not found");
 		case checkBalance:
-			output.println("Balance: $" + AccountAccessor.getAccountBalance(selectedAccount) + "\n");
+			output.println("Balance: $" + AccountService.checkBalance(selectedAccount) + "\n");
 			break;
 		case createAccount:
 			output.println(
-					"Created new account with number " + AccountAccessor.createAccount(loggedInUser) + " and balance $0.00\n");
+					"Created new account with number " + AccountService.createAccount(loggedInUser) + " and balance $0.00\n");
 			break;
 		case deposit:
-			if (isNumeric(input)) {
-				input = checkDecimalInput(input);
-				AccountAccessor.deposit(selectedAccount, input);
+			if (AccountService.deposit(input, selectedAccount)) {
 				output.println(
 						"Deposited $" + input + " to account " + selectedAccount 
-						+ ".\nCurrent balance = $" + AccountAccessor.getAccountBalance(selectedAccount) + "\n");
+						+ ".\nCurrent balance = $" + AccountService.checkBalance(selectedAccount) + "\n");
 			} else {
 				output.println("Invalid input.");
 			}
 			break;
 		case withdraw:
-			if (isNumeric(input)) {
-				input = checkDecimalInput(input);
-				if (!isPossibleToWithdraw(input)) break;
-				AccountAccessor.withdraw(selectedAccount, input);
+			int status = AccountService.withdraw(input, selectedAccount);
+			if (status == -2) {
+				output.println(
+						"Sorry, we can't withdraw your entered amount due to insufficient funds.");
+			} else if (status == -1) {
+				output.println("Invalid input.");
+			} else {
 				output.println(
 						"Withdrew $" + input + " from account " + selectedAccount 
-						+ ".\nCurrent balance = $" + AccountAccessor.getAccountBalance(selectedAccount) + "\n");
-			} else {
-				output.println("Invalid input.");
+						+ ".\nCurrent balance = $" + AccountService.checkBalance(selectedAccount) + "\n");
 			}
 			break;
-		case transfer:
+		case transferBetweenAccounts:
 			if (selectedAccount.equals(input) ) {
 				output.println("Selected account cannot be your current account");
 			}
-			for (String userAccount : AccountAccessor.getUserAccounts(loggedInUser)) {
+			for (String userAccount : AccountService.getUserAccounts(loggedInUser)) {
 				if (userAccount.equals(input)) {
 					output.println("How much money do you want to transfer?");
 					String amount = inputReader.readLine();
-					if (isNumeric(amount)) {
-						amount = checkDecimalInput(amount);
-						if (!isPossibleToWithdraw(amount)) break;
-						AccountAccessor.transfer(selectedAccount, input, amount);
-						output.println("Successfully transferred $" + amount + " from " + selectedAccount +" to " + input 
-								+ ".\nCurrent balance for " + selectedAccount + " is $" + AccountAccessor.getAccountBalance(selectedAccount)
-								+ ".\nCurrent balance for " + input + " is $" + AccountAccessor.getAccountBalance(input) + ".\n");
-					} else {
+					status = AccountService.transfer(selectedAccount, input, amount);
+					if (status == -1) {
 						output.println("Invalid input.");
+					} else if (status == -2) {
+						output.println(
+								"Sorry, we can't withdraw your entered amount due to insufficient funds.");
+					} else {
+						output.println("Successfully transferred $" + amount + " from " + selectedAccount +" to " + input 
+								+ ".\nCurrent balance for " + selectedAccount + " is $" + AccountService.checkBalance(selectedAccount)
+								+ ".\nCurrent balance for " + input + " is $" + AccountService.checkBalance(input) + ".\n");
 					}
 				}
 			}
 			return null;
 		case viewAccountsSummary:
-			for (String userAccount : AccountAccessor.getUserAccounts(loggedInUser)) {
-				output.println("Account #" + userAccount + " | Balance: $" + AccountAccessor.getAccountBalance(userAccount));
+			for (String userAccount : AccountService.getUserAccounts(loggedInUser)) {
+				output.println("Account #" + userAccount + " | Balance: $" + AccountService.checkBalance(userAccount));
 			}
 			output.println("\n");
 			break;
 		case viewAccountActivity:
-			output.println(AccountAccessor.getAccountActivity(selectedAccount)+"\n");
+			output.println(AccountService.getAccountActivity(selectedAccount)+"\n");
 			break;
 		}
 		return null;
-	}
-	
-	private String checkDecimalInput(String amount) {
-		if (amount.indexOf(".") == -1) amount = amount + ".00";
-		return amount;
-	}
-	
-	private boolean isNumeric(String number) {
-		try {
-	        Integer.parseInt(number);
-	    } catch (NumberFormatException e) {
-	        return false;
-	    }
-	    return true;
-	}
-	
-	private boolean isPossibleToWithdraw(String input) {
-		if (!AccountAccessor.withdrawSuccess(selectedAccount, input)) {
-			output.println(
-					"Sorry, we can't withdraw your entered amount due to insufficient funds.");
-			return false;
-		} 
-		return true;
 	}
 
 	private class SystemExit extends Throwable {
