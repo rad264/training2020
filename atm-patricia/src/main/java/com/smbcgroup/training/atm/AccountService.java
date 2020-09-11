@@ -1,11 +1,16 @@
 package com.smbcgroup.training.atm;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class AccountService {
+	
+	static AccountDAO accountServiceToDAO = new AccountDAOTxtFileImpl();
+	
 	public static String login(String input) {
 		try {
 			getUserAccounts(input);
@@ -29,7 +34,7 @@ public class AccountService {
 	
 	public static BigDecimal checkBalance(String selectedAccount) {
 		try {
-			return new BigDecimal(AccountAccessor.resourceToString("data/accounts/" + selectedAccount).split("\n")[0]);
+			return new BigDecimal(accountServiceToDAO.resourceToString("data/accounts/" + selectedAccount).split("\n")[0]);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to read balance for account: " + selectedAccount, e);
 		}
@@ -38,8 +43,8 @@ public class AccountService {
 	public static String createAccount(String userId) {
 		try {
 			String newAccount = generateAccountNumber(userId);
-			AccountAccessor.stringToResource("data/users/" + userId, "," + newAccount);
-			AccountAccessor.accountFileCreation(newAccount);
+			accountServiceToDAO.stringToResource("data/users/" + userId, "," + newAccount);
+			accountFileCreation(newAccount);
 			return newAccount;
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create account for user: " + userId, e);
@@ -61,7 +66,7 @@ public class AccountService {
 	private static boolean depositTool(String input, String selectedAccount) {
 		try {
 			String newBalance = (checkBalance(selectedAccount).add(new BigDecimal(input))).toString();
-			AccountAccessor.logging(selectedAccount, null, newBalance, input, "deposit");
+			logging(selectedAccount, null, newBalance, input, "deposit");
 			return true;
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to deposit for account: " + selectedAccount, e);
@@ -82,7 +87,7 @@ public class AccountService {
 	private static void withdrawTool(String input, String selectedAccount) {
 		try {
 			String newBalance = (checkBalance(selectedAccount).subtract(new BigDecimal(input))).toString();
-			AccountAccessor.logging(selectedAccount, null, newBalance, input, "withdraw");
+			logging(selectedAccount, null, newBalance, input, "withdraw");
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to withdraw for account: " + selectedAccount, e);
 		}
@@ -93,10 +98,10 @@ public class AccountService {
 			amount = checkDecimalInput(amount);
 			if (!isPossibleToWithdraw(amount, homeAccount)) return -2;
 			try {
-				AccountAccessor.logging(homeAccount, destinationAccount, null, amount, "transferPartOne");
+				logging(homeAccount, destinationAccount, null, amount, "transferPartOne");
 				withdrawTool(amount, homeAccount);
 				depositTool(amount, destinationAccount);
-				AccountAccessor.logging(homeAccount, destinationAccount, null, amount, "transferPartTwo");
+				logging(homeAccount, destinationAccount, null, amount, "transferPartTwo");
 			} catch (Exception e) {
 				throw new RuntimeException("Failed to transfer from " + homeAccount + " to " + destinationAccount);
 			}			
@@ -108,7 +113,7 @@ public class AccountService {
 	
 	public static String[] getUserAccounts(String userId) {
 		try {
-			return AccountAccessor.resourceToString("data/users/" + userId).split(",");
+			return accountServiceToDAO.resourceToString("data/users/" + userId).split(",");
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to read accouns for user: " + userId, e);
 		}
@@ -116,7 +121,7 @@ public class AccountService {
 	
 	public static String getAccountActivity(String selectedAccount) {
 		try {
-			return AccountAccessor.resourceToString("data/accounts/" + selectedAccount + "history");
+			return accountServiceToDAO.resourceToString("data/accounts/" + selectedAccount + "history");
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to get account activity for account: " + selectedAccount, e);
 		}
@@ -148,5 +153,36 @@ public class AccountService {
 		if (amount.indexOf(".") == -1) amount = amount + ".00";
 		return amount;
 	}
+	
+	private static void logging(String homeAccount, String destinationAccount, String newBalance, String amount, String transactionType) throws IOException {
+		switch (transactionType) {
+		case "withdraw":
+			accountServiceToDAO.stringToResourceReplace("data/accounts/" + homeAccount, newBalance);
+			accountServiceToDAO.stringToResource("data/accounts/" + homeAccount+"history", logTime() + " -" + amount + " | Balance: " + newBalance + "\n");
+			return;
+		case "deposit":
+			accountServiceToDAO.stringToResourceReplace("data/accounts/" + homeAccount, newBalance);
+			accountServiceToDAO.stringToResource("data/accounts/" + homeAccount+"history", logTime() + " +" + amount + " | Balance: " + newBalance + "\n");
+			return;
+		case "transferPartOne":
+			accountServiceToDAO.stringToResource("data/accounts/" + homeAccount+"history", logTime() + " --- TRANSFER TO ACCOUNT #" + destinationAccount + "\n");
+			accountServiceToDAO.stringToResource("data/accounts/" + destinationAccount+"history", logTime() + " --- TRANSFER FROM ACCOUNT #" + homeAccount + "\n");
+			return;
+		case "transferPartTwo":
+			accountServiceToDAO.stringToResource("data/accounts/" + homeAccount+"history", logTime() + " ---"+"\n");
+			accountServiceToDAO.stringToResource("data/accounts/" + destinationAccount+"history", logTime() + " ---"+"\n");
+			return;
+		}
+	}
+	
+	private static void accountFileCreation(String newAccount) throws IOException {
+		accountServiceToDAO.createFile("data/accounts/", newAccount);
+		accountServiceToDAO.stringToResource("data/accounts/" + newAccount, "0.00\n");
+		accountServiceToDAO.createFile("data/accounts/", newAccount + "history");
+		accountServiceToDAO.stringToResource("data/accounts/" + newAccount + "history", logTime() + " Account creation - 0.00\n");
+	}
+	
+	private static Timestamp logTime() {
+		return new Timestamp(System.currentTimeMillis());
+	}
 }
-
