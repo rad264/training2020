@@ -4,12 +4,12 @@ import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import TransactionsTable from "./TransactionsTable";
 
-import { getTransactions } from "./state/selectors";
+import { getTransactions, getActiveAccount } from "./state/selectors";
 import { loadTransactions } from "./state/thunks";
 
-const Transactions = ({ statusCode, transactions, startLoadingTransactions }) => {
+const Transactions = ({ statusCode, account, transactions, startLoadingTransactions }) => {
     useEffect(() => {
-        startLoadingTransactions();
+        startLoadingTransactions(account.accountNumber);
     }, []);
     return (
         <Card>
@@ -22,11 +22,12 @@ const Transactions = ({ statusCode, transactions, startLoadingTransactions }) =>
 };
 
 const mapStateToProps = (state) => ({
+    account: getActiveAccount(state),
     transactions: getTransactions(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startLoadingTransactions: () => dispatch(loadTransactions("123456"))
+    startLoadingTransactions: (accountNumber) => dispatch(loadTransactions(accountNumber))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.smbcgroup.training.atm.api.APIControllerTest" time="1.313" errors="0" skipped="0">
+<testsuite tests="4" failures="0" name="com.smbcgroup.training.atm.api.APIControllerTest" time="2.308" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="14.0.2+12-46"/>
@@ -22,7 +22,7 @@
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="classworlds.conf" value="/Users/james/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf11130770287950379847.tmp"/>
+    <property name="classworlds.conf" value="/Users/james/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf8882881686990140206.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/james/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="jdk.debug" value="release"/>
@@ -39,7 +39,7 @@
     <property name="java.class.path" value="/Users/james/.p2/pool/plugins/org.eclipse.m2e.maven.runtime_1.16.0.20200610-1735/jars/plexus-classworlds-2.6.0.jar"/>
     <property name="java.vm.specification.version" value="14"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B clean install"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-14.0.2.jdk/Contents/Home"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -55,8 +55,8 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
-  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getAccount_Found" time="1.07"/>
-  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getUser_NotFound" time="0.08"/>
-  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getAccount_NotFound" time="0.105"/>
-  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getUser_Found" time="0.058"/>
+  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getAccount_Found" time="1.974"/>
+  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getUser_NotFound" time="0.075"/>
+  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getAccount_NotFound" time="0.115"/>
+  <testcase classname="com.smbcgroup.training.atm.api.APIControllerTest" name="getUser_Found" time="0.144"/>
 </testsuite>

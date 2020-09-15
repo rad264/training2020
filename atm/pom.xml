@@ -15,8 +15,8 @@
 	<modules>
 		<module>atm-api</module>
 		<module>atm-core</module>
-		<module>atm-dao-text-impl</module>
-		<module>atm-console</module>
+		<module>atm-dao-jpa-impl</module> 
+		<module>atm-ui</module> 
 	</modules>
 
 	<dependencies>
