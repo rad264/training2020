@@ -23,15 +23,15 @@ describe("TicTacToe", function() {
             expect(game.gameOver).toBe(false);
         });
         it("starts with empty model", function() {
-            expect(game.squares[0][0]).toBe(undefined);
-            expect(game.squares[0][1]).toBe(undefined);
-            expect(game.squares[0][2]).toBe(undefined);
-            expect(game.squares[1][0]).toBe(undefined);
-            expect(game.squares[1][1]).toBe(undefined);
-            expect(game.squares[1][2]).toBe(undefined);
-            expect(game.squares[2][0]).toBe(undefined);
-            expect(game.squares[2][1]).toBe(undefined);
-            expect(game.squares[2][2]).toBe(undefined);
+            expect(game.squares[0][0]).toBe(null);
+            expect(game.squares[0][1]).toBe(null);
+            expect(game.squares[0][2]).toBe(null);
+            expect(game.squares[1][0]).toBe(null);
+            expect(game.squares[1][1]).toBe(null);
+            expect(game.squares[1][2]).toBe(null);
+            expect(game.squares[2][0]).toBe(null);
+            expect(game.squares[2][1]).toBe(null);
+            expect(game.squares[2][2]).toBe(null);
         });
     });
     describe("click", function() {
@@ -92,7 +92,7 @@ describe("TicTacToe", function() {
         it("does not fill square when game is over", function() {
             game.gameOver = true;
             game.click(0, 0);
-            expect(game.squares[0][0]).toBe(undefined);
+            expect(game.squares[0][0]).toBe(null);
             expect(gameBoard.getButton).not.toHaveBeenCalled();
         });
     });
