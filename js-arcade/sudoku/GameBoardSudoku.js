@@ -1,4 +1,4 @@
-function GameBoardSudoku(containerNode, sudokuString, gameOverFunction, handleClick, handleRightClick) {
+function GameBoardSudoku(containerNode, sudokuString, handleClick) {
     var buttons = [];
     for (let i = 0; i < 9; i++)
         buttons.push([]);
@@ -19,14 +19,6 @@ function GameBoardSudoku(containerNode, sudokuString, gameOverFunction, handleCl
                         handleClick(x, y);
                     };
                 })(x, y);
-                if (handleRightClick !== undefined) {
-                    button.oncontextmenu = (function(x, y) {
-                        return function() {
-                            handleRightClick(x, y);
-                            return false;
-                        };
-                    })(x, y);
-                }
                 buttons[x][y] = button;
                 cell.appendChild(button);
             } else {
@@ -42,6 +34,9 @@ function GameBoardSudoku(containerNode, sudokuString, gameOverFunction, handleCl
         table.appendChild(row);
     }
     containerNode.appendChild(table);
+    this.getButtonOrNumber = function(x, y) {
+        return buttons[x][y];
+    };
     this.toString = function() {
         var build = "";
         for (var y = 0; y < 9; y++) {
