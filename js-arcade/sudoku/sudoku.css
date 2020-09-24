@@ -1,3 +1,58 @@
+body {
+    text-align: center;
+    background-color: #006494;
+}
+
+h1, p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+}
+
+#game_menu {
+    width: 250px;
+    margin: auto;
+    text-align: left;
+}
+
 .top_button {
+    border: none;
     width: 100px;
+    background-color: #003554;
+    color: #ffffff;
+}
+
+.button {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #00A6FB
+    font-size: 13px;
+}
+
+.number {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+table.board {
+    display: table;
+    width: 300px;
+    margin: 0 auto;
+    border-top: solid medium;
+    border-left: solid medium;
+    border-collapse: collapse;
+    font-family: Calibri, sans-serif;
+}
+.board tr:nth-of-type(3n) {
+    border-bottom: solid medium;
+}
+.board td:nth-of-type(3n) {
+    border-right: solid medium;
+    width: 10px;
+    height: 10px;
+}
+.board td {
+    border: solid thin;
+    width: 10px;
+    height: 10px;
+    text-align: center;
+    padding: 0px;
 }

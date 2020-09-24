@@ -4,16 +4,19 @@
 <head>
 	<meta charset="utf-8">
 	<title>Sudoku</title>
-	<link rel="stylesheet" href="../default.css">
 	<link rel="stylesheet" href="sudoku.css">
 	<script type="text/javascript" src="GameBoardSudoku.js"></script>
 	<script type="text/javascript" src="Sudoku.js"></script>
 </head>
 
 <body>
+	<h1 id="gameTitle">Welcome to Sudoku!</h1>
+	<p id="description">Instructions: To change numbers, click on the button until you find your desired number.</p>
 	<button class="top_button" onclick="window.location='../index.html'">Home</button>
 	<button class="top_button" onclick="new Sudoku()">New Game</button>
-	<div id="gameArea" class="board"></div>
+	<br /><br /><br />
+	<div id="gameArea"></div>
+	<div id="solutionArea"></div>
 </body>
 
 </html>
