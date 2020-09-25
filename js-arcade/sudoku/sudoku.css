@@ -30,6 +30,11 @@ h1, p {
 .number {
     font-weight: bold;
     font-size: 13px;
+    color: #D6F1FF;
+}
+
+.number_cell {
+    background-color: #003554;
 }
 
 table.board {

@@ -1,7 +1,16 @@
-function Sudoku() {
+function Sudoku(difficulty) {
     var thisObj = this;
-    this.sudokuGame = "0000000000030000160067035004608120900090080030002079806800690350026000090000000000";
-    this.sudokuSolution = "489261573235847169167935284678123945591486732342579816814692357726358491953714628";
+    switch (difficulty) {
+        case 'easy':
+            this.sudokuGame = "080076030700000604046002050400000270205000403039000008060200390307000001090150040";
+            this.sudokuSolution = "581476932723591684946832157418365279275918463639724518164287395357649821892153746";
+            break;
+        case 'intermediate':
+            this.sudokuGame = "000020870200400500001600000600901035705030409430508006000002100003004008052010000";
+            this.sudokuSolution = "396125874287493561541687392628941735715236489439578216974862153163754928852319647";
+            break;
+    }
+    
     var gameBoard = new GameBoardSudoku(document.getElementById("gameArea"), this.sudokuGame, this.sudokuSolution, function(x, y) {thisObj.click(x, y)});
     this.click = function(x, y) {
         if (typeof(gameBoard.getButtonOrNumber(x, y)) !== 'number') {
