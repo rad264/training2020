@@ -9,6 +9,10 @@ function Sudoku(difficulty) {
             this.sudokuGame = "000020870200400500001600000600901035705030409430508006000002100003004008052010000";
             this.sudokuSolution = "396125874287493561541687392628941735715236489439578216974862153163754928852319647";
             break;
+        case 'hard':
+            this.sudokuGame = "100050004008903100050000080070405060600000007080607020060000010003709200700020009";
+            this.sudokuSolution = "197852634428963175356174982271495368634281597589637421962548713843719256715326849";
+            break;
     }
     
     var gameBoard = new GameBoardSudoku(document.getElementById("gameArea"), this.sudokuGame, this.sudokuSolution, function(x, y) {thisObj.click(x, y)});
