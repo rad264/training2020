@@ -61,3 +61,18 @@ table.board {
     text-align: center;
     padding: 0px;
 }
+
+#import_instructions {
+    text-align: center;
+    text-justify: inter-word;
+    color: #D6F1FF;
+    margin-left: 350px;
+    margin-right: 350px;
+    font-size: 13.5px;
+}
+
+input {
+    align-self: center;
+    color: #D6F1FF;
+    font-weight: bold;
+}

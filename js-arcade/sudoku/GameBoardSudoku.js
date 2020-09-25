@@ -39,7 +39,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
     }
     containerNode.appendChild(table);
     var solutionArea = document.getElementById("solutionArea");
-    reset();
+    resetSolution();
     var solutionButton = document.createElement("button");
     solutionButton.innerHTML = "I give up :(";
     solutionButton.id = "solution_button";
@@ -90,7 +90,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
     };
 }
 
-function reset() {
+function resetSolution() {
     if (document.getElementById("solution_button")) {
         var oldSolutionButton = document.getElementById("solution_button");
         oldSolutionButton.parentNode.removeChild(oldSolutionButton);
@@ -104,5 +104,14 @@ function reset() {
     if (document.getElementById("solution_table")) {
         var oldSolutionTable = document.getElementById("solution_table");
         oldSolutionTable.parentNode.removeChild(oldSolutionTable);
+    }
+}
+
+function resetBoard() {
+    if (document.getElementsByClassName("board")) {
+        var oldBoard = document.getElementsByClassName("board");
+        while(oldBoard[0]) {
+            oldBoard[0].parentNode.removeChild(oldBoard[0]);
+        }
     }
 }

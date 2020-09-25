@@ -1,4 +1,4 @@
-function Sudoku(difficulty) {
+function Sudoku(difficulty, gameString, solutionString) {
     var thisObj = this;
     switch (difficulty) {
         case 'easy':
@@ -12,6 +12,10 @@ function Sudoku(difficulty) {
         case 'hard':
             this.sudokuGame = "100050004008903100050000080070405060600000007080607020060000010003709200700020009";
             this.sudokuSolution = "197852634428963175356174982271495368634281597589637421962548713843719256715326849";
+            break;
+        case 'import':
+            this.sudokuGame = gameString;
+            this.sudokuSolution = solutionString;
             break;
     }
     
