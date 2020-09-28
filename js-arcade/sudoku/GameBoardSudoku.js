@@ -12,10 +12,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
             var cell = document.createElement("td");
             cell.className = "board_cell";
             if (sudokuString.charAt(count) == "0") {
-                var button = document.createElement("p");
-                button.className = "button";
-                button.state = 0;
-                button.innerHTML = button.state.toString();
+                var button = createButton();
                 button.onclick = (function(x, y) {
                     return function() {
                         handleClick(x, y);
@@ -24,11 +21,8 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
                 buttons[x][y] = button;
                 cell.appendChild(button);
             } else {
-                var number = document.createElement("p");
-                number.className = "number";
                 cell.className = "board_cell number_cell";
-                number.state = sudokuString.charAt(count);
-                number.innerHTML = sudokuString.charAt(count).toString();
+                var number = createNumber(sudokuString.charAt(count));
                 buttons[x][y] = number;
                 cell.appendChild(number);
             }
@@ -38,6 +32,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
         table.appendChild(row);
     }
     containerNode.appendChild(table);
+    
     var solutionArea = document.getElementById("solutionArea");
     resetSolution();
     var solutionButton = document.createElement("button");
@@ -46,11 +41,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
     solutionButton.className = "top_button";
     solutionButton.onclick = function() {
         if (!document.getElementById("solution_table")) {
-            [1, 2, 3].forEach(function () {
-                var space = document.createElement("br");
-                space.className = "space";
-                solutionArea.appendChild(space);
-            })
+            createNewLine(solutionArea, 3);
             var table = document.createElement("table");
             table.id = "solution_table";
             table.className = "board";
@@ -59,10 +50,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
                 var row = document.createElement("tr");
                 for (var x = 0; x < 9; x++) {
                     var cell = document.createElement("td");
-                    var number = document.createElement("p");
-                    number.className = "number";
-                    number.state = sudokuSolution.charAt(count);
-                    number.innerHTML = sudokuSolution.charAt(count).toString();
+                    var number = createNumber(sudokuSolution.charAt(count));
                     cell.appendChild(number);
                     row.appendChild(cell);
                     count++;
@@ -78,6 +66,7 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
     this.getButtonOrNumber = function(x, y) {
         return buttons[x][y];
     };
+
     this.toString = function() {
         var build = "";
         for (var y = 0; y < 9; y++) {
@@ -88,6 +77,30 @@ function GameBoardSudoku(containerNode, sudokuString, sudokuSolution, handleClic
         }
         return build;
     };
+}
+
+function createButton() {
+    var button = document.createElement("p");
+    button.className = "button";
+    button.state = 0;
+    button.innerHTML = button.state.toString();
+    return button;
+}
+
+function createNumber(content) {
+    var number = document.createElement("p");
+    number.className = "number";
+    number.state = content;
+    number.innerHTML = content.toString();
+    return number;
+}
+
+function createNewLine(parent, length) {
+    for (var i = 0; i < length; i++) {
+        var space = document.createElement("br");
+        space.className = "space";
+        parent.appendChild(space);
+    }
 }
 
 function resetSolution() {

@@ -1,10 +1,7 @@
 function ImportPage() {
     resetBoard();
     resetSolution();
-    if (document.getElementById("import_page")) {
-        var oldImportPage = document.getElementById("import_page");
-        oldImportPage.parentNode.removeChild(oldImportPage);
-    }
+    resetImport();
     var importPage = document.createElement("div");
     importPage.id = "import_page";
     var instructions = document.createElement("p");
@@ -18,4 +15,11 @@ function ImportPage() {
     inputSudoku.accept = "text/plain";
     importPage.appendChild(inputSudoku);
     document.getElementById("gameArea").appendChild(importPage);
+}
+
+function resetImport() {
+    if (document.getElementById("import_page")) {
+        var oldImportPage = document.getElementById("import_page");
+        oldImportPage.parentNode.removeChild(oldImportPage);
+    }
 }
