@@ -4,20 +4,134 @@
 <head>
 	<meta charset="utf-8">
 	<title>ATM</title>
-	<link rel="stylesheet" href="resources/css/stylesheet.css">
+	<script src="/Users/pattie/vue.js"></script>
 	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="resources/js-jsx/MockAjax.js"></script>
-    <script type="text/javascript" src="resources/js-jsx/lib/babel.min.js"></script>
-    <script type="text/javascript" src="resources/js-jsx/lib/react.min.js"></script>
-    <script type="text/javascript" src="resources/js-jsx/lib/react-dom.min.js"></script>
-	<script type="text/javascript" src="resources/js-jsx/model/CheckBalanceModel.js"></script>
-    <script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/CheckBalanceForm.jsx"></script>
-    <script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/view/Balance.jsx"></script>
+	<script type="text/javascript" src="resources/MockAjax.js"></script>
+	<link rel="stylesheet" href="resources/css/stylesheet.css">
 </head>
 
-<body>
-	<div id="root"></div>
-	<script type="text/babel" data-presets="es2015,react" src="resources/js-jsx/controller/CheckBalanceController.jsx"></script>
-</body>
 
+<body>
+    <section id="app">
+
+		<header class="header">
+			<section v-show="loggedIn">
+				<h3>WELCOME {{ username.toUpperCase() }}</h3>
+			</section>
+			<section v-show="!loggedIn">
+			<h3>USERNAME:</h3>
+			<input
+          		class="login-username"
+          		autofocus
+          		autocomplete="off"
+          		placeholder="Enter to submit"
+          		v-model="username"
+          		v-on:keyup.enter="login"
+			/>
+			</section>
+		</header>
+
+
+		<section v-show="loggedIn && !accountSelected">
+			<h3>User summary:</h3>
+			<ul class="accounts">
+				<li v-for="account in accounts"> 
+					{{ account.number }} - Balance: ${{ account.balance }}.00 <br />
+					<button class="select-account" v-on:click="accountSelected = account">Select this account</a>
+				</li>
+				<li>
+					<button vlass="select-account" v-on:click="createAccount">Create another account</button>
+				</li>
+			</ul>
+		</section>
+
+
+		<section v-show="accountSelected">
+			<h3>Account number {{ accountSelected.number }} with balance ${{ accountSelected.balance }}.00 </h3>
+			<p>What would you like to do?</p>
+			<button class="action-buttons" v-on:click="showResultsArea.type = 'deposit'">Deposit</button>
+			<button class="action-buttons" v-on:click="showResultsArea.type = 'withdraw'">Withdraw</button>
+			<button class="action-buttons" v-on:click="showResultsArea.type = 'transfer'">Transfer</button>
+			<button class="action-buttons" v-on:click="getTransactionHistory">View transaction history</button>
+			<br /><br />
+
+			<section v-show="showResultsArea">
+
+				<ul id="transaction-history" v-if="showResultsArea.type == 'history' && showResultsArea.data !== null">
+					<li v-for="history in showResultsArea.data">
+						Time: {{ history.time }}<br />
+						Transaction type: {{ history.transaction }}<br />
+						Amount: ${{ history.amount }}.00
+					</li>
+				</ul>
+
+				<p id="deposit" v-if="showResultsArea.type == 'deposit'">
+					Enter deposit amount:
+					<input
+						class="result-area-input"
+						autofocus
+						autocomplete="off"
+						placeholder="Enter to submit"
+						v-model="amount"
+						v-on:keyup.enter="deposit"
+					/>
+				</p>
+
+				<p id="withdraw" v-if="showResultsArea.type == 'withdraw'">
+					Enter withdraw amount:
+					<input
+						class="result-area-input"
+						autofocus
+						autocomplete="off"
+						placeholder="Enter to submit"
+						v-model="amount"
+						v-on:keyup.enter="withdraw"
+					/>
+				</p>
+
+				<p id="transfer" v-if="showResultsArea.type == 'transfer'">
+					Enter destination account number:
+					<input
+						class="result-area-input"
+						autofocus
+						autocomplete="off"
+						placeholder="Enter to submit"
+						v-model="destinationAccount"
+						v-on:keyup.enter="transfer"
+					/>
+					Enter transfer amount:
+					<input
+						class="result-area-input"
+						autofocus
+						autocomplete="off"
+						placeholder="Enter to submit"
+						v-model="amount"
+						v-on:keyup.enter="transfer"
+					/>
+				</p>
+
+			</section>
+
+		</section>
+
+
+		<p class="success" v-if="showResultsArea.type == 'success'">
+			{{ message }}
+		</p>
+		<p class="error" v-if="showResultsArea.type == 'error'">
+			{{ message }}
+		</p>
+
+
+		<footer class="footer" v-show="loggedIn">
+			<button class="back" v-on:click="back" v-show="accountSelected">Go back</button>
+			<button class="logout" v-on:click="logout">Log out</button>
+		</footer>
+		
+	</section>
+	
+	<script src="resources/vue/model-view/VueModelView.js"></script>
+	<script src="resources/vue/controller/VueController.js"></script>
+
+</body>
 </html>
