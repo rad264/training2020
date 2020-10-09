@@ -16,14 +16,14 @@ class Battleship {
 			player: "ONE",
 			ownBoard: ownBoard1,
 			guessingBoard: guessingBoard1, 
-			shipNumber: 2,
+			shipNumber: 5,
 			ships: []	
 		};
 		var playerTwo = {
 			player: "TWO",
 			ownBoard: ownBoard2,
 			guessingBoard: guessingBoard2,
-			shipNumber: 2,
+			shipNumber: 5,
 			ships: []	
 		};
 		var gameStage = "setup";
