@@ -1,0 +1,78 @@
+body {
+    text-align: center;
+    background-color: #006494;
+}
+
+h1, p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+}
+
+#game_menu {
+    width: 250px;
+    margin: auto;
+    text-align: left;
+}
+
+.top_button {
+    border: none;
+    width: 100px;
+    background-color: #003554;
+    color: #ffffff;
+}
+
+.button {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #D6F1FF;
+    font-size: 13px;
+}
+
+.number {
+    font-weight: bold;
+    font-size: 13px;
+    color: #D6F1FF;
+}
+
+.number_cell {
+    background-color: #003554;
+}
+
+table.board {
+    display: table;
+    width: 300px;
+    margin: 0 auto;
+    border-top: solid medium;
+    border-left: solid medium;
+    border-collapse: collapse;
+    font-family: Calibri, sans-serif;
+}
+.board tr:nth-of-type(3n) {
+    border-bottom: solid medium;
+}
+.board td:nth-of-type(3n) {
+    border-right: solid medium;
+    width: 10px;
+    height: 10px;
+}
+.board td {
+    border: solid thin;
+    width: 10px;
+    height: 10px;
+    text-align: center;
+    padding: 0px;
+}
+
+#import_instructions {
+    text-align: center;
+    text-justify: inter-word;
+    color: #D6F1FF;
+    margin-left: 350px;
+    margin-right: 350px;
+    font-size: 13.5px;
+}
+
+input {
+    align-self: center;
+    color: #D6F1FF;
+    font-weight: bold;
+}
