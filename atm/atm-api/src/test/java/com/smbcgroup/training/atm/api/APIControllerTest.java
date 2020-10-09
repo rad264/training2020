@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -84,5 +85,28 @@ public class APIControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(100.0)));
 	}
+	
+	@Test
+	public void deposit_Successful() throws Exception {
+		APIController.service = new ATMService(null) {
+			@Override
+			public Account getAccount(String accountNumber) throws AccountNotFoundException {
+				Account account = new Account();
+				account.setAccountNumber("123456");
+				account.setBalance(new BigDecimal("100.00"));
+				return account;
+			}
+			
+			@Override
+			public void deposit(String accountNumber, BigDecimal depositAmount) throws AccountNotFoundException {
+				Account account = getAccount("123456");
+				account.setBalance(new BigDecimal("100.00").add(depositAmount));
+			}
+		};
+		mockMvc.perform(MockMvcRequestBuilders.post("/accounts/123456/deposits"))
+		.andDo(result -> mockMvc.perform(MockMvcRequestBuilders.get("/accounts/123456"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber", CoreMatchers.is("123456")))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.balance", CoreMatchers.is(200.0))));
 
+	}
 }

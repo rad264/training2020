@@ -1,0 +1,55 @@
+.board {
+	padding: 20px;
+}
+
+table {
+	border-spacing: 0px;
+}
+
+.disabled { 
+	pointer-events: none;
+	opacity: 0.3;
+	margin: 0 10% 0 0;
+}
+
+.enabled {
+	margin: 0 10% 0 0;
+}
+
+.board_cell {
+	padding: 0px;
+}
+
+.board_cell button:hover:enabled {
+	border: solid limegreen;
+    background-color: #C8FBC8;
+}
+
+.leftBoard {
+	float: left;
+	margin: 0 10% 0 0;
+}
+
+.rightBoard {
+	float: right;
+}
+
+.shipButton {
+	border: 2px solid blue;
+	background-color: aliceblue;
+}
+
+.hitButton {
+	border: 2px solid red;
+	color: red;
+	font-size: 18px;
+}
+
+.missedButton {
+	color: black;
+	font-size: 18px;
+}
+
+.container {
+	display: inline-flex;
+}

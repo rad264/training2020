@@ -3,6 +3,7 @@
 	<name>atm-console</name>
 	<comment></comment>
 	<projects>
+		<project>training2020</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

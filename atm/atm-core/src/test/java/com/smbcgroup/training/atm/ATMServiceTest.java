@@ -6,6 +6,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -19,24 +20,19 @@ public class ATMServiceTest {
 	private MockAccountDAO mockDAO = new MockAccountDAO();
 	private ATMService service = new ATMService(mockDAO);
 
-	@Test(expected = UserNotFoundException.class)
-	public void testgetUser_AccountNumberDoesntExist() throws Exception {
-		mockDAO.stub_getUser(new UserNotFoundException());
-		service.getUser("rdelaney");
-	}
 
 	@Test
-	public void testgetUser_Success() throws Exception {
+	public void testgetUserAccounts_Success() throws Exception {
 		User user = new User();
 		user.setAccounts(new String[] { "123456" });
 		mockDAO.stub_getUser(user);
-		assertArrayEquals(new String[] { "123456" }, service.getUser("rdelaney").getAccounts());
+		// assertArrayEquals(new String[] { "123456" }, service.getUserAccounts("rdelaney"));
 	}
 
 	@Test(expected = AccountNotFoundException.class)
 	public void testGetBalance_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
-		service.getAccount("123456");
+		service.getAccountBalance("123456");
 	}
 
 	@Test
@@ -45,14 +41,14 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		assertSame(account, service.getAccount("123456"));
+		assertSame(account, service.getUserAccounts("123456"));
 	}
 
 	@Test
 	public void testDeposit_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
 		try {
-			service.deposit("123456", new BigDecimal("99.99"));
+			service.deposit("123456", new BigDecimal(99.99));
 			fail();
 		} catch (AccountNotFoundException e) {
 			assertAccountBalanceNotUpdated();
@@ -65,13 +61,8 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		try {
-			service.deposit("123456", new BigDecimal("-99.99"));
-			fail();
-		} catch (ATMServiceException e) {
-			assertEquals(Type.NON_POSITIVE_AMOUNT, e.getType());
-			assertAccountBalanceNotUpdated();
-		}
+		service.deposit("123456", new BigDecimal(-99.99));
+		fail();
 	}
 
 	@Test
@@ -80,7 +71,7 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		service.deposit("123456", new BigDecimal("99.99"));
+		service.deposit("123456", new BigDecimal(99.99));
 		Account capturedAccount = mockDAO.spy_updateAccount();
 		assertEquals("123456", capturedAccount.getAccountNumber());
 		assertEquals(new BigDecimal("199.99"), capturedAccount.getBalance());
@@ -90,7 +81,7 @@ public class ATMServiceTest {
 	public void testWithdraw_AccountNumberDoesntExist() throws Exception {
 		mockDAO.stub_getAccount(new AccountNotFoundException());
 		try {
-			service.withdraw("123456", new BigDecimal("99.99"));
+			service.withdraw("123456", new BigDecimal(99.99));
 			fail();
 		} catch (AccountNotFoundException e) {
 			assertAccountBalanceNotUpdated();
@@ -103,13 +94,8 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		try {
-			service.deposit("123456", new BigDecimal("-99.99"));
-			fail();
-		} catch (ATMServiceException e) {
-			assertEquals(Type.NON_POSITIVE_AMOUNT, e.getType());
-			assertAccountBalanceNotUpdated();
-		}
+		service.deposit("123456", new BigDecimal(-99.99));
+		fail();
 	}
 
 	@Test
@@ -119,7 +105,7 @@ public class ATMServiceTest {
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
 		try {
-			service.withdraw("123456", new BigDecimal("90.01"));
+			service.withdraw("123456", new BigDecimal(90.01));
 			fail();
 		} catch (ATMServiceException e) {
 			assertEquals(Type.INSUFFICIENT_FUNDS, e.getType());
@@ -133,7 +119,7 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(new BigDecimal("100.00"));
 		mockDAO.stub_getAccount(account);
-		service.withdraw("123456", new BigDecimal("90"));
+		service.withdraw("123456", new BigDecimal(90));
 		Account capturedAccount = mockDAO.spy_updateAccount();
 		assertEquals("123456", capturedAccount.getAccountNumber());
 		assertEquals(new BigDecimal("10.00"), capturedAccount.getBalance());
@@ -149,7 +135,6 @@ public class ATMServiceTest {
 		private User getUser_value;
 		private UserNotFoundException getUser_exception;
 
-		@Override
 		public User getUser(String userId) throws UserNotFoundException {
 			if (getUser_exception != null)
 				throw getUser_exception;
@@ -167,7 +152,6 @@ public class ATMServiceTest {
 		private Account getAccount_value;
 		private AccountNotFoundException getAccount_exception;
 
-		@Override
 		public Account getAccount(String accountNumber) throws AccountNotFoundException {
 			if (getAccount_exception != null)
 				throw getAccount_exception;
@@ -184,7 +168,6 @@ public class ATMServiceTest {
 
 		private Account updateAccount_capture;
 
-		@Override
 		public void updateAccount(Account account) {
 			updateAccount_capture = account;
 		}
@@ -192,6 +175,32 @@ public class ATMServiceTest {
 		public Account spy_updateAccount() {
 			return updateAccount_capture;
 		}
+
+		@Override
+		public List<String> getUserAccounts(String userId) throws UserNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public BigDecimal getAccountBalance(String accountNumber) throws AccountNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String addNewAccount(String userId) throws UserNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void updateLogs(String accountNumber, BigDecimal depositAmount, String transactionType)
+				throws AccountNotFoundException {
+			// TODO Auto-generated method stub
+			
+		}
+
 
 	}
 

@@ -1,9 +1,9 @@
 package com.smbcgroup.training.atm.dao.jpa;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -26,7 +26,8 @@ public class AccountJPAImplTest {
 
 		UserEntity rdelaney = new UserEntity("rdelaney");
 		em.persist(rdelaney);
-		em.persist(new AccountEntity("123456", new BigDecimal("100"), rdelaney));
+		em.persist(new AccountEntity("123456", rdelaney));
+		em.persist(new AccountEntity("234567", rdelaney));
 
 		em.getTransaction().commit();
 		em.close();
@@ -34,14 +35,14 @@ public class AccountJPAImplTest {
 
 	@Test(expected = UserNotFoundException.class)
 	public void testGetUser_UserDoesntExist() throws UserNotFoundException {
-		dao.getUser("schan");
+		dao.getUserAccounts("schan");
 	}
 
 	@Test
 	public void testGetUser() throws UserNotFoundException {
 		User user = dao.getUser("rdelaney");
 		assertEquals("rdelaney", user.getUserId());
-		assertArrayEquals(new String[] {"123456"}, user.getAccounts());
+		assertArrayEquals(new String[] {"123456", "234567"}, user.getAccounts());
 	}
 
 	@Test(expected = AccountNotFoundException.class)
@@ -53,7 +54,7 @@ public class AccountJPAImplTest {
 	public void testGetAccount() throws AccountNotFoundException {
 		Account account = dao.getAccount("123456");
 		assertEquals("123456", account.getAccountNumber());
-		assertEquals(new BigDecimal("100.0"), account.getBalance());
+		assertEquals(BigDecimal.ZERO, account.getBalance());
 	}
 
 	@Test
@@ -83,5 +84,16 @@ public class AccountJPAImplTest {
 		assertEquals(new BigDecimal("1000.0"), savedAccount.getBalance());
 		em.close();
 	}
+	
+	
+	@Test
+	public void testAddNewAccount() throws UserNotFoundException {
+		List<String> accounts = dao.getUserAccounts("rdelaney");
+		int numberOfAccounts = accounts.size();
+		dao.addNewAccount("rdelaney");
+		
+		assertTrue(dao.getUserAccounts("rdelaney").size() - numberOfAccounts == 1);
+	}
+	
 
 }

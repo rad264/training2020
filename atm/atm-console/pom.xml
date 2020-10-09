@@ -16,6 +16,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.smbcgroup.training.atm</groupId>
+			<artifactId>atm-dao-text-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.wink</groupId>
 			<artifactId>wink-client</artifactId>
 			<version>1.4</version>
