@@ -12,7 +12,9 @@ public class InitDB {
 
 		UserEntity rdelaney = new UserEntity("rdelaney");
 		em.persist(rdelaney);
-		em.merge(new AccountEntity("123456", new BigDecimal("100"), rdelaney));
+		AccountEntity account = new AccountEntity("123456", new BigDecimal("100"), rdelaney);
+		em.persist(account);
+		em.merge(new LoggerEntity("creation", new BigDecimal("100"), account));
 
 		em.getTransaction().commit();
 		em.close();

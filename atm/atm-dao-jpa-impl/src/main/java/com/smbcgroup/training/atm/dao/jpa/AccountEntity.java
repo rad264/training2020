@@ -1,12 +1,14 @@
 package com.smbcgroup.training.atm.dao.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.smbcgroup.training.atm.Account;
@@ -25,7 +27,10 @@ public class AccountEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
-
+	
+	@OneToMany(mappedBy = "account")
+	private List<LoggerEntity> logs;
+	
 	public AccountEntity() {
 
 	}
@@ -66,5 +71,15 @@ public class AccountEntity {
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
+
+	public List<LoggerEntity> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<LoggerEntity> logs) {
+		this.logs = logs;
+	}
+	
+	
 
 }

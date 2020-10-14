@@ -1,7 +1,10 @@
 package com.smbcgroup.training.atm.dao;
 
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Logger;
 import com.smbcgroup.training.atm.User;
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface AccountDAO {
 
@@ -10,5 +13,14 @@ public interface AccountDAO {
 	Account getAccount(String accountNumber) throws AccountNotFoundException;
 
 	void updateAccount(Account account);
+	
+	void createAccount(Account account, User user) throws UserNotFoundException, AccountNotFoundException;
+	
+	void writeAccountLog(String accountNumber, String transaction, BigDecimal amount) throws AccountNotFoundException; 
+	
+	void deposit(String accountNumber, BigDecimal amount) throws AccountNotFoundException;
+	
+	void withdraw(String accountNumber, BigDecimal amount) throws AccountNotFoundException, InsufficientBalanceException;
 
+	List<Logger> getAccountLogs(String accountNumber) throws AccountNotFoundException;
 }

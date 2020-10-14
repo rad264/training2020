@@ -1,0 +1,204 @@
+FORMAT: 1A
+HOST: http://localhost:8000
+
+# ATM Project API
+Details for the ATM Project API
+
+# API
+
+# Group users
+
+## Get user [GET /atm-api/users/{userId}]
+Getting a username (purpose maybe for opening screen etc?)
+Problems: user not found
+handled by front end: no weird characters
+
++ Request (application/json)
+{
+}
+
++ Response 200 (application/json)
+{
+    userId: "rdelaney",
+    accounts: ["123456", "999999"]
+}
+
++ Response 404 (application/json)
+{
+    message: "user not found"
+}
+
+## Edit user [PUT /atm-api/users/{userId}]
+todo
+
+## Delete user [DELETE /atm-api/users/{userId}]
+todo 
+
+## Get all user's accounts [GET /atm-api/users/{userId}/accounts]
+Get all user's accounts for the purpose of logging in
+Problems: user not found, null (just return an empty list?)
+handled by front end: no weird characters
+
++ Request (application/json)
+{
+}
+
++ Response 200 (application/json)
+{
+    accounts: ["123456", "999999"]
+}
+
++ Response 404 (application/json)
+{
+    message: "user not found"
+}
+
+## Delete all user's accounts [DELETE /atm-api/users/{userId}/accounts]
+todo
+
+# Group accounts
+
+## Create account [POST /atm-api/accounts]
+Problems: user not found
+
++ Request (application/json)
+{
+    userId: "rdelaney"
+}
+
++ Response 200 (application/json)
+{
+    accountNumber: "999999",
+    balance: 0
+}
+
++ Response 404 (application/json)
+{
+    message: "user not found"
+}
+
+## Get specific account [GET /atm-api/accounts/{accountNumber}]
+Problems: account not found
+
++ Request (application/json)
+{
+}
+
++ Response 200 (application/json)
+{
+    accountNumber: "999999",
+    balance: 0
+}
+
++ Response 404 (application/json)
+{
+    message: "account not found"
+}
+
+## Delete specific account [DELETE /atm-api/accounts/{accountNumber}]
+todo
+
+## Deposit [POST /atm-api/accounts/{accountNumber}/deposit]
+Problems: account not found
+handled by front end: negative number, zero, non numeric input
+
++ Request (application/json)
+{
+    amount: 40
+}
+
++ Response 200 (application/json)
+{
+}
+
++ Response 404 (application/json)
+{
+    message: "account not found"
+}
+
+## Withdraw [POST /atm-api/accounts/{accountNumber}/withdraw]
+Problems: account not found, insufficient funds
+handled by front end: negative number, zero, non numeric input
+
++ Request (application/json)
+{
+    amount: 40
+}
+
++ Response 200 (application/json)
+{
+}
+
++ Response 404 (application/json)
+{
+    message: "account not found"
+}
+
++ Response 400 (application/json)
+{
+    message: "insufficient funds"
+}
+
+## Get account history [GET /atm-api/accounts/{accountNumber}/transactions]
+Problems: account not found
+Handled by front end: the usual
+
++ Request (application/json) 
+{
+}
+
++ Response 200 (application/json)
+{
+    log1: {
+        time: 2020-10-01T20:18:51+00:00,
+        transaction: "deposit",
+        amount: "40"
+    },
+    log2: {
+        time: 2020-10-01T20:18:52+00:00,
+        transaction: "withdraw",
+        amount: "10"
+    },
+    log3: {
+        time: 2020-10-01T20:18:54+00:00,
+        transaction: "deposit",
+        amount: "20"
+    },
+}
+
++ Response 404 (application/json)
+{
+    message: "account not found"
+}
+
+# Group transfers
+
+## Transfer [POST /atm-api/transfer]
+Problems: home account not found, destination account not found, insufficient funds
+handled by front end: negative number, zero, non numeric input
+
++ Request (application/json)
+{
+    homeAccount: "123456",
+    destinationAccount: "999999",
+    amount: 40
+}
+
++ Response 200 (application/json)
+{
+}
+
++ Response 404 (application/json)
+{
+    message: "home account not found"
+}
+
++ Response 404 (application/json)
+{
+    message: "destination account not found"
+}
+
++ Response 400 (application/json)
+{
+    message: "insufficient funds from home account"
+}

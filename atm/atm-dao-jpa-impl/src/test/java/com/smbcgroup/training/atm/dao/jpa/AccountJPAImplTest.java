@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -11,8 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.smbcgroup.training.atm.Account;
+import com.smbcgroup.training.atm.Logger;
 import com.smbcgroup.training.atm.User;
 import com.smbcgroup.training.atm.dao.AccountNotFoundException;
+import com.smbcgroup.training.atm.dao.InsufficientBalanceException;
 import com.smbcgroup.training.atm.dao.UserNotFoundException;
 
 public class AccountJPAImplTest {
@@ -26,7 +29,9 @@ public class AccountJPAImplTest {
 
 		UserEntity rdelaney = new UserEntity("rdelaney");
 		em.persist(rdelaney);
-		em.persist(new AccountEntity("123456", new BigDecimal("100"), rdelaney));
+		AccountEntity account = new AccountEntity("123456", new BigDecimal("100"), rdelaney);
+		em.persist(account);
+		em.merge(new LoggerEntity("creation", new BigDecimal("100"), account));
 
 		em.getTransaction().commit();
 		em.close();
@@ -83,5 +88,78 @@ public class AccountJPAImplTest {
 		assertEquals(new BigDecimal("1000.0"), savedAccount.getBalance());
 		em.close();
 	}
+	
+	@Test
+	public void testCreateAccount() throws UserNotFoundException, AccountNotFoundException {
+		Account account = new Account();
+		account.setAccountNumber("999999");
+		account.setBalance(new BigDecimal(0));
+		User user = new User();
+		user.setUserId("pkusuma");
+		
+		dao.createAccount(account, user);
+		EntityManager em = dao.emf.createEntityManager();
+		AccountEntity newAccount = em.find(AccountEntity.class, "999999");
+		assertEquals("999999", newAccount.getAccountNumber());
+		assertEquals(0, newAccount.getBalance().doubleValue(), 0.01);
+		em.close();
+	}
+	
+	@Test
+	public void testWriteAccountLog() throws AccountNotFoundException {
+		dao.writeAccountLog("123456", "deposit", new BigDecimal(10));
+		EntityManager em = dao.emf.createEntityManager();
+		LoggerEntity newLog = em.find(LoggerEntity.class, 2);
+		assertEquals("123456", newLog.getAccount().getAccountNumber());
+		assertEquals(10.0, newLog.getAmount().doubleValue(), 0.01);
+		assertEquals("deposit", newLog.getTransaction());
+		em.close();
+	}
+	
+	@Test(expected = AccountNotFoundException.class)
+	public void testWriteAccountLog_AccountDoesntExist() throws AccountNotFoundException {
+		dao.writeAccountLog("222222", "deposit", new BigDecimal(10));
+	}
+	
+	@Test
+	public void testDeposit() throws AccountNotFoundException {
+		dao.deposit("123456", new BigDecimal(10));
+		EntityManager em = dao.emf.createEntityManager();
+		AccountEntity account = em.find(AccountEntity.class, "123456");
+		BigDecimal newBalance = account.getBalance();
+		assertEquals(110.0, newBalance.doubleValue(), 0.01);
+	}
+	
+	@Test(expected = AccountNotFoundException.class)
+	public void testDeposit_AccountDoesntExist() throws AccountNotFoundException {
+		dao.deposit("222222", new BigDecimal(10));
+	}
+	
+	@Test
+	public void testWithdraw() throws AccountNotFoundException, InsufficientBalanceException {
+		dao.withdraw("123456", new BigDecimal(10));
+		EntityManager em = dao.emf.createEntityManager();
+		AccountEntity account = em.find(AccountEntity.class, "123456");
+		assertEquals(90.0, account.getBalance().doubleValue(), 0.01);
+	}
+	
+	@Test(expected=InsufficientBalanceException.class)
+	public void testWithdrawFail() throws AccountNotFoundException, InsufficientBalanceException {
+		dao.withdraw("123456", new BigDecimal(200));
+	}
+	
+	@Test(expected = AccountNotFoundException.class)
+	public void testWithdraw_AccountDoesntExist() throws AccountNotFoundException, InsufficientBalanceException {
+		dao.withdraw("222222", new BigDecimal(10));
+	}
+	
+	@Test
+	public void testGetAccountLogs() throws AccountNotFoundException {
+		List<Logger> logs = dao.getAccountLogs("123456");
+		assertEquals("creation", logs.get(0).getTransaction());
+		assertEquals(100.0, logs.get(0).getAmount().doubleValue(), 0.01);
+	}
+
+
 
 }
