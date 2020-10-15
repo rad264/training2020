@@ -1,4 +1,4 @@
-var base_url = "/atm-api";
+var base_url = "http://localhost:8080/atm-api";
 var controller = {
     getUser: function(userId) {
         var result = null;
