@@ -18,6 +18,14 @@ public class InitDB {
 
 		em.getTransaction().commit();
 		em.close();
+		
+		/* em.getTransaction().begin();
+		UserEntity rdelaney = em.find(UserEntity.class, "rdelaney");
+		AccountEntity account2 = new AccountEntity("222222", new BigDecimal("100"), rdelaney);
+		em.persist(account2);
+		em.merge(new LoggerEntity("creation", new BigDecimal("100"), account2));
+		em.getTransaction().commit();
+		em.close(); */
 	}
 
 }

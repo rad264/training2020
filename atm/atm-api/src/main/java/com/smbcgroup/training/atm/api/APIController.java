@@ -77,7 +77,7 @@ public class APIController {
 			service.deposit(accountNumber, amount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -87,7 +87,9 @@ public class APIController {
 		try {
 			service.withdraw(accountNumber, amount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (AccountNotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch (InsufficientBalanceException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -104,13 +106,17 @@ public class APIController {
 	
 	@ApiOperation("Transfer between accounts")
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) 
-	public ResponseEntity<Void> transferBetweenAccounts(@RequestBody String homeAccount, @RequestBody String destinationAccount, @RequestBody BigDecimal amount) {
+	public ResponseEntity<Void> transferBetweenAccounts(@RequestBody TransferWrapper transferVariables) {
 		try {
+			String homeAccount = transferVariables.getHomeAccount();
+			String destinationAccount = transferVariables.getDestinationAccount();
+			BigDecimal amount = transferVariables.getAmount();
 			service.transfer(homeAccount, destinationAccount, amount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (InsufficientBalanceException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		} catch (AccountNotFoundException e) {
+			System.out.println("Account not found");
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
