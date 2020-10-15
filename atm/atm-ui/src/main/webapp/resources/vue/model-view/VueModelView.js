@@ -41,15 +41,15 @@ new Vue({
         },
         getTransactionHistory: function() {
             this.showResultsArea.type = "history";
-            this.showResultsArea.data = controller.getTransactionHistory(this.accountSelected.number); 
+            this.showResultsArea.data = controller.getTransactionHistory(this.accountSelected.accountNumber); 
         },
         deposit: function() {
             if (amountNotValid(this.amount)) {
                 this.errorFunction("Deposit error; check numeral validity");
                 return;
             }
-            if (controller.deposit(this.accountSelected.number, this.amount)) {
-                this.successFunction("Successfully deposited $" + this.amount +" to " + this.accountSelected.number);
+            if (controller.deposit(this.accountSelected.accountNumber, this.amount)) {
+                this.successFunction("Successfully deposited $" + this.amount +" to " + this.accountSelected.accountNumber);
                 this.accountSelected.balance = this.accountSelected.balance + parseFloat(this.amount)
             } else {
                 this.errorFunction("Internal server error; try logging out and re-login");
@@ -60,9 +60,9 @@ new Vue({
                 this.errorFunction("Withdraw error; check numeral validity");
                 return;
             }
-            var withdrawSuccess = controller.withdraw(this.accountSelected.number, this.amount)
+            var withdrawSuccess = controller.withdraw(this.accountSelected.accountNumber, this.amount)
             if (withdrawSuccess === "success") {
-                this.successFunction("Successfully withdrew $" + this.amount +" from " + this.accountSelected.number);
+                this.successFunction("Successfully withdrew $" + this.amount +" from " + this.accountSelected.accountNumber);
                 this.accountSelected.balance = this.accountSelected.balance - parseFloat(this.amount)
             } else if (withdrawSuccess === "insufficient") {
                 this.errorFunction("Insufficient balance");
@@ -75,10 +75,10 @@ new Vue({
                 this.errorFunction("Withdraw from home account error; check numeral validity");
                 return;
             }
-            if (this.destinationAccount === this.accountSelected.number) {
+            if (this.destinationAccount === this.accountSelected.accountNumber) {
                 this.errorFunction("Destination account cannot be the same as home account");
             }
-            var transferSuccess = controller.transfer(this.accountSelected.number, this.destinationAccount, this.amount);
+            var transferSuccess = controller.transfer(this.accountSelected.accountNumber, this.destinationAccount, this.amount);
             if (transferSuccess === "success") {
                 this.successFunction("Successfully transferred $" + this.amount +" to " + this.destinationAccount);
                 this.accountSelected.balance = this.accountSelected.balance - parseFloat(this.amount);

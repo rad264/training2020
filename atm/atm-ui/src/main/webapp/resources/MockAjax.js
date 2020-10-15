@@ -42,7 +42,7 @@ $.ajax = function (config) {
                 var accounts = users[params.userId];
                 for (account of accounts) {
                     var jsonPushed = {
-                        "number": account,
+                        "accountNumber": account,
                         "balance": accountBalances[account],
                     };
                     toSend = toSend + [jsonPushed];
@@ -58,7 +58,7 @@ $.ajax = function (config) {
             "GET": function (params) {
                 var balance = accountBalances[params.accountNumber];
                 if (balance)
-                    success({ "number": params.accountNumber, "balance": balance });
+                    success({ "accountNumber": params.accountNumber, "balance": balance });
                 else
                     error(404);
             },
@@ -71,7 +71,7 @@ $.ajax = function (config) {
                 if (users[requestBody.userId]) {
                     users[requestBody.userId] = users[requestBody.userId].push("234567");
                     accountBalances["234567"] = 0;
-                    success({ "number": "234567", "balance": 0 });
+                    success({ "accountNumber": "234567", "balance": 0 });
                 } else {
                     error(404);
                 }

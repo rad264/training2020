@@ -36,7 +36,7 @@
 			<h3>User summary:</h3>
 			<ul class="accounts">
 				<li v-for="account in accounts"> 
-					{{ account.number }} - Balance: ${{ account.balance }}.00 <br />
+					{{ account.accountNumber }} - Balance: ${{ account.balance }}.00 <br />
 					<button class="select-account" v-on:click="accountSelected = account">Select this account</a>
 				</li>
 				<li>
@@ -47,7 +47,7 @@
 
 
 		<section v-show="accountSelected">
-			<h3>Account number {{ accountSelected.number }} with balance ${{ accountSelected.balance }}.00 </h3>
+			<h3>Account number {{ accountSelected.accountNumber }} with balance ${{ accountSelected.balance }}.00 </h3>
 			<p>What would you like to do?</p>
 			<button class="action-buttons" v-on:click="showResultsArea.type = 'deposit'">Deposit</button>
 			<button class="action-buttons" v-on:click="showResultsArea.type = 'withdraw'">Withdraw</button>
