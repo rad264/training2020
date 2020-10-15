@@ -1,7 +1,9 @@
 package com.smbcgroup.training.atm.api;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,11 +98,12 @@ public class APIController {
 	
 	@ApiOperation("Get account history")
 	@RequestMapping(value = "/accounts/{accountNumber}/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Logger>> getAccountHistory(@PathVariable("accountNumber") String accountNumber) {
+	public ResponseEntity<Map<String, Logger>> getAccountHistory(@PathVariable("accountNumber") String accountNumber) {
 		try {
-			return new ResponseEntity<List<Logger>>(service.getAccountLogs(accountNumber), HttpStatus.OK);
+			List<Logger> result = service.getAccountLogs(accountNumber);
+			return new ResponseEntity<Map<String, Logger>>(transactionJsonBuilder(result), HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
-			return new ResponseEntity<List<Logger>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Map<String, Logger>>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -119,6 +122,15 @@ public class APIController {
 			System.out.println("Account not found");
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	private Map<String, Logger> transactionJsonBuilder(List<Logger> rawTransactions) {
+		Map<String, Logger> object = new HashMap<String, Logger>();
+		for (int i = 0; i < rawTransactions.size(); i++) {
+			rawTransactions.get(i).setTimeString(rawTransactions.get(i).getTime().toString());
+			object.put("log" + Integer.toString(i), rawTransactions.get(i));
+		}
+		return object;
 	}
 
 

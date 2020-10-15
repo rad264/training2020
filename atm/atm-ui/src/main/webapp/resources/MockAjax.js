@@ -9,17 +9,17 @@ var accountBalances = {
 };
 var transactionHistory = {
     "log1": {
-        time: "January 13, 2020 11:14 AM",
+        timeString: "January 13, 2020 11:14 AM",
         transaction: "deposit",
         amount: "40"
     },
     "log2": {
-        time: "January 13, 2020 11:16 AM",
+        timeString: "January 13, 2020 11:16 AM",
         transaction: "withdraw",
         amount: "10"
     },
     "log3": {
-        time: "January 13, 2020 11:20 AM",
+        timeString: "January 13, 2020 11:20 AM",
         transaction: "deposit",
         amount: "20"
     },

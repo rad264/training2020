@@ -8,6 +8,7 @@ public class Logger {
 	private Timestamp time;
 	private String transaction;
 	private BigDecimal amount;
+	private String timeString;
 	
 	
 	public String getLogId() {
@@ -36,5 +37,13 @@ public class Logger {
 	
 	public void setTransaction(String transaction) {
 		this.transaction = transaction;
+	}
+
+	public String getTimeString() {
+		return timeString;
+	}
+
+	public void setTimeString(String timeString) {
+		this.timeString = timeString;
 	}
 }

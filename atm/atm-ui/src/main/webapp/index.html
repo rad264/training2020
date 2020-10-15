@@ -59,7 +59,7 @@
 
 				<ul id="transaction-history" v-if="showResultsArea.type == 'history' && showResultsArea.data !== null">
 					<li v-for="history in showResultsArea.data">
-						Time: {{ history.time }}<br />
+						Time: {{ history.timeString }}<br />
 						Transaction type: {{ history.transaction }}<br />
 						Amount: ${{ history.amount }}.00
 					</li>
