@@ -13,14 +13,14 @@ public interface AccountDAO {
 	Account getAccount(String accountNumber) throws AccountNotFoundException;
 
 	void updateAccount(Account account);
-	
-	void createAccount(Account account, User user) throws UserNotFoundException, AccountNotFoundException;
-	
+		
 	void writeAccountLog(String accountNumber, String transaction, BigDecimal amount) throws AccountNotFoundException; 
 	
 	void deposit(String accountNumber, BigDecimal amount) throws AccountNotFoundException;
 	
 	void withdraw(String accountNumber, BigDecimal amount) throws AccountNotFoundException, InsufficientBalanceException;
 
+	void createAccount(String userId, Account account) throws UserNotFoundException;
+	
 	List<Logger> getAccountLogs(String accountNumber) throws AccountNotFoundException;
 }

@@ -90,18 +90,17 @@ public class AccountJPAImplTest {
 	}
 	
 	@Test
-	public void testCreateAccount() throws UserNotFoundException, AccountNotFoundException {
+	public void testCreateAccount() throws UserNotFoundException {
 		Account account = new Account();
-		account.setAccountNumber("999999");
-		account.setBalance(new BigDecimal(0));
-		User user = new User();
-		user.setUserId("pkusuma");
+		account.setAccountNumber("222222");
+		account.setBalance(BigDecimal.ZERO);
+		dao.createAccount("rdelaney", account);
 		
-		dao.createAccount(account, user);
 		EntityManager em = dao.emf.createEntityManager();
-		AccountEntity newAccount = em.find(AccountEntity.class, "999999");
-		assertEquals("999999", newAccount.getAccountNumber());
-		assertEquals(0, newAccount.getBalance().doubleValue(), 0.01);
+		AccountEntity savedAccount = em.find(AccountEntity.class, "222222");
+		assertEquals("222222", savedAccount.getAccountNumber());
+		assertEquals(0.0, savedAccount.getBalance().doubleValue(), 0.01);
+		assertEquals("rdelaney", savedAccount.getUser().getId());
 		em.close();
 	}
 	

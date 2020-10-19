@@ -58,19 +58,6 @@ public class ATMServiceTest {
 		service.createAccount("schan");
 	}
 	
-	@Test(expected = AccountNotFoundException.class)
-	public void testCreateAccount_AccountNumberDoesntExist() throws Exception {
-		User user = new User();
-		user.setUserId("pkusuma");
-		user.setAccounts(new String[] {"123456"});
-		Account account = new Account();
-		account.setAccountNumber("123456");
-		account.setBalance(BigDecimal.ZERO);
-		mockDAO.stub_getUser(user);
-		mockDAO.stub_createAccount(new AccountNotFoundException());
-		service.createAccount("pkusuma"); 
-	}
-	
 	@Test
 	public void testCreateAccount_Success() throws Exception {
 		User user = new User();
@@ -80,10 +67,10 @@ public class ATMServiceTest {
 		account.setAccountNumber("123456");
 		account.setBalance(BigDecimal.ZERO);
 		mockDAO.stub_getUser(user);
-		mockDAO.createAccount(account, user);
+		mockDAO.createAccount("pkusuma", account);
 		mockDAO.writeAccountLog("123456", "creation", BigDecimal.ZERO);
 		service.createAccount("pkusuma");
-		assertEquals(user, mockDAO.spyUser_createAccount());
+		assertEquals("pkusuma", mockDAO.spyUser_createAccount());
 	}
 
 	@Test(expected = AccountNotFoundException.class)
@@ -260,16 +247,15 @@ public class ATMServiceTest {
 		}
 		
 		private Account createAccount_captureAccount;
-		private User createAccount_captureUser;
+		private String createAccount_captureUser;
 		private UserNotFoundException createAccount_userException;
 		private AccountNotFoundException createAccount_accountException;
 
 		@Override
-		public void createAccount(Account account, User user) throws UserNotFoundException, AccountNotFoundException {
+		public void createAccount(String userId, Account account) throws UserNotFoundException {
 			if (createAccount_userException != null) throw createAccount_userException;
-			if (createAccount_accountException != null) throw createAccount_accountException;
 			createAccount_captureAccount = account;
-			createAccount_captureUser = user;
+			createAccount_captureUser = userId;
 			
 		}
 		
@@ -285,7 +271,7 @@ public class ATMServiceTest {
 			return createAccount_captureAccount;
 		}
 		
-		public User spyUser_createAccount() {
+		public String spyUser_createAccount() {
 			return createAccount_captureUser;
 		}
 		

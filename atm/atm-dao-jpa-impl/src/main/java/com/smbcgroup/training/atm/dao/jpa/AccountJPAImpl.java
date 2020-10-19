@@ -3,7 +3,6 @@ package com.smbcgroup.training.atm.dao.jpa;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,6 +46,18 @@ public class AccountJPAImpl implements AccountDAO {
 			em.close();
 		}
 	}
+	
+	@Override
+	public void createAccount(String userId, Account account) throws UserNotFoundException {
+		updateAccount(account);
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		UserEntity userEnt = em.find(UserEntity.class, userId);
+		AccountEntity accountEnt = new AccountEntity(account.getAccountNumber(), account.getBalance(), userEnt);
+		em.merge(accountEnt);
+		em.getTransaction().commit();
+		em.close();
+	}
 
 	@Override
 	public void updateAccount(Account account) {
@@ -61,36 +72,6 @@ public class AccountJPAImpl implements AccountDAO {
 		} finally {
 			em.close();
 		}
-	}
-	
-	@Override
-	public void createAccount(Account account, User user) throws UserNotFoundException, AccountNotFoundException {
-		updateAccount(account);
-		EntityManager emUser = emf.createEntityManager();
-		emUser.getTransaction().begin();
-		try {
-			UserEntity userEnt = new UserEntity();
-			userEnt.setId(user.getUserId());
-			String[] newAccounts = user.getAccounts();
-			List<AccountEntity> accountList = null;
-			if (newAccounts != null) {
-				accountList = new ArrayList<AccountEntity>(newAccounts.length);
-				for (String a: newAccounts) {
-					   AccountEntity foundAccount = emUser.find(AccountEntity.class, a);
-					   if (foundAccount == null) throw new AccountNotFoundException();
-					accountList.add(foundAccount);
-				}
-				accountList.add(emUser.find(AccountEntity.class, account.getAccountNumber()));
-			} else {
-				accountList = Arrays.asList(emUser.find(AccountEntity.class, account.getAccountNumber()));
-			}
-			userEnt.setAccounts(accountList);
-			emUser.merge(userEnt);
-			emUser.getTransaction().commit();
-		} finally {
-			emUser.close();
-		}
-
 	}
 
 	@Override

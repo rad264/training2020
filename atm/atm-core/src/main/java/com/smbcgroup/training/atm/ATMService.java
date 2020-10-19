@@ -33,7 +33,7 @@ public class ATMService {
 		String accountNumber = generateAccountNumber(user.getAccounts());
 		account.setAccountNumber(accountNumber);
 		account.setBalance(new BigDecimal(0));
-		dao.createAccount(account, user);
+		dao.createAccount(userId, account);
 		dao.writeAccountLog(accountNumber, "creation", new BigDecimal(0));
 		return account;
 	}
