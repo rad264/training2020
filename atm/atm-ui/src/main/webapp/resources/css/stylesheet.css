@@ -9,7 +9,7 @@ body {
 	color: green;
 }
 
-header { /* type: header */
+header { 
 	background-color: greenyellow;
 	color: green;
 	padding: 20px;
@@ -24,8 +24,8 @@ footer {
 
 ul {
 	text-align: left;
-	margin-left: 350px;
-	margin-right: 50px;
+	margin-left: 20%;
+	margin-right: 20%;
 }
 
 li {
@@ -54,6 +54,7 @@ button {
 	font-family:Arial;
 	padding:3px 5px;
 	text-decoration:none;
+}
 
 button:hover {
 	background-color:#a5cc52;
