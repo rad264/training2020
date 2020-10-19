@@ -58,10 +58,12 @@
 			<section v-show="showResultsArea">
 
 				<ul id="transaction-history" v-if="showResultsArea.type == 'history' && showResultsArea.data !== null">
-					<li v-for="history in showResultsArea.data">
+					<li v-for="history in showResultsArea.data" >
+						<div v-if="history !== undefined">
 						Time: {{ history.timeString }}<br />
 						Transaction type: {{ history.transaction }}<br />
 						Amount: ${{ history.amount }}.00
+						</div>
 					</li>
 				</ul>
 

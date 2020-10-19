@@ -51,9 +51,12 @@ var controller = {
     createAccount: function(userId) {
         var result = null;
         $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             type: "POST",
             url: base_url + "/accounts",
-            dataType: 'json',
             data: { "userId": userId },
             async: false,
             success: function(response) {
@@ -70,15 +73,17 @@ var controller = {
         var result = null;
         var resultArray = [];
         $.ajax({
+            headers: {
+                'Accept': 'application/json'
+            },
             type: "GET",
             url: base_url + "/accounts/" + accountNumber + "/transactions",
-            dataType: 'json',
             data: {},
             async: false,
             success: function(response) {
                 result = response;
             },
-            error: function(xhr, error) { // xhr.status to determine
+            error: function(xhr, error) { 
                 console.debug(xhr);
                 console.debug(error);
             }
@@ -92,9 +97,11 @@ var controller = {
     deposit: function(accountNumber, amount) {
         var result = null;
         $.ajax({
+            headers: {
+                'Content-Type': 'application/json'
+            },
             type: "POST",
             url: base_url + "/accounts/" + accountNumber + "/deposit",
-            dataType: 'json',
             data: { "amount": amount },
             async: false,
             success: function() {
@@ -111,9 +118,11 @@ var controller = {
     withdraw: function(accountNumber, amount) {
         var result = null;
         $.ajax({
+            headers: {
+                'Content-Type': 'application/json'
+            },
             type: "POST",
             url: base_url + "/accounts/" + accountNumber + "/withdraw",
-            dataType: 'json',
             data: { "amount": amount },
             async: false,
             success: function() {
@@ -128,17 +137,18 @@ var controller = {
         return result;
     },
     transfer: function(homeAccount, destinationAccount, amount) {
-        console.log("here in the controller");
         var result = "notfound";
         $.ajax({
+            headers: {
+                'Content-Type': 'application/json'
+            },
             type: "POST",
             url: base_url + "/transfer",
-            dataType: 'json',
-            data: { 
+            data: JSON.stringify({ 
                 "homeAccount": homeAccount,
                 "destinationAccount": destinationAccount,
                 "amount": amount 
-            },
+            }),
             async: false,
             success: function() {
                 result = "success";
