@@ -68,7 +68,7 @@ public class APIController {
 	@RequestMapping(value = "/accounts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Account> createAccount(@RequestBody String userId) {
 		try {
-			userId = processJson(userId);
+			if (userId.contains("=")) userId = processJson(userId);
 			return new ResponseEntity<Account>(service.createAccount(userId), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
@@ -79,7 +79,8 @@ public class APIController {
 	@RequestMapping(value = "/accounts/{accountNumber}/deposit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> saveAccount(@PathVariable("accountNumber") String accountNumber, @RequestBody String amount) {
 		try {
-			BigDecimal depositAmount = new BigDecimal(processJson(amount));
+			if (amount.contains("=")) amount = processJson(amount);
+			BigDecimal depositAmount = new BigDecimal(amount);
 			service.deposit(accountNumber, depositAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -91,7 +92,8 @@ public class APIController {
 	@RequestMapping(value = "/accounts/{accountNumber}/withdraw", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> withdrawFromAccount(@PathVariable("accountNumber") String accountNumber, @RequestBody String amount) {
 		try {
-			BigDecimal withdrawAmount = new BigDecimal(processJson(amount));
+			if (amount.contains("=")) amount = processJson(amount);
+			BigDecimal withdrawAmount = new BigDecimal(amount);
 			service.withdraw(accountNumber, withdrawAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (AccountNotFoundException e) {
@@ -120,6 +122,7 @@ public class APIController {
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) 
 	public ResponseEntity<Void> transferBetweenAccounts(@RequestBody String transferVariables) {
 		try {
+			System.out.println(transferVariables);
 			String homeAccount = transferProcessJson(transferVariables)[0];
 			String destinationAccount = transferProcessJson(transferVariables)[1];
 			BigDecimal amount = new BigDecimal(transferProcessJson(transferVariables)[2]);
