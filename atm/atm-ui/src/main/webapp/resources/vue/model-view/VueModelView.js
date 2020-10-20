@@ -98,6 +98,7 @@ new Vue({
                 data: null,
             };
             this.accountSelected = null;
+            this.accounts = controller.getAllUserAccounts(this.username);
         },
         logout: function() {
             this.amount = null;
