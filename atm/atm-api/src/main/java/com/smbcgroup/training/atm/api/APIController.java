@@ -122,7 +122,6 @@ public class APIController {
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) 
 	public ResponseEntity<Void> transferBetweenAccounts(@RequestBody String transferVariables) {
 		try {
-			System.out.println(transferVariables);
 			String homeAccount = transferProcessJson(transferVariables)[0];
 			String destinationAccount = transferProcessJson(transferVariables)[1];
 			BigDecimal amount = new BigDecimal(transferProcessJson(transferVariables)[2]);

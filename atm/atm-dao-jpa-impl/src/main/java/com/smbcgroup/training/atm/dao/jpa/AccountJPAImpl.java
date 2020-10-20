@@ -123,13 +123,13 @@ public class AccountJPAImpl implements AccountDAO {
 	public List<Logger> getAccountLogs(String accountNumber) throws AccountNotFoundException {
 		EntityManager em = emf.createEntityManager();
 		AccountEntity account= em.find(AccountEntity.class, accountNumber);
-			if (account == null) throw new AccountNotFoundException();
-			List<Logger> logs = new ArrayList<Logger>();
-			for(LoggerEntity log : account.getLogs()) {
-				logs.add(log.convertToLogger());
-			}
-			em.close();
-			return logs;
+		if (account == null) throw new AccountNotFoundException();
+		List<Logger> logs = new ArrayList<Logger>();
+		for(LoggerEntity log : account.getLogs()) {
+			logs.add(log.convertToLogger());
+		}
+		em.close();
+		return logs;
 	}
 	
 	
