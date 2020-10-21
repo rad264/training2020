@@ -159,7 +159,6 @@ var controller = {
                 if (xhr.status === 400) result = "insufficient";
             }
         });
-        console.log(result);
         return result;
     }
 };

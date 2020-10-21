@@ -75,8 +75,9 @@ new Vue({
                 this.errorFunction("Withdraw from home account error; check numeral validity");
                 return;
             }
-            if (this.destinationAccount === this.accountSelected.accountNumber) {
+            if (this.destinationAccount.toString() === this.accountSelected.accountNumber.toString()) {
                 this.errorFunction("Destination account cannot be the same as home account");
+                return;
             }
             var transferSuccess = controller.transfer(this.accountSelected.accountNumber, this.destinationAccount, this.amount);
             if (transferSuccess === "success") {
@@ -115,6 +116,6 @@ new Vue({
     }
 });
 
-function amountNotValid(amount) { // true if not valid
+function amountNotValid(amount) { 
     return (isNaN(amount) || (amount <= 0) || amount === null);
 }
