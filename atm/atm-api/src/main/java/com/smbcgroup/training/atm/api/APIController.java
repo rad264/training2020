@@ -151,9 +151,25 @@ public class APIController {
 	
 	private String[] transferProcessJson(String transferWrapper) {
 		String[] result = new String[3];
-		result[0] = transferWrapper.substring(16, 22);
-		result[1] = transferWrapper.substring(46, 52);
-		result[2] = transferWrapper.substring(64, transferWrapper.length() - 3);
+		int charCount = 0;
+		int stringCount = 0;
+		for (int i = 0; i < transferWrapper.length(); i++) {
+			if (transferWrapper.charAt(i) == '"') {
+				charCount++;
+				if (charCount == 3 || charCount == 7) {
+					result[stringCount] = transferWrapper.substring(i+1, i+7);
+					stringCount++;
+				}
+				if (charCount == 11) {
+					int substringCount = 1;
+					while(Character.isDigit(transferWrapper.charAt(i + substringCount))) {
+						substringCount++;
+					}
+					result[stringCount] = transferWrapper.substring(i + 1, i + substringCount);
+					break;
+				}
+			}
+		}
 		return result;
  	}
 	
