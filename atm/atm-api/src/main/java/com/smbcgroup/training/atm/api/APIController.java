@@ -83,8 +83,10 @@ public class APIController {
 			BigDecimal depositAmount = new BigDecimal(amount);
 			service.deposit(accountNumber, depositAmount);
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -99,6 +101,8 @@ public class APIController {
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} catch (InsufficientBalanceException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		} catch (NumberFormatException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -131,6 +135,8 @@ public class APIController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		} catch (AccountNotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -147,13 +153,12 @@ public class APIController {
 		String[] result = new String[3];
 		result[0] = transferWrapper.substring(16, 22);
 		result[1] = transferWrapper.substring(46, 52);
-		result[2] = transferWrapper.substring(64, transferWrapper.length() - 2);
+		result[2] = transferWrapper.substring(64, transferWrapper.length() - 3);
 		return result;
  	}
 	
 	private String processJson(String inputString) {
-		return inputString.substring(inputString.indexOf("=")+1, inputString.length())
-;	}
-
+		return inputString.substring(inputString.indexOf("=")+1, inputString.length());
+	}
 
 }
